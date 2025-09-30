@@ -1,6 +1,5 @@
-import { User, sequelize } from "../models/index.js";
-import { Book } from "../models/index.js";
-import { Author } from "../models/author.model.js";
+import { Genre, Book, Author, User, sequelize } from "../models/index.js";
+
 console.log("🌱 Seeding des tables...");
 
 // Notre premier user !
@@ -26,9 +25,18 @@ const author = await Author.create({
    name: "Dumas",
    firstname: "Alexandre",
 });
-// Voici notre première liaison avec le peu de données que nous avons
+const genre = await Genre.create({
+   name: "Roman",
+});
 
-await user.addBook(book); // associer le user au book
+
+// Voici nos tables de liaison
+
+await user.addBook(book);             // ✅ alias = "books"
+await book.addGenre(genre);           // ✅ alias = "genres"
+await author.addBook(book);           // ✅ alias = "books"
+
+
 
 
 

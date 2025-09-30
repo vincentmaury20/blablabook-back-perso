@@ -1,7 +1,12 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from './sequelize.client.js';
 
-export const Book = sequelize.define('Book', {
+
+export class Book extends Model { }
+
+
+Book.init({
+
    title: {
       type: DataTypes.STRING(255),
       allowNull: false
@@ -20,9 +25,7 @@ export const Book = sequelize.define('Book', {
    }
 }, {
    sequelize,
-   tableName: 'Books',
-   createdAt: 'created_at',
-   updatedAt: 'updated_at',
+   tableName: 'books',
    underscored: true
 });
 
