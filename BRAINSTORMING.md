@@ -5,4 +5,4 @@ isbn ou id pour definir les clées primaires
 probleme table liaison user / admin . les roles doivent etres dans une table de liaison
 
 
- 
+ On a rajouté un prénom pour la table des auteurs

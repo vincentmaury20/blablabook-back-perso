@@ -1,5 +1,6 @@
 import { User, sequelize } from "../models/index.js";
 import { Book } from "../models/index.js";
+import { Author } from "../models/author.model.js";
 console.log("🌱 Seeding des tables...");
 
 // Notre premier user !
@@ -19,8 +20,12 @@ const book = await Book.create({
    release_date: '2022-05-15',
    cover: 'mystere-vallee.jpg',
    synopsis: 'Un thriller captivant dans une vallée isolée.',
-})
+});
 
+const author = await Author.create({
+   name: "Dumas",
+   firstname: "Alexandre",
+});
 // Voici notre première liaison avec le peu de données que nous avons
 
 await user.addBook(book); // associer le user au book

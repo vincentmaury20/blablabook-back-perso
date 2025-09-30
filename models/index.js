@@ -1,5 +1,6 @@
 import { User } from "./user.model.js";
 import { Book } from "./book.model.js";
+import { Author } from "./author.model.js";
 import { sequelize } from "./sequelize.client.js";
 
 User.belongsToMany(Book, {
@@ -15,4 +16,4 @@ Book.belongsToMany(User, {
    as: "users",
 });
 
-export { User, Book, sequelize }
+export { User, Book, Author, sequelize }
