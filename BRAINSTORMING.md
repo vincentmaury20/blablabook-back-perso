@@ -112,3 +112,65 @@ Back :
 ```js
 bookRouter.get('/home', bookController.getRandomBooks);
 // cette route est à renommer, je le (re)note en gros ici pour ne pas oublier ^^
+```
+
+
+# 🎯 Projet Blablabook – Focus Back Office (Gestion Admin principalement)
+
+---
+
+## 📁 Organisation des dossiers
+- Création d’un dossier **back-office (BO)** pour centraliser :
+  - Routes admin
+  - Contrôleurs spécifiques
+  - Middlewares de sécurité (`isAdmin`)
+  - Vues EJS pour l’interface admin
+- Maintien d’un dossier **front-office (FO)** pour les routes et vues utilisateur classiques
+- Attention particulière au **nommage des imports** pour éviter les conflits et garantir la cohérence
+
+---
+
+## 🎨 Maquettes et vues
+- Conception de **maquettes HTML** pour valider l’interface admin (dashboard, gestion utilisateurs, gestion livres)
+- Conversion des maquettes en **EJS** pour les rendre dynamiques
+- Factorisation des vues avec des **partials** (`header.ejs`, `footer.ejs`, `layout.ejs`) pour éviter la duplication
+
+---
+
+## 🔐 Sécurité et middlewares
+- Mise en place d’un middleware `authenticate` pour vérifier l’identité
+- Création d’un middleware `isAdmin` pour restreindre l’accès aux routes sensibles
+- Vérification et sanitisation des inputs (formulaires)
+- Optionnel : ajout d’un système de logs/audit pour tracer les actions admin
+
+---
+
+## ⚙️ Fonctionnalités admin à développer
+- **Gestion des utilisateurs** :
+  - CRUD complet (création, lecture, mise à jour, suppression)
+  - Visualisation des profils et bibliothèques perso
+- **Gestion des bibliothèques perso** :
+  - Ajout/suppression de livres dans la bibliothèque d’un membre
+  - Modification du statut de lecture
+- **Gestion du catalogue global** :
+  - Injection de nouveaux livres en BDD
+  - Suppression ou modification des livres existants
+- **Dashboard admin** :
+  - Statistiques (nombre d’utilisateurs, nombre de livres, activité récente)
+
+---
+
+## 📚 Documentation
+- Rédaction d’une documentation claire dans `docs/` :
+  - Routes admin (endpoints, paramètres, exemples)
+  - Schémas de données (utilisateurs, livres, bibliothèques)
+  - Explication de la logique MVC et séparation BO/FO
+- Mise à jour régulière du fichier `BRAINSTORMING.md` pour garder une trace de la démarche
+
+---
+
+## 🎤 Démo pour le jury
+- Présenter une **maquette HTML statique** → montrer l’interface admin
+- Montrer la **version EJS dynamique** → injection des données réelles
+- Expliquer la **route Express** qui alimente la vue
+- Insister sur la séparation claire entre **front office (utilisateurs)** et **back office (admin)**
