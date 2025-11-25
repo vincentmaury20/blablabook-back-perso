@@ -114,63 +114,86 @@ bookRouter.get('/home', bookController.getRandomBooks);
 // cette route est à renommer, je le (re)note en gros ici pour ne pas oublier ^^
 ```
 
-
-# 🎯 Projet Blablabook – Focus Back Office (Gestion Admin principalement)
+# 🎯 Projet Blablabook – Focus Admin (Back Office dédié)
 
 ---
 
 ## 📁 Organisation des dossiers
-- Création d’un dossier **back-office (BO)** pour centraliser :
-  - Routes admin
-  - Contrôleurs spécifiques
-  - Middlewares de sécurité (`isAdmin`)
-  - Vues EJS pour l’interface admin
-- Maintien d’un dossier **front-office (FO)** pour les routes et vues utilisateur classiques
-- Attention particulière au **nommage des imports** pour éviter les conflits et garantir la cohérence
+- Création d’un dossier `admin/` pour centraliser :
+  - `controllers/` → logique métier admin
+  - `routers/` → routes protégées `/admin/...`
+  - `middlewares/` → `isAdmin.js`, `authenticate.js`
+  - `views/` → templates EJS pour l’interface admin
+  - `utils/prototypes/` → maquettes HTML brutes
+
+---
+
+## 📅 Objectifs à tenir jusqu’à dimanche
+- [ ] Créer l’arborescence complète du dossier `admin/`
+- [ ] Poser les fichiers vides avec `// TODO` dans `controllers`, `routers`, `middlewares`
+- [ ] Créer les maquettes HTML statiques : `dashboard.html`, `users.html`, `books.html`
+- [ ] Préparer les routes Express admin (`/admin/dashboard`, `/admin/users`, etc.)
+- [ ] Mettre en place les middlewares `authenticate` et `isAdmin`
+- [ ] Tester une route simple qui rend une vue EJS (ex: `dashboard.ejs`)
+
+---
+
+## 📅 Objectifs semaine suivante
+- [ ] Convertir les maquettes HTML en templates EJS
+- [ ] Créer `layout.ejs` + `partials` (`header`, `footer`)
+- [ ] Injecter les données dynamiques dans les vues admin
+- [ ] Définir l’URL officielle du back office (ex: `/admin`)
+
+---
+
+## 📅 Objectifs semaine suivante (documentation)
+- [ ] Rédiger la documentation des routes admin
+- [ ] Ajouter des exemples Postman
+- [ ] Documenter la logique MVC et la séparation FO/BO
+- [ ] Tester des outils de génération automatique de doc (Swagger, apidoc)
 
 ---
 
 ## 🎨 Maquettes et vues
-- Conception de **maquettes HTML** pour valider l’interface admin (dashboard, gestion utilisateurs, gestion livres)
-- Conversion des maquettes en **EJS** pour les rendre dynamiques
-- Factorisation des vues avec des **partials** (`header.ejs`, `footer.ejs`, `layout.ejs`) pour éviter la duplication
+- Maquettes HTML pour valider l’interface admin
+- Conversion en EJS avec injection dynamique
+- Factorisation avec `layout.ejs` et `partials`
 
 ---
 
 ## 🔐 Sécurité et middlewares
-- Mise en place d’un middleware `authenticate` pour vérifier l’identité
-- Création d’un middleware `isAdmin` pour restreindre l’accès aux routes sensibles
-- Vérification et sanitisation des inputs (formulaires)
-- Optionnel : ajout d’un système de logs/audit pour tracer les actions admin
+- Middleware `authenticate` pour vérifier l’identité
+- Middleware `isAdmin` pour restreindre l’accès
+- Vérification des inputs
+- Optionnel : logs/audit des actions admin
 
 ---
 
 ## ⚙️ Fonctionnalités admin à développer
 - **Gestion des utilisateurs** :
-  - CRUD complet (création, lecture, mise à jour, suppression)
-  - Visualisation des profils et bibliothèques perso
+  - CRUD complet
+  - Visualisation des bibliothèques perso
 - **Gestion des bibliothèques perso** :
-  - Ajout/suppression de livres dans la bibliothèque d’un membre
-  - Modification du statut de lecture
+  - Ajout/suppression de livres
+  - Modification du statut
 - **Gestion du catalogue global** :
-  - Injection de nouveaux livres en BDD
-  - Suppression ou modification des livres existants
+  - Injection de livres en BDD
+  - Suppression/modification
 - **Dashboard admin** :
-  - Statistiques (nombre d’utilisateurs, nombre de livres, activité récente)
+  - Statistiques clés
 
 ---
 
 ## 📚 Documentation
-- Rédaction d’une documentation claire dans `docs/` :
-  - Routes admin (endpoints, paramètres, exemples)
-  - Schémas de données (utilisateurs, livres, bibliothèques)
-  - Explication de la logique MVC et séparation BO/FO
-- Mise à jour régulière du fichier `BRAINSTORMING.md` pour garder une trace de la démarche
+- Routes admin
+- Schémas de données
+- Logique MVC
+- Mise à jour du `BRAINSTORMING.md`
 
 ---
 
 ## 🎤 Démo pour le jury
-- Présenter une **maquette HTML statique** → montrer l’interface admin
-- Montrer la **version EJS dynamique** → injection des données réelles
-- Expliquer la **route Express** qui alimente la vue
-- Insister sur la séparation claire entre **front office (utilisateurs)** et **back office (admin)**
+- Maquette HTML statique → interface admin
+- Version EJS dynamique → données injectées
+- Route Express → vue rendue
+- Séparation claire FO (SvelteKit) / BO (admin)
