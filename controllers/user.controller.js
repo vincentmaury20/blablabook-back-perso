@@ -4,40 +4,8 @@ import { createUserSchema } from '../schemas/user.schema.js';
 
 
 
-
-
 export const userController = {
 
-
-  async getUsers(req, res) {
-    try {
-      const users = await User.findAll({
-        include: [
-          { model: Book, as: "books", through: { attributes: [] } },
-        ]
-      });
-      res.json(users);
-    } catch (error) {
-      res.status(500).json({ error: 'Erreur lors de la récupération des users' });
-    }
-  },
-
-  async getUserById(req, res) {
-    try {
-      const user = await User.findByPk(req.params.id,
-        {
-          include: [
-            { model: Book, as: "books", through: { attributes: [] } },
-          ]
-        }
-      );
-      // Inclure les auteurs et genres associés include: [Author, Genre]
-      if (!user) return res.status(404).json({ error: 'User non trouvé' });
-      res.json(user);
-    } catch (error) {
-      res.status(500).json({ error: 'Erreur serveur' });
-    }
-  },
 
 
   async createUser(req, res) {

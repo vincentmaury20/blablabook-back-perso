@@ -6,10 +6,10 @@ import { userRouter } from "./user.router.js";
 import { userbookRouter } from "./userbook.router.js";
 
 
-export const apiRouter = Router();
+export const publicRouter = Router();
 
-apiRouter.use(bookRouter);
-apiRouter.use(authorRouter);
-apiRouter.use(genreRouter);
-apiRouter.use(userRouter);
-apiRouter.use(userbookRouter);
+publicRouter.use(bookRouter);
+publicRouter.use(authorRouter);
+publicRouter.use(genreRouter);
+publicRouter.use(userRouter);
+publicRouter.use(userbookRouter);

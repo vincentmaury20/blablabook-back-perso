@@ -2,7 +2,8 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { xss } from "express-xss-sanitizer";
-import { apiRouter } from "./routers/index.js";
+import { publicRouter } from "./routers/index.js";
+import { adminRouters } from './admin/routers/index.js';
 
 
 const PORT = process.env.PORT || 3000;
@@ -18,7 +19,9 @@ app.use(xss());
 
 app.use('/uploads', express.static('uploads'));
 
-app.use(apiRouter);
+app.use(publicRouter);
+app.use(adminRouters);
+
 
 
 app.listen(PORT, () => {

@@ -12,9 +12,3 @@ userRouter.post('/user/register', avatarUpload.single('avatar'), userAuthentific
 userRouter.post('/user/login', userAuthentificationController.login);
 
 userRouter.get('/auth/me', authenticate, userAuthentificationController.getMe);
-
-userRouter.post('/user', userController.createUser);
-
-userRouter.get('/users', userController.getUsers);
-
-userRouter.get('/user/:id', userController.getUserById);
