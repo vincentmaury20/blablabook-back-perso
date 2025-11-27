@@ -32,7 +32,7 @@ export const adminUserController = {
                ]
             }
          );
-         // Inclure les auteurs et genres associés include: [Author, Genre]
+
          if (!user) return res.status(404).json({ error: 'User non trouvé' });
          res.json(user);
       } catch (error) {
