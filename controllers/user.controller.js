@@ -1,6 +1,6 @@
 import { Book, Author, Genre, User } from '../models/index.js';
 import Joi from "joi";
-import { createUserSchema } from '../schemas/user.schema.js';
+import { userSchema } from '../schemas/user.schema.js';
 
 
 
@@ -11,7 +11,7 @@ export const userController = {
   async createUser(req, res) {
     try {
       console.log("Données reçues :", req.body);
-      const data = Joi.attempt(req.body, createUserSchema);
+      const data = Joi.attempt(req.body, userSchema);
       const user = await User.create(data);
       res.status(201).json(user);
     } catch (error) {

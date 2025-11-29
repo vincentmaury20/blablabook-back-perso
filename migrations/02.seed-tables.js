@@ -2,13 +2,14 @@ import { Genre, Book, Author, User, UserBook, sequelize } from "../models/index.
 
 console.log("🌱 Seeding des tables...");
 
-// Notre premier user !
+
 const user1 = await User.create({ name: "Doe", firstname: "John", age: 25, role: "user", email: "John@Doe.example", password: "123456abc", avatar: "😂" });
 const user2 = await User.create({ name: "Martin", firstname: "Sébastien", age: 32, role: "user", email: "sebastien.martin@example.com", password: "passSeba123", avatar: "🧔" });
 const user3 = await User.create({ name: "Durand", firstname: "Ludivine", age: 29, role: "user", email: "ludivine.durand@example.com", password: "passLudi456", avatar: "👩‍🎨" });
 const user4 = await User.create({ name: "Bernard", firstname: "Claude", age: 45, role: "user", email: "claude.bernard@example.com", password: "passClaude789", avatar: "🧓" });
 const user5 = await User.create({ name: "Lemoine", firstname: "Bastien", age: 27, role: "user", email: "bastien.lemoine@example.com", password: "passBastien321", avatar: "👨‍💻" });
 const user6 = await User.create({ name: "Dupuis", firstname: "Vincent", age: 34, role: "user", email: "vincent.dupuis@example.com", password: "passVincent654", avatar: "🧠" });
+const adminUser = await User.create({ name: "Admin", firstname: "Super", age: 30, role: "admin", email: "admin@example.com", password: "$argon2id$v=19$m=65536,t=3,p=4$8+mY5LDpg+Gx8ti+j64o8Q$RAUAUE5OEzTuUfGv4AC6cGdmIUzDu04PspKUmPW5RiA", avatar: "👑" });
 
 
 // notre premier livre
@@ -31,14 +32,14 @@ const book16 = await Book.create({ title: "La Servante Écarlate", release_date:
 const book17 = await Book.create({ title: "Druss la Légende", release_date: "1993-06-01", cover: "http://localhost:3000/uploads/books/images/druss-la-legende.jpg", synopsis: "Une épopée fantasy sur un guerrier mythique, entre honneur, combat et solitude." });
 const book18 = await Book.create({ title: "Endymion", release_date: "1996-02-01", cover: "http://localhost:3000/uploads/books/images/endymion.jpg", synopsis: "Une aventure de science-fiction dans l’univers d’Hyperion, entre poésie et technologie." });
 const book19 = await Book.create({ title: "Le Seigneur des Anneaux", release_date: "1954-07-29", cover: "http://localhost:3000/uploads/books/images/le-seigneur-des-anneaux.jpg", synopsis: "La quête épique de l’Anneau unique dans un monde fantastique peuplé de héros et de ténèbres." });
-const book20 = await Book.create({ title: "Conan le cimmérien", release_date: "1932-01-01", cover: "http://localhost:3000/uploads/books/images/conan.jpg" , synopsis: "Les aventures brutales et mythiques du barbare Conan dans un monde sauvage et magique." });
+const book20 = await Book.create({ title: "Conan le cimmérien", release_date: "1932-01-01", cover: "http://localhost:3000/uploads/books/images/conan.jpg", synopsis: "Les aventures brutales et mythiques du barbare Conan dans un monde sauvage et magique." });
 
 
 // Les userbooks
 
 const userbook1 = await UserBook.bulkCreate([
-   { user_id: user2.id, book_id: book20.id, toRead: true }, 
-   { user_id: user2.id, book_id: book17.id, toRead: false }, 
+   { user_id: user2.id, book_id: book20.id, toRead: true },
+   { user_id: user2.id, book_id: book17.id, toRead: false },
    { user_id: user2.id, book_id: book9.id, toRead: true }
 ]);
 const userbook2 = await UserBook.bulkCreate([
@@ -54,7 +55,7 @@ const userbook3 = await UserBook.bulkCreate([
    { user_id: user4.id, book_id: book13.id, toRead: false },
    { user_id: user4.id, book_id: book14.id, toRead: true }
 ]);
-const userbook4 = await UserBook.create({ user_id: user5.id, book_id: book9.id, toRead: true  });
+const userbook4 = await UserBook.create({ user_id: user5.id, book_id: book9.id, toRead: true });
 const userbook5 = await UserBook.create({ user_id: user6.id, book_id: book18.id, toRead: false });
 
 

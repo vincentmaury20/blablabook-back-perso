@@ -3,12 +3,12 @@ import Joi from "joi";
 import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
 import { loginSchema } from "../schemas/login.schema.js";
-import { registerSchema } from "../schemas/register.schema.js";
+import { userSchema } from "../schemas/user.schema.js";
 
 export const userAuthentificationController = {
   async register(req, res) {
     try {
-      const { name, email, password, firstname, age } = Joi.attempt(req.body, registerSchema);
+      const { name, email, password, firstname, age } = Joi.attempt(req.body, userSchema);
 
       const isUserExists = await User.findOne({
         where: { email }
@@ -33,6 +33,7 @@ export const userAuthentificationController = {
       const token = jwt.sign(
         {
           email: newUser.email,
+          role: newUser.role,
           id: newUser.id
         },
         process.env.JWT_SECRET,
@@ -47,6 +48,7 @@ export const userAuthentificationController = {
           id: newUser.id,
           name: newUser.name,
           firstname: newUser.firstname,
+          role: newUser.role,
           email: newUser.email,
           age: newUser.age,
           avatar: newUser.avatar
@@ -79,6 +81,7 @@ export const userAuthentificationController = {
       const token = jwt.sign(
         {
           email: user.email,
+          role: user.role,
           id: user.id
         },
         process.env.JWT_SECRET,
@@ -107,7 +110,7 @@ export const userAuthentificationController = {
     try {
       const user = await User.findOne({
         where: { id: req.user.id },
-        attributes: ["id", "name", "email", "firstname", "age", "avatar"]
+        attributes: ["id", "name", "email", "firstname", "age", "avatar", "role"]
       });
 
       if (!user) {
