@@ -1,1 +1,114 @@
-rien
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin - Gestion des Utilisateurs</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+
+<div class="container my-5">
+  <h1 class="mb-4">👤 Gestion des Utilisateurs</h1>
+
+  <!-- Section Ajout -->
+  <div class="card mb-4">
+    <div class="card-header">Ajouter un utilisateur</div>
+    <div class="card-body">
+      <form action="/admin/users/create" method="POST">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="firstname" class="form-label">Prénom</label>
+            <input type="text" class="form-control" id="firstname" name="firstname" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="name" class="form-label">Nom</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Adresse email</label>
+          <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Mot de passe</label>
+          <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <div class="mb-3">
+          <label for="role" class="form-label">Rôle</label>
+          <select class="form-select" id="role" name="role">
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Créer</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Section Liste + Suppression -->
+  <div class="card mb-4">
+    <div class="card-header">Liste des utilisateurs</div>
+    <div class="card-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Prénom</th><th>Nom</th><th>Email</th><th>Rôle</th><th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Exemple statique -->
+          <tr>
+            <td>Jean</td>
+            <td>Dupont</td>
+            <td>jean.dupont@example.com</td>
+            <td>user</td>
+            <td>
+              <form action="/admin/users/1/delete" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-sm btn-danger">Supprimer</button>
+              </form>
+              <a href="#editForm" class="btn btn-sm btn-warning">Modifier</a>
+            </td>
+          </tr>
+          <!-- Ici tu mettras un <% users.forEach(user => { %> ... <% }) %> -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Section Édition -->
+  <div class="card">
+    <div class="card-header">Modifier un utilisateur</div>
+    <div class="card-body">
+      <form id="editForm" action="/admin/users/update" method="POST">
+        <!-- Champ caché pour l'ID -->
+        <input type="hidden" name="id" value="<%= user.id %>">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="editFirstname" class="form-label">Prénom</label>
+            <input type="text" class="form-control" id="editFirstname" name="firstname" value="<%= user.firstname %>">
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="editName" class="form-label">Nom</label>
+            <input type="text" class="form-control" id="editName" name="name" value="<%= user.name %>">
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="editEmail" class="form-label">Adresse email</label>
+          <input type="email" class="form-control" id="editEmail" name="email" value="<%= user.email %>">
+        </div>
+        <div class="mb-3">
+          <label for="editRole" class="form-label">Rôle</label>
+          <select class="form-select" id="editRole" name="role">
+            <option value="user" <%= user.role === 'user' ? 'selected' : '' %>>User</option>
+            <option value="admin" <%= user.role === 'admin' ? 'selected' : '' %>>Admin</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-success">Mettre à jour</button>
+      </form>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -6,7 +6,7 @@ import { isAdmin } from "../middlewares/isAdmin.middleware.js";
 
 export const adminAuthorRouter = Router();
 
-adminAuthorRouter.get("admin/books", authenticate, isAdmin, adminAuthorController.getAuthors);
+adminAuthorRouter.get("admin/authors", authenticate, isAdmin, adminAuthorController.getAuthors);
 adminAuthorRouter.get("admin/author/:id", authenticate, isAdmin, adminAuthorController.getAuthorById);
 adminAuthorRouter.put("/admin/author/:id", authenticate, isAdmin, adminAuthorController.updateAuthor);
 adminAuthorRouter.delete("/admin/author/:id", authenticate, isAdmin, adminAuthorController.deleteAuthor);

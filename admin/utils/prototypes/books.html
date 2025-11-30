@@ -1,1 +1,116 @@
-rien
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin - Gestion des Livres</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+
+<div class="container my-5">
+  <h1 class="mb-4">📚 Gestion des Livres</h1>
+
+  <!-- Formulaire d'ajout -->
+  <div class="card mb-4">
+    <div class="card-header">Ajouter un livre</div>
+    <div class="card-body">
+      <form action="/admin/books/create" method="POST">
+        <div class="mb-3">
+          <label for="title" class="form-label">Titre</label>
+          <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+        <div class="mb-3">
+          <label for="release_date" class="form-label">Date de sortie</label>
+          <input type="date" class="form-control" id="release_date" name="release_date">
+        </div>
+        <div class="mb-3">
+          <label for="cover" class="form-label">URL de la couverture</label>
+          <input type="text" class="form-control" id="cover" name="cover" required>
+        </div>
+        <div class="mb-3">
+          <label for="synopsis" class="form-label">Synopsis</label>
+          <textarea class="form-control" id="synopsis" name="synopsis" rows="4" required></textarea>
+        </div>
+
+        <!-- Sélection des genres -->
+        <div class="mb-3">
+          <label for="genres" class="form-label">Genres</label>
+          <select class="form-select" id="genres" name="genres" multiple>
+            <!-- Exemple statique, à remplacer par boucle EJS -->
+            <option value="1">Science-Fiction</option>
+            <option value="2">Fantasy</option>
+            <option value="3">Policier</option>
+            <!-- <% genres.forEach(genre => { %>
+                 <option value="<%= genre.id %>"><%= genre.name %></option>
+               <% }) %> -->
+          </select>
+          <small class="text-muted">Maintenir CTRL pour sélectionner plusieurs genres</small>
+        </div>
+
+        <!-- Sélection des auteurs -->
+        <div class="mb-3">
+          <label for="authors" class="form-label">Auteurs</label>
+          <select class="form-select" id="authors" name="authors" multiple>
+            <!-- Exemple statique -->
+            <option value="1">Isaac Asimov</option>
+            <option value="2">J.K. Rowling</option>
+            <option value="3">Agatha Christie</option>
+            <!-- <% authors.forEach(author => { %>
+                 <option value="<%= author.id %>"><%= author.firstname %> <%= author.name %></option>
+               <% }) %> -->
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Créer</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Liste des livres -->
+  <div class="card">
+    <div class="card-header">Liste des livres</div>
+    <div class="card-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Titre</th>
+            <th>Date</th>
+            <th>Couverture</th>
+            <th>Genres</th>
+            <th>Auteurs</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Exemple statique -->
+          <tr>
+            <td>Fondation</td>
+            <td>1951-01-01</td>
+            <td><img src="https://via.placeholder.com/80x120" alt="cover"></td>
+            <td>Science-Fiction</td>
+            <td>Isaac Asimov</td>
+            <td>
+              <a href="/admin/books/1/edit" class="btn btn-sm btn-warning">Modifier</a>
+              <form action="/admin/books/1/delete" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-sm btn-danger">Supprimer</button>
+              </form>
+            </td>
+          </tr>
+          <!-- <% books.forEach(book => { %>
+               <tr>
+                 <td><%= book.title %></td>
+                 <td><%= book.release_date %></td>
+                 <td><img src="<%= book.cover %>" width="80"></td>
+                 <td><%= book.genres.map(g => g.name).join(', ') %></td>
+                 <td><%= book.authors.map(a => a.firstname + ' ' + a.name).join(', ') %></td>
+                 <td>...</td>
+               </tr>
+             <% }) %> -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

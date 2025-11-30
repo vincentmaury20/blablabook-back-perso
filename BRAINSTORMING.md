@@ -129,12 +129,12 @@ bookRouter.get('/home', bookController.getRandomBooks);
 ---
 
 ## 📅 Objectifs à tenir jusqu’à dimanche
-- [ ] Créer l’arborescence complète du dossier `admin/`
-- [ ] Poser les fichiers vides avec `// TODO` dans `controllers`, `routers`, `middlewares`
-- [ ] Créer les maquettes HTML statiques : `dashboard.html`, `users.html`, `books.html`
+- [x] Créer l’arborescence complète du dossier `admin/`
+- [x] Poser les fichiers vides avec `// TODO` dans `controllers`, `routers`, `middlewares`
+- [x] Créer les maquettes HTML statiques : `dashboard.html`, `users.html`, `books.html`
 - [ ] Préparer les routes Express admin (`/admin/dashboard`, `/admin/users`, etc.)
-- [ ] Mettre en place les middlewares `authenticate` et `isAdmin`
-- [ ] Tester une route simple qui rend une vue EJS (ex: `dashboard.ejs`)
+- [x] Mettre en place les middlewares `authenticate` et `isAdmin`
+- [x] Tester une route simple qui rend une vue EJS (ex: `dashboard.ejs`)
 
 ---
 
@@ -197,3 +197,16 @@ bookRouter.get('/home', bookController.getRandomBooks);
 - Version EJS dynamique → données injectées
 - Route Express → vue rendue
 - Séparation claire FO (SvelteKit) / BO (admin)
+
+
+## 🔐 Gestion par Cookie (sécurité renforcée)
+
+### Objectifs
+- Remplacer l’usage du JWT en query string par un **cookie HTTPOnly** pour l’espace admin.
+- Éviter que le token soit visible dans l’URL.
+- Séparer la logique front (SvelteKit) et back office (EJS/Express).
+
+### Étapes
+1. **Installer et configurer `cookie-parser`** dans le backend Express.
+   ```bash
+   npm install cookie-parser
