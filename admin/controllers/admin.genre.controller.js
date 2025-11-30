@@ -2,51 +2,36 @@ import { Genre, Book } from "../../models/index.js";
 
 export const adminGenreController = {
 
-   // Récupérer tous les genres avec leurs livres associés
+   // Afficher tous les genres avec leurs livres associés
    async getGenres(req, res) {
       try {
          const genres = await Genre.findAll({
-            include: [
-               { model: Book, as: "books" }
-            ]
+            include: [{ model: Book, as: "books" }]
          });
-         res.json(genres);
+
+         // On rend la vue EJS avec les données
+         res.render("genres", {
+            genres,
+            adminName: req.user.name // affichage du nom de l'admin
+         });
       } catch (error) {
-         res.status(500).json({ error: "Erreur lors de la récupération des genres" });
+         res.status(500).render("error", { error: "Erreur lors de la récupération des genres" });
       }
    },
 
-   // Récupérer un genre par ID
-   async getGenreById(req, res) {
-      try {
-         const genre = await Genre.findByPk(req.params.id, {
-            include: [
-               { model: Book, as: "books" }
-            ]
-         });
-         if (!genre) return res.status(404).json({ error: "Genre non trouvé" });
-         res.json(genre);
-      } catch (error) {
-         res.status(500).json({ error: "Erreur serveur" });
-      }
-   },
-
-   // Créer un genre avec éventuellement des livres associés
+   // Créer un genre
    async createGenre(req, res) {
       try {
          const { name, books } = req.body;
-
-         // Création du genre
          const genre = await Genre.create({ name });
 
-         // Associations (si fournies)
          if (books && books.length > 0) {
-            await genre.setBooks(books); // Sequelize génère genre.setBooks()
+            await genre.setBooks(books);
          }
 
-         res.status(201).json(genre);
+         res.redirect("/admin/genres"); // redirection vers la liste
       } catch (error) {
-         res.status(500).json({ error: "Erreur lors de la création du genre" });
+         res.status(500).render("error", { error: "Erreur lors de la création du genre" });
       }
    },
 
@@ -58,22 +43,18 @@ export const adminGenreController = {
 
          const genre = await Genre.findByPk(id);
          if (!genre) {
-            return res.status(404).json({ message: "Genre non trouvé." });
+            return res.status(404).render("error", { error: "Genre non trouvé" });
          }
 
          await genre.update({ name });
 
-         // Mettre à jour les associations
          if (books) {
             await genre.setBooks(books);
          }
 
-         res.status(200).json({
-            message: "Genre mis à jour avec succès",
-            genre,
-         });
+         res.redirect("/admin/genres");
       } catch (error) {
-         res.status(500).json({ error: "Erreur lors de la mise à jour du genre" });
+         res.status(500).render("error", { error: "Erreur lors de la mise à jour du genre" });
       }
    },
 
@@ -84,13 +65,13 @@ export const adminGenreController = {
          const genre = await Genre.findByPk(id);
 
          if (!genre) {
-            return res.status(404).json({ message: "Genre non trouvé." });
+            return res.status(404).render("error", { error: "Genre non trouvé" });
          }
 
          await genre.destroy();
-         res.status(200).json({ message: "Genre supprimé avec succès" });
+         res.redirect("/admin/genres");
       } catch (error) {
-         res.status(500).json({ error: "Erreur lors de la suppression du genre" });
+         res.status(500).render("error", { error: "Erreur lors de la suppression du genre" });
       }
    }
 };

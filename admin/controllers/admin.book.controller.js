@@ -1,8 +1,7 @@
-import { Book, Author, User, Genre } from "../../models/index.js";
-
+import { Book, Author, Genre } from "../../models/index.js";
 
 export const adminBookController = {
-
+   // Liste
    async getBooks(req, res) {
       try {
          const books = await Book.findAll({
@@ -11,13 +10,13 @@ export const adminBookController = {
                { model: Genre, as: "genres" }
             ]
          });
-         res.json(books);
+         res.render("books/list", { books, adminName: req.user.name, title: "Liste des livres" });
       } catch (error) {
-         res.status(500).json({ error: "Erreur lors de la récupération des livres" });
+         res.status(500).render("error", { error: "Erreur lors de la récupération des livres" });
       }
    },
 
-   // Récupérer un livre par ID
+   // Détail
    async getBookById(req, res) {
       try {
          const book = await Book.findByPk(req.params.id, {
@@ -26,57 +25,59 @@ export const adminBookController = {
                { model: Genre, as: "genres" }
             ]
          });
-         if (!book) return res.status(404).json({ error: "Livre non trouvé" });
-         res.json(book);
+         if (!book) return res.status(404).render("error", { error: "Livre non trouvé" });
+         res.render("books/detail", { book, adminName: req.user.name, title: "Détail du livre" });
       } catch (error) {
-         res.status(500).json({ error: "Erreur serveur" });
+         res.status(500).render("error", { error: "Erreur serveur" });
       }
    },
 
-   // Créer un livre
+   // Formulaire édition
+   async editBookForm(req, res) {
+      try {
+         const book = await Book.findByPk(req.params.id, { include: ["authors", "genres"] });
+         if (!book) return res.status(404).render("error", { error: "Livre non trouvé" });
+         res.render("books/edit", { book, adminName: req.user.name, title: "Modifier livre" });
+      } catch (error) {
+         res.status(500).render("error", { error: "Erreur lors du chargement du formulaire d'édition" });
+      }
+   },
+
+   // Création
    async createBook(req, res) {
       try {
-         const book = await Book.create(req.body);
-         res.status(201).json(book);
+         await Book.create(req.body);
+         res.redirect("/admin/books");
       } catch (error) {
-         res.status(500).json({ error: "Erreur lors de la création du livre" });
+         res.status(500).render("error", { error: "Erreur lors de la création du livre" });
       }
    },
 
-   // Mettre à jour un livre
+   // Mise à jour
    async updateBook(req, res) {
       try {
          const { id } = req.params;
          const book = await Book.findByPk(id);
-
-         if (!book) {
-            return res.status(404).json({ message: "Livre non trouvé." });
-         }
+         if (!book) return res.status(404).render("error", { error: "Livre non trouvé" });
 
          await book.update(req.body);
-         res.status(200).json({
-            message: "Livre mis à jour avec succès",
-            book,
-         });
+         res.redirect("/admin/books");
       } catch (error) {
-         res.status(500).json({ error: "Erreur lors de la mise à jour du livre" });
+         res.status(500).render("error", { error: "Erreur lors de la mise à jour du livre" });
       }
    },
 
-   // Supprimer un livre
+   // Suppression
    async deleteBook(req, res) {
       try {
          const { id } = req.params;
          const book = await Book.findByPk(id);
-
-         if (!book) {
-            return res.status(404).json({ message: "Livre non trouvé." });
-         }
+         if (!book) return res.status(404).render("error", { error: "Livre non trouvé" });
 
          await book.destroy();
-         res.status(200).json({ message: "Livre supprimé avec succès" });
+         res.redirect("/admin/books");
       } catch (error) {
-         res.status(500).json({ error: "Erreur lors de la suppression du livre" });
+         res.status(500).render("error", { error: "Erreur lors de la suppression du livre" });
       }
    }
 };

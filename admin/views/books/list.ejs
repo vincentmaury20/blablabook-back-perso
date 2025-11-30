@@ -1,0 +1,48 @@
+<%- include("../partials/header") %>
+
+<div class="container my-4">
+  <h1>📚 Liste des livres</h1>
+
+  <a href="/admin/book/create" class="btn btn-primary mb-3">Ajouter un livre</a>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Titre</th>
+        <th>Auteur(s)</th>
+        <th>Genre(s)</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% books.forEach(book => { %>
+        <tr>
+          <td><%= book.title %></td>
+          <td>
+            <% if (book.authors && book.authors.length > 0) { %>
+              <%= book.authors.map(a => a.name).join(", ") %>
+            <% } else { %>
+              Aucun auteur
+            <% } %>
+          </td>
+          <td>
+            <% if (book.genres && book.genres.length > 0) { %>
+              <%= book.genres.map(g => g.name).join(", ") %>
+            <% } else { %>
+              Aucun genre
+            <% } %>
+          </td>
+          <td>
+            <a href="/admin/book/<%= book.id %>" class="btn btn-sm btn-info">Détail</a>
+            <a href="/admin/book/<%= book.id %>/edit" class="btn btn-sm btn-warning">Modifier</a>
+            <form action="/admin/book/<%= book.id %>?_method=DELETE" method="POST" style="display:inline;">
+              <button type="submit" class="btn btn-sm btn-danger">Supprimer</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<%- include("../partials/footer") %>

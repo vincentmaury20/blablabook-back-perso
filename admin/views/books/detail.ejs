@@ -1,0 +1,28 @@
+<%- include("../partials/header") %>
+
+<div class="container my-4">
+  <h1>🔎 Détail du livre</h1>
+
+  <ul class="list-group mb-3">
+    <li class="list-group-item"><strong>Titre :</strong> <%= book.title %></li>
+    <li class="list-group-item"><strong>Auteur(s) :</strong>
+      <% if (book.authors && book.authors.length > 0) { %>
+        <%= book.authors.map(a => a.name).join(", ") %>
+      <% } else { %>
+        Aucun auteur
+      <% } %>
+    </li>
+    <li class="list-group-item"><strong>Genre(s) :</strong>
+      <% if (book.genres && book.genres.length > 0) { %>
+        <%= book.genres.map(g => g.name).join(", ") %>
+      <% } else { %>
+        Aucun genre
+      <% } %>
+    </li>
+  </ul>
+
+  <a href="/admin/book/<%= book.id %>/edit" class="btn btn-warning">Modifier</a>
+  <a href="/admin/books" class="btn btn-secondary">Retour</a>
+</div>
+
+<%- include("../partials/footer") %>

@@ -1,98 +1,94 @@
 import { User, Book } from "../../models/index.js";
-
 import Joi from "joi";
-import { userSchema } from '../../schemas/user.schema.js';
+import { userSchema } from "../../schemas/user.schema.js";
 import { updateUserSchema } from "../../schemas/updateUser.schema.js";
-
-
-
 
 export const adminUserController = {
 
-
+   // Liste des utilisateurs
    async getUsers(req, res) {
       try {
          const users = await User.findAll({
-            include: [
-               { model: Book, as: "books", through: { attributes: [] } },
-            ]
+            include: [{ model: Book, as: "books", through: { attributes: [] } }],
          });
-         res.json(users);
+
+         res.render("users/list", {
+            users,
+            adminName: req.user.name,
+            title: "Liste des utilisateurs"
+         });
       } catch (error) {
-         res.status(500).json({ error: 'Erreur lors de la récupération des users' });
+         res.status(500).render("error", { error: "Erreur lors de la récupération des utilisateurs" });
       }
    },
 
+   // Détail d’un utilisateur
    async getUserById(req, res) {
       try {
-         const user = await User.findByPk(req.params.id,
-            {
-               include: [
-                  { model: Book, as: "books", through: { attributes: [] } },
-               ]
-            }
-         );
+         const user = await User.findByPk(req.params.id, {
+            include: [{ model: Book, as: "books", through: { attributes: [] } }],
+         });
 
-         if (!user) return res.status(404).json({ error: 'User non trouvé' });
-         res.json(user);
+         if (!user) return res.status(404).render("error", { error: "Utilisateur non trouvé" });
+
+         res.render("users/detail", {
+            user,
+            adminName: req.user.name,
+            title: "Détail utilisateur"
+         });
       } catch (error) {
-         res.status(500).json({ error: 'Erreur serveur' });
+         res.status(500).render("error", { error: "Erreur serveur" });
       }
    },
 
+   // Formulaire de création
    async createUser(req, res) {
       try {
-         console.log("Données reçues :", req.body);
          const data = Joi.attempt(req.body, userSchema);
-         const user = await User.create(data);
-         res.status(201).json(user);
+         await User.create(data);
+
+         res.redirect("/admin/users"); // retour vers la liste
       } catch (error) {
          console.error(error);
-         res.status(500).json({ error: "Erreur lors de la création de l'utilisateur" });
+         res.status(500).render("error", { error: "Erreur lors de la création de l'utilisateur" });
       }
    },
 
+   // Formulaire d’édition
    async updateUser(req, res) {
       try {
          const { id } = req.params;
          const user = await User.findByPk(id);
 
          if (!user) {
-            return res.status(404).json({ message: "Utilisateur non trouvé." });
+            return res.status(404).render("error", { error: "Utilisateur non trouvé" });
          }
 
-         // Validation des données reçues
          const data = Joi.attempt(req.body, updateUserSchema);
-
-         // Mise à jour avec les données validées
          await user.update(data);
 
-         res.status(200).json({
-            message: "Utilisateur mis à jour avec succès",
-            user,
-         });
+         res.redirect("/admin/users");
       } catch (error) {
          console.error(error);
-         res.status(500).json({ error: "Erreur lors de la mise à jour de l'utilisateur" });
+         res.status(500).render("error", { error: "Erreur lors de la mise à jour de l'utilisateur" });
       }
    },
 
-
+   // Suppression
    async deleteUser(req, res) {
       try {
          const { id } = req.params;
          const user = await User.findByPk(id);
 
          if (!user) {
-            return res.status(404).json({ message: "Utilisateur non trouvé." });
+            return res.status(404).render("error", { error: "Utilisateur non trouvé" });
          }
 
          await user.destroy();
-         res.status(200).json({ message: "Utilisateur supprimé avec succès" });
+         res.redirect("/admin/users");
       } catch (error) {
          console.error(error);
-         res.status(500).json({ error: "Erreur lors de la suppression de l'utilisateur" });
+         res.status(500).render("error", { error: "Erreur lors de la suppression de l'utilisateur" });
       }
    }
-
-}
+};

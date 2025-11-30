@@ -15,8 +15,8 @@
       <a class="navbar-brand" href="#">Admin Dashboard</a>
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="#">Profil Admin</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Déconnexion</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Profil <%= adminName %></a></li>
+          <li class="nav-item"><a class="nav-link" href="/admin/logout">Déconnexion</a></li>
         </ul>
       </div>
     </div>
@@ -28,10 +28,10 @@
       <nav class="col-md-2 d-none d-md-block bg-light sidebar">
         <div class="position-sticky pt-3">
           <ul class="nav flex-column">
-            <li class="nav-item"><a class="nav-link" href="#">👤 Utilisateurs</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">📚 Livres</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">✍️ Auteurs</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">📊 Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="/admin/users">👤 Utilisateurs</a></li>
+            <li class="nav-item"><a class="nav-link" href="/admin/books">📚 Livres</a></li>
+            <li class="nav-item"><a class="nav-link" href="/admin/authors">✍️ Auteurs</a></li>
+            <li class="nav-item"><a class="nav-link" href="/admin/genres">🎭 Genres</a></li>
           </ul>
         </div>
       </nav>
@@ -39,7 +39,7 @@
       <!-- Main content -->
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <h1 class="mt-4">Tableau de bord</h1>
-        <p>Bienvenue, Admin !</p>
+        <p>Bienvenue, <%= adminName %> !</p>
 
         <!-- Cards de stats -->
         <div class="row my-4">
@@ -47,7 +47,7 @@
             <div class="card text-center">
               <div class="card-body">
                 <h5 class="card-title">👤 Utilisateurs</h5>
-                <p class="card-text">120</p>
+                <p class="card-text"><%= stats.users %></p>
               </div>
             </div>
           </div>
@@ -55,7 +55,7 @@
             <div class="card text-center">
               <div class="card-body">
                 <h5 class="card-title">📚 Livres</h5>
-                <p class="card-text">350</p>
+                <p class="card-text"><%= stats.books %></p>
               </div>
             </div>
           </div>
@@ -63,7 +63,7 @@
             <div class="card text-center">
               <div class="card-body">
                 <h5 class="card-title">✍️ Auteurs</h5>
-                <p class="card-text">45</p>
+                <p class="card-text"><%= stats.authors %></p>
               </div>
             </div>
           </div>
@@ -71,13 +71,13 @@
             <div class="card text-center">
               <div class="card-body">
                 <h5 class="card-title">🎭 Genres</h5>
-                <p class="card-text">12</p>
+                <p class="card-text"><%= stats.genres %></p>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Tableau -->
+        <!-- Tableau des derniers utilisateurs -->
         <h2>Derniers utilisateurs inscrits</h2>
         <table class="table table-striped">
           <thead>
@@ -88,21 +88,13 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Dupont</td>
-              <td>dupont@example.com</td>
-              <td>01/11/2025</td>
-            </tr>
-            <tr>
-              <td>Martin</td>
-              <td>martin@example.com</td>
-              <td>05/11/2025</td>
-            </tr>
-            <tr>
-              <td>Durand</td>
-              <td>durand@example.com</td>
-              <td>10/11/2025</td>
-            </tr>
+            <% users.forEach(user => { %>
+              <tr>
+                <td><%= user.name %></td>
+                <td><%= user.email %></td>
+                <td><%= user.createdAt.toLocaleDateString("fr-FR") %></td>
+              </tr>
+            <% }) %>
           </tbody>
         </table>
       </main>

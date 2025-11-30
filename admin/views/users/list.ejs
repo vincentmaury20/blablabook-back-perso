@@ -1,0 +1,49 @@
+<%- include("../partials/header") %>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-2">
+      <%- include("../partials/sidebar") %>
+    </div>
+    <div class="col-10 my-4">
+      <h1>📋 Liste des utilisateurs</h1>
+
+      <a href="/admin/user/create" class="btn btn-primary mb-3">Créer un utilisateur</a>
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Livres associés</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% users.forEach(user => { %>
+            <tr>
+              <td><%= user.name %></td>
+              <td><%= user.email %></td>
+              <td>
+                <% if (user.books && user.books.length > 0) { %>
+                  <%= user.books.map(b => b.title).join(", ") %>
+                <% } else { %>
+                  Aucun livre
+                <% } %>
+              </td>
+              <td>
+                <a href="/admin/user/<%= user.id %>" class="btn btn-sm btn-info">Détail</a>
+                <a href="/admin/user/<%= user.id %>/edit" class="btn btn-sm btn-warning">Modifier</a>
+                <form action="/admin/user/<%= user.id %>?_method=DELETE" method="POST" style="display:inline;">
+                  <button type="submit" class="btn btn-sm btn-danger">Supprimer</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<%- include("../partials/footer") %>

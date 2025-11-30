@@ -1,0 +1,23 @@
+<%- include("../partials/header") %>
+
+<div class="container my-4">
+  <h1>✏️ Modifier un livre</h1>
+
+  <form action="/admin/book/<%= book.id %>?_method=PUT" method="POST">
+    <div class="mb-3">
+      <label class="form-label">Titre</label>
+      <input type="text" class="form-control" name="title" value="<%= book.title %>" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Auteur(s)</label>
+      <input type="text" class="form-control" name="authors" value="<%= book.authors.map(a => a.name).join(', ') %>">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Genre(s)</label>
+      <input type="text" class="form-control" name="genres" value="<%= book.genres.map(g => g.name).join(', ') %>">
+    </div>
+    <button type="submit" class="btn btn-primary">Mettre à jour</button>
+  </form>
+</div>
+
+<%- include("../partials/footer") %>
