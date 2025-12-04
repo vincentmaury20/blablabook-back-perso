@@ -8,4 +8,6 @@ export const updateUserSchema = Joi.object({
    email: Joi.string()
       .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'fr'] } }),
    avatar: Joi.string().optional(),
+   role: Joi.string().valid('admin', 'user').optional(),
+   books: Joi.array().items(Joi.number().integer()).optional()
 });

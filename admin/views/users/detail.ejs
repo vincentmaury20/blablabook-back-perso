@@ -8,20 +8,56 @@
     <div class="col-10 my-4">
       <h1>🔎 Détail utilisateur</h1>
 
+      <!-- Infos de base -->
       <ul class="list-group mb-3">
         <li class="list-group-item"><strong>Nom :</strong> <%= user.name %></li>
         <li class="list-group-item"><strong>Email :</strong> <%= user.email %></li>
-        <li class="list-group-item"><strong>Livres :</strong>
-          <% if (user.books && user.books.length > 0) { %>
-            <%= user.books.map(b => b.title).join(", ") %>
-          <% } else { %>
-            Aucun livre
-          <% } %>
-        </li>
+        <li class="list-group-item"><strong>Rôle actuel :</strong> <%= user.role %></li>
       </ul>
 
-      <a href="/admin/user/<%= user.id %>/edit" class="btn btn-warning">Modifier</a>
-      <a href="/admin/users" class="btn btn-secondary">Retour</a>
+      <!-- Livres associés -->
+      <h3>📚 Livres associés</h3>
+      <ul class="list-group mb-3">
+        <% if (user.books && user.books.length > 0) { %>
+          <% user.books.forEach(book => { %>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <%= book.title %>
+              <div>
+                <!-- Retirer -->
+                <form action="/admin/user/<%= user.id %>/book/<%= book.id %>/remove" method="POST" style="display:inline;">
+                  <button type="submit" class="btn btn-danger btn-sm">Retirer</button>
+                </form>
+                <!-- Statut lecture -->
+                <form action="/admin/user/<%= user.id %>/book/<%= book.id %>/status" method="POST" style="display:inline;">
+                  <input type="hidden" name="toRead" value="<%= book.UserBook.toRead ? 0 : 1 %>">
+                  <button type="submit" class="btn btn-secondary btn-sm">
+                    <%= book.UserBook.toRead ? "Marquer comme lu" : "À lire" %>
+                  </button>
+                </form>
+              </div>
+            </li>
+          <% }) %>
+        <% } else { %>
+          <li class="list-group-item">Aucun livre associé</li>
+        <% } %>
+      </ul>
+
+      <!-- Ajouter un livre -->
+      <h3>➕ Ajouter un livre</h3>
+        <form action="/admin/user/<%= user.id %>/book/add" method="POST">
+          <select name="bookId" class="form-select">
+            <% books.forEach(book => { %>
+              <option value="<%= book.id %>"><%= book.title %></option>
+            <% }) %>
+          </select>
+          <button type="submit" class="btn btn-primary">Associer</button>
+        </form>
+
+      <!-- Navigation -->
+      <div class="mt-4">
+        <a href="/admin/user/<%= user.id %>/edit" class="btn btn-warning">Modifier infos</a>
+        <a href="/admin/users" class="btn btn-secondary">Retour</a>
+      </div>
     </div>
   </div>
 </div>

@@ -8,15 +8,40 @@
     <div class="col-10 my-4">
       <h1>✏️ Modifier un utilisateur</h1>
 
+      <!-- On utilise POST vers /update (plus simple que PUT avec _method) -->
       <form action="/admin/user/<%= user.id %>?_method=PUT" method="POST">
+
         <div class="mb-3">
           <label class="form-label">Nom</label>
           <input type="text" class="form-control" name="name" value="<%= user.name %>" required>
         </div>
+
         <div class="mb-3">
           <label class="form-label">Email</label>
           <input type="email" class="form-control" name="email" value="<%= user.email %>" required>
         </div>
+
+        <div class="mb-3">
+          <label class="form-label">Rôle</label>
+          <select name="role" class="form-select">
+            <option value="user" <%= user.role === "user" ? "selected" : "" %>>Utilisateur</option>
+            <option value="admin" <%= user.role === "admin" ? "selected" : "" %>>Administrateur</option>
+          </select>
+        </div>
+
+          <div class="mb-3">
+            <label class="form-label">Livres associés</label>
+            <% if (user.books && user.books.length > 0) { %>
+              <ul class="list-group">
+                <% user.books.forEach(book => { %>
+                  <li class="list-group-item"><%= book.title %></li>
+                <% }) %>
+              </ul>
+            <% } else { %>
+              <p class="text-muted">Aucun livre associé</p>
+            <% } %>
+          </div>
+
         <button type="submit" class="btn btn-primary">Mettre à jour</button>
       </form>
     </div>

@@ -1,5 +1,6 @@
 import { User, Book, Author, Genre } from "../../models/index.js";
 import jwt from "jsonwebtoken";
+import argon2 from "argon2";
 
 export const adminController = {
    async getDashboard(req, res) {
@@ -35,19 +36,30 @@ export const adminController = {
    },
 
    // POST /admin/login → traite les identifiants
-   postLogin: (req, res) => {
+   postLogin: async (req, res) => {
       const { email, password } = req.body;
 
-      // ⚠️ Ici tu mets ta vraie logique de vérification (BDD + hash)
-      if (email === "admin@example.com" && password === "adminpass1234!") {
-         // Génération du JWT avec le nom de l’admin
+      try {
+         // Cherche l'utilisateur en base
+         const user = await User.findOne({ where: { email } });
+         if (!user) {
+            return res.render("login", { error: "Utilisateur introuvable" });
+         }
+
+         // Vérifie le mot de passe hashé
+         const isValid = await argon2.verify(user.password, password);
+         if (!isValid) {
+            return res.render("login", { error: "Mot de passe incorrect" });
+         }
+
+         // Génère le JWT
          const token = jwt.sign(
-            { role: "admin", email, name: "Super Admin" }, // <-- ajout du name
+            { role: user.role, email: user.email, name: user.firstname },
             process.env.JWT_SECRET,
             { expiresIn: "1h" }
          );
 
-         // Pose du cookie httpOnly
+         // Pose le cookie httpOnly
          res.cookie("authToken", token, {
             httpOnly: true,
             sameSite: "strict",
@@ -55,11 +67,12 @@ export const adminController = {
          });
 
          return res.redirect("/admin");
+      } catch (err) {
+         console.error("Erreur login:", err);
+         res.render("login", { error: "Erreur serveur" });
       }
-
-      // Si identifiants invalides → on réaffiche le formulaire avec erreur
-      res.render("login", { error: "Identifiants invalides" });
-   },
+   }
+   ,
 
    logout: (req, res) => {
       res.clearCookie("authToken");

@@ -1,8 +1,9 @@
 import { Router } from "express";
 import { adminUserController } from "../controllers/admin.user.controller.js";
+import { adminUserBookController } from "../controllers/admin.user.book.controller.js";
 import { authenticateAdmin } from "../middlewares/authenticateAdmin.middleware.js";
 import { isAdmin } from "../middlewares/isAdmin.middleware.js";
-import { User } from "../../models/index.js"; // pour charger un user dans edit
+
 
 export const adminUserRouter = Router();
 
@@ -45,11 +46,7 @@ adminUserRouter.get(
    "/admin/user/:id/edit",
    authenticateAdmin,
    isAdmin,
-   async (req, res) => {
-      const user = await User.findByPk(req.params.id);
-      if (!user) return res.status(404).render("error", { error: "Utilisateur non trouvé" });
-      res.render("users/edit", { user, adminName: req.user.name, title: "Modifier utilisateur" });
-   }
+   adminUserController.getUserEditForm
 );
 
 // Mise à jour
@@ -66,4 +63,24 @@ adminUserRouter.delete(
    authenticateAdmin,
    isAdmin,
    adminUserController.deleteUser
+);
+adminUserRouter.post(
+   "/admin/user/:userId/book/add",
+   authenticateAdmin,
+   isAdmin,
+   adminUserBookController.addBook
+);
+
+adminUserRouter.post(
+   "/admin/user/:userId/book/:bookId/remove",
+   authenticateAdmin,
+   isAdmin,
+   adminUserBookController.removeBook
+);
+
+adminUserRouter.post(
+   "/admin/user/:userId/book/:bookId/status",
+   authenticateAdmin,
+   isAdmin,
+   adminUserBookController.updateStatus
 );
