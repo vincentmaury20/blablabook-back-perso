@@ -18,14 +18,17 @@
       <% authors.forEach(author => { %>
         <tr>
           <td><%= author.name %></td>
+          <td><%= author.firstname %></td>
           <td><%= author.bio %></td>
           <td>
             <% if (author.books && author.books.length > 0) { %>
               <%= author.books.map(b => b.title).join(", ") %>
-            <% } else { %>
-              Aucun livre
-            <% } %>
-          </td>
+              <% } else { %>
+                Aucun livre
+                <% } %>
+              </td>
+              <td>
+                <%= author.books.map(b => b.genres.map(g => g.name).join(", ")).join(", ") %></td>
           <td>
             <a href="/admin/author/<%= author.id %>" class="btn btn-sm btn-info">Détail</a>
             <a href="/admin/author/<%= author.id %>/edit" class="btn btn-sm btn-warning">Modifier</a>

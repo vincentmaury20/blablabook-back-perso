@@ -3,16 +3,22 @@ import { Author, Book, Genre } from "../../models/index.js";
 export const adminAuthorController = {
    // Liste
    async getAuthors(req, res) {
+      console.log("adminAuthorController.getAuthors called");
       try {
          const authors = await Author.findAll({
             include: [
-               { model: Book, as: "books" },
-               { model: Genre, as: "genres" }
+               {
+                  model: Book,
+                  as: "books",
+                  include: [{ model: Genre, as: "genres" }]
+               }
             ]
          });
+
+         console.log(authors);
          res.render("authors/list", { authors, adminName: req.user.name, title: "Liste des auteurs" });
       } catch (error) {
-         res.status(500).render("error", { error: "Erreur lors de la récupération des auteurs" });
+         res.status(500).send("Erreur serveur");
       }
    },
 
@@ -21,14 +27,17 @@ export const adminAuthorController = {
       try {
          const author = await Author.findByPk(req.params.id, {
             include: [
-               { model: Book, as: "books" },
-               { model: Genre, as: "genres" }
+               {
+                  model: Book,
+                  as: "books",
+                  include: [{ model: Genre, as: "genres" }]
+               }
             ]
          });
-         if (!author) return res.status(404).render("error", { error: "Auteur non trouvé" });
+         if (!author) return res.status(404).send("Auteur non trouvé");
          res.render("authors/detail", { author, adminName: req.user.name, title: "Détail auteur" });
       } catch (error) {
-         res.status(500).render("error", { error: "Erreur serveur" });
+         res.status(500).send("Erreur serveur");
       }
    },
 
@@ -43,18 +52,18 @@ export const adminAuthorController = {
          await Author.create(req.body);
          res.redirect("/admin/authors");
       } catch (error) {
-         res.status(500).render("error", { error: "Erreur lors de la création de l'auteur" });
+         res.status(500).send("Erreur lors de la création de l'auteur");
       }
    },
 
    // Formulaire édition
    async editAuthorForm(req, res) {
       try {
-         const author = await Author.findByPk(req.params.id, { include: ["books", "genres"] });
-         if (!author) return res.status(404).render("error", { error: "Auteur non trouvé" });
+         const author = await Author.findByPk(req.params.id, { include: "books" });
+         if (!author) return res.status(404).send("Auteur non trouvé");
          res.render("authors/edit", { author, adminName: req.user.name, title: "Modifier auteur" });
       } catch (error) {
-         res.status(500).render("error", { error: "Erreur lors du chargement du formulaire d'édition" });
+         res.status(500).send("Erreur lors du chargement du formulaire d'édition");
       }
    },
 
@@ -68,7 +77,7 @@ export const adminAuthorController = {
          await author.update(req.body);
          res.redirect("/admin/authors");
       } catch (error) {
-         res.status(500).render("error", { error: "Erreur lors de la mise à jour de l'auteur" });
+         res.status(500).send("Erreur lors de la mise à jour de l'auteur");
       }
    },
 
@@ -77,12 +86,12 @@ export const adminAuthorController = {
       try {
          const { id } = req.params;
          const author = await Author.findByPk(id);
-         if (!author) return res.status(404).render("error", { error: "Auteur non trouvé" });
+         if (!author) return res.status(404).send("Auteur non trouvé");
 
          await author.destroy();
          res.redirect("/admin/authors");
       } catch (error) {
-         res.status(500).render("error", { error: "Erreur lors de la suppression de l'auteur" });
+         res.status(500).send("Erreur lors de la suppression de l'auteur");
       }
    }
 };
