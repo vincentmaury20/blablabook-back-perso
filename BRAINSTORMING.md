@@ -210,3 +210,32 @@ bookRouter.get('/home', bookController.getRandomBooks);
 1. **Installer et configurer `cookie-parser`** dans le backend Express.
    ```bash
    npm install cookie-parser
+
+
+Pour la suite en tout cas il va falloir que je cravache sévère pour obtenir le titre et faire des codes review
+
+implémenter certtaines routes et aussi voir avec les copains si ils ont des idées pour le coup... et faire des croix sur mes objectifs pour le coup également ^^
+
+dans créer un auteur il faudra renseigner si il faut ...ah il faudrat dynamiser le fait de renseigner un auteur et aussi quel bouquin il  a écrit pour pouvoir prétendre à ce que ce soit vraiment une bonne expérience au niveau du user 
+
+vérifier la création du bouquin également car ce n'est pas vraiment ça qui est ça il faut voir si je passe vraiment les bonnes variables...
+
+ok j'ai essayé quelque  chose au niveau de mes controllers de mes livres mais apparement ça ne fonctionne pas vraiment, avec un peu d'aide et de documentation ça devrait le faire et pourquoi pas en passant par joi... et faire du nettoyage de code de temps en temps ça ne ferait pas de mal
+
+ah oui l'ajout d'un avis sur un livre ce peut être un sacré truc quand même
+
+ah mais je vais essayer de remettre lae champs cover en fait mais il ne suffit pas de mettre le champs cover il y a aussi à traiter du c^té de la méthode create, d'ailleurs ainsi que du cas de l'edit peut-être que l'utilisation de multer va être justifiée tines donc la page de tous les books aussi...ne fonctionne pas
+
+
+ok donc dans la création et peut-être du coup dans l'edit il y aura un souci..... mais je dois m'y remettre peut-être ce soir...
+
+ajout d'un forum simplke pour le mmoment mais pourquoi pas un chat en direct
+
+ajout de balise meta 
+
+ajout de titres clairs
+
+dans l'admin toujours mettre le footer vraiment en bas de la page
+
+
+et puis à la création d'un livre, il faut que ça puisse ajouter un genre et un auteur si il n'existe pas donc vraiment à revoir ^^

@@ -12,7 +12,7 @@ export const adminBookController = {
          });
          res.render("books/list", { books, adminName: req.user.name, title: "Liste des livres" });
       } catch (error) {
-         res.status(500).render("error", { error: "Erreur lors de la récupération des livres" });
+         res.status(500).send("Erreur serveur");
       }
    },
 
@@ -28,7 +28,16 @@ export const adminBookController = {
          if (!book) return res.status(404).render("error", { error: "Livre non trouvé" });
          res.render("books/detail", { book, adminName: req.user.name, title: "Détail du livre" });
       } catch (error) {
-         res.status(500).render("error", { error: "Erreur serveur" });
+         res.status(500).send("Erreur serveur");
+      }
+   },
+   // Création
+   async createBook(req, res) { // mais pour create le book il faut aussi les auteurs, les genres et que tout ça se mette à jour en base , si ça n'existe pas encore
+      try {
+         await Book.create(req.body, { include: ["authors", "genres"] });
+         res.redirect("/admin/books");
+      } catch (error) {
+         res.status(500).send("Erreur serveur");
       }
    },
 
@@ -36,34 +45,25 @@ export const adminBookController = {
    async editBookForm(req, res) {
       try {
          const book = await Book.findByPk(req.params.id, { include: ["authors", "genres"] });
-         if (!book) return res.status(404).render("error", { error: "Livre non trouvé" });
+         if (!book) return res.status(404).send("Livre non trouvé");
          res.render("books/edit", { book, adminName: req.user.name, title: "Modifier livre" });
       } catch (error) {
-         res.status(500).render("error", { error: "Erreur lors du chargement du formulaire d'édition" });
+         res.status(500).send("Erreur serveur");
       }
    },
 
-   // Création
-   async createBook(req, res) {
-      try {
-         await Book.create(req.body);
-         res.redirect("/admin/books");
-      } catch (error) {
-         res.status(500).render("error", { error: "Erreur lors de la création du livre" });
-      }
-   },
 
    // Mise à jour
    async updateBook(req, res) {
       try {
          const { id } = req.params;
          const book = await Book.findByPk(id);
-         if (!book) return res.status(404).render("error", { error: "Livre non trouvé" });
+         if (!book) return res.status(404).send("Livre non trouvé");
 
          await book.update(req.body);
          res.redirect("/admin/books");
       } catch (error) {
-         res.status(500).render("error", { error: "Erreur lors de la mise à jour du livre" });
+         res.status(500).send("Erreur serveur");
       }
    },
 
@@ -72,12 +72,12 @@ export const adminBookController = {
       try {
          const { id } = req.params;
          const book = await Book.findByPk(id);
-         if (!book) return res.status(404).render("error", { error: "Livre non trouvé" });
+         if (!book) return res.status(404).send("Livre non trouvé");
 
          await book.destroy();
          res.redirect("/admin/books");
       } catch (error) {
-         res.status(500).render("error", { error: "Erreur lors de la suppression du livre" });
+         res.status(500).send("Erreur serveur");
       }
    }
 };

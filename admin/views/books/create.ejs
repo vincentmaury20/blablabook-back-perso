@@ -3,7 +3,7 @@
 <div class="container my-4">
   <h1>➕ Ajouter un livre</h1>
 
-  <form action="/admin/book" method="POST">
+  <form action="/admin/book" method="POST" enctype="multipart/form-data" >
     <div class="mb-3">
       <label class="form-label">Titre</label>
       <input type="text" class="form-control" name="title" required>
@@ -15,6 +15,10 @@
     <div class="mb-3">
       <label class="form-label">Genre(s)</label>
       <input type="text" class="form-control" name="genres" placeholder="Séparer par des virgules">
+    </div>
+        <div class="mb-3">
+      <label class="form-label">Couverture</label>
+      <input type="file" class="form-control" name="cover" placeholder="URL de la couverture">
     </div>
     <button type="submit" class="btn btn-primary">Créer</button>
   </form>
