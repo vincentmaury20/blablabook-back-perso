@@ -14,6 +14,7 @@
         <thead>
           <tr>
             <th>Nom</th>
+            <th>Prénom</th>
             <th>Email</th>
             <th>Livres associés</th>
             <th>Actions</th>
@@ -23,6 +24,7 @@
           <% users.forEach(user => { %>
             <tr>
               <td><%= user.name %></td>
+              <td><%= user.firstname %></td>
               <td><%= user.email %></td>
               <td>
                 <% if (user.books && user.books.length > 0) { %>

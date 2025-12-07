@@ -3,17 +3,21 @@
 <div class="container my-4">
   <h1>✏️ Modifier un auteur</h1>
 
-  <form action="/admin/author/<%= author.id %>?_method=PUT" method="POST">
-    <div class="mb-3">
-      <label class="form-label">Nom</label>
-      <input type="text" class="form-control" name="name" value="<%= author.name %>" required>
-    </div>
-    <div class="mb-3">
-      <label class="form-label">Bio</label>
-      <textarea class="form-control" name="bio" rows="4"><%= author.bio %></textarea>
-    </div>
-    <button type="submit" class="btn btn-primary">Mettre à jour</button>
-  </form>
+    <form action="/admin/author/<%= author.id %>?_method=PUT" method="POST">
+      <div class="mb-3">
+        <label class="form-label">Nom</label>
+        <input type="text" class="form-control" name="name" value="<%= author.name %>" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Prénom</label>
+        <input type="text" class="form-control" name="firstName" value="<%= author.firstname %>" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Bio</label>
+        <textarea class="form-control" name="bio" rows="4"><%= author.bio %></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Mettre à jour</button>
+    </form>
 </div>
 
 <%- include("../partials/footer") %>

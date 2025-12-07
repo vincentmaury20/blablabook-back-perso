@@ -214,7 +214,7 @@ bookRouter.get('/home', bookController.getRandomBooks);
 
 Pour la suite en tout cas il va falloir que je cravache sévère pour obtenir le titre et faire des codes review
 
-implémenter certtaines routes et aussi voir avec les copains si ils ont des idées pour le coup... et faire des croix sur mes objectifs pour le coup également ^^
+implémenter certtaines routes et aussi voir avec les copains si ils ont des idées pour le coup... et faire des croix sur mes objectifs également ^^
 
 dans créer un auteur il faudra renseigner si il faut ...ah il faudrat dynamiser le fait de renseigner un auteur et aussi quel bouquin il  a écrit pour pouvoir prétendre à ce que ce soit vraiment une bonne expérience au niveau du user 
 
@@ -239,3 +239,9 @@ dans l'admin toujours mettre le footer vraiment en bas de la page
 
 
 et puis à la création d'un livre, il faut que ça puisse ajouter un genre et un auteur si il n'existe pas donc vraiment à revoir ^^
+
+
+Pour bien résumer :
+Routes utilisateur fonctionnent toutes ok
+Routes auteurs :
+ok tout fonctionne mais il faut ajouter dans le template de création d'un auteur, une section livre et un genre
