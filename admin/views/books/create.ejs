@@ -1,79 +1,91 @@
-<%- include("../partials/header") %>
+<%- include('../partials/header') %>
 
 <div class="container my-4">
-  <h1>➕ Ajouter un livre</h1>
-
+  <h1 class="text-primary">➕ Ajouter un livre</h1>
+  
   <form action="/admin/book" method="POST" enctype="multipart/form-data">
-    <!-- Titre -->
-    <div class="mb-3">
-      <label for="title" class="form-label">Titre</label>
-      <input type="text" id="title" class="form-control" name="title" required>
-    </div>
-
-    <!-- Date de sortie -->
-    <div class="mb-3">
-      <label for="release_date" class="form-label">Date de sortie</label>
-      <input type="date" id="release_date" class="form-control" name="release_date">
-    </div>
-
-    <!-- Auteurs existants -->
-    <div class="mb-3">
-      <label for="authorIds" class="form-label">Auteur(s) existants</label>
-      <select id="authorIds" class="form-select" name="authorIds[]" multiple>
-        <% authors.forEach(a => { %>
-          <option value="<%= a.id %>"><%= a.firstname %> <%= a.name %></option>
-        <% }) %>
-      </select>
-      <small class="form-text text-muted">
-        Maintenez Ctrl (Windows) ou Cmd (Mac) pour sélectionner plusieurs auteurs.
-      </small>
-    </div>
-
-    <!-- Nouvel auteur -->
-    <fieldset class="border p-3 mb-3">
-      <legend class="w-auto">Ajouter un nouvel auteur</legend>
-      <div class="mb-3">
-        <label for="newAuthorFirstname" class="form-label">Prénom</label>
-        <input type="text" id="newAuthorFirstname" class="form-control" name="newAuthorFirstname">
+    
+    <!-- Infos livre -->
+    <div class="card mb-4 border-primary">
+      <div class="card-header bg-primary text-white">Informations du livre</div>
+      <div class="card-body">
+        <!-- Titre -->
+        <div class="mb-3">
+          <label for="title" class="form-label">Titre</label>
+          <input type="text" id="title" class="form-control" name="title" required>
+        </div>
+        <!-- Date -->
+        <div class="mb-3">
+          <label for="release_date" class="form-label">Date de sortie</label>
+          <input type="date" id="release_date" class="form-control" name="release_date">
+        </div>
+        <!-- Synopsis -->
+        <div class="mb-3">
+          <label for="synopsis" class="form-label">Synopsis</label>
+          <textarea id="synopsis" class="form-control" name="synopsis" rows="4"></textarea>
+        </div>
       </div>
-      <div class="mb-3">
-        <label for="newAuthorName" class="form-label">Nom</label>
-        <input type="text" id="newAuthorName" class="form-control" name="newAuthorName">
+    </div>
+    
+    <!-- Auteurs -->
+    <div class="card mb-4 border-info">
+      <div class="card-header bg-info text-white">Auteurs</div>
+      <div class="card-body">
+        <!-- existants -->
+        <div class="mb-3">
+          <label class="form-label">Auteur(s) existants</label>
+          <div class="d-flex flex-wrap">
+            <% authors.forEach(a => { %>
+              <div class="form-check me-3">
+                <input class="form-check-input" type="checkbox" name="authorIds[]" value="<%= a.id %>" id="author_<%= a.id %>">
+                <label class="form-check-label" for="author_<%= a.id %>"><%= a.firstname %> <%= a.name %></label>
+              </div>
+              <% }) %>
+            </div>
+          </div>
+        <!-- nouvel auteur -->
+        <fieldset class="border p-3 mb-3 border-info">
+          <legend class="w-auto text-info">Ajouter un nouvel auteur</legend>
+          <div class="mb-3">
+            <label for="newAuthorFirstname" class="form-label">Prénom</label>
+            <input type="text" id="newAuthorFirstname" class="form-control" name="newAuthorFirstname">
+          </div>
+          <div class="mb-3">
+            <label for="newAuthorName" class="form-label">Nom</label>
+            <input type="text" id="newAuthorName" class="form-control" name="newAuthorName">
+          </div>
+          <div class="mb-3">
+            <label for="newAuthorBio" class="form-label">Bio</label>
+            <textarea id="newAuthorBio" class="form-control" name="newAuthorBio" rows="3"></textarea>
+          </div>
+        </fieldset>
       </div>
-      <div class="mb-3">
-        <label for="newAuthorBio" class="form-label">Bio</label>
-        <textarea id="newAuthorBio" class="form-control" name="newAuthorBio" rows="3"></textarea>
-      </div>
-    </fieldset>
-
+    </div>
+    
     <!-- Genres -->
-    <div class="mb-3">
-      <label for="genreIds" class="form-label">Genre(s)</label>
-      <select id="genreIds" class="form-select" name="genreIds[]" multiple>
-        <% genres.forEach(g => { %>
-          <option value="<%= g.id %>"><%= g.name %></option>
-        <% }) %>
-      </select>
-      <small class="form-text text-muted">Vous pouvez choisir plusieurs genres.</small>
-    </div>
+    <div class="card mb-4 border-warning">
+      <div class="card-header bg-warning text-dark">Genres</div>
+      <div class="card-body">
+        <div class="d-flex flex-wrap">
+          <% genres.forEach(g => { %>
+            <div class="form-check me-3">
+              <input class="form-check-input" type="checkbox" name="genreIds[]" value="<%= g.id %>" id="genre_<%= g.id %>">
+              <label class="form-check-label" for="genre_<%= g.id %>"><%= g.name %></label>
+            </div>
+            <% }) %>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Couverture -->
+      <div class="card mb-4 border-secondary">
+        <div class="card-header bg-secondary text-white">Couverture</div>
+        <div class="card-body">
+          <input type="file" id="cover" class="form-control" name="cover">
+        </div>
+      </div>
 
-    <!-- Couverture -->
-    <div class="mb-3">
-      <label for="cover" class="form-label">Couverture</label>
-      <input type="file" id="cover" class="form-control" name="cover">
-    </div>
-
-    <!-- Synopsis -->
-    <div class="mb-3">
-      <label for="synopsis" class="form-label">Synopsis</label>
-      <textarea id="synopsis" class="form-control" name="synopsis" rows="4"></textarea>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Créer</button>
-  </form>
-</div>
-
-<%- include("../partials/footer") %>
-
-Lorem ipsum dolor sit amet consectetur, adipisicing elit. Totam, expedita amet. Totam ipsa quis sit ab officiis! Veniam saepe voluptatem quidem, nobis nemo doloremque, dignissimos laboriosam, voluptates facilis quae excepturi? Lorem ipsum dolor sit amet consectetur, adipisicing elit. Obcaecati magni quo aperiam, accusamus, perferendis sint placeat magnam suscipit voluptatum ea officia eligendi non, nihil debitis quas tenetur atque consectetur saepe?
-Ratione, aperiam similique. Delectus itaque quam suscipit ipsa. Placeat excepturi quidem quae unde facilis expedita eum corrupti commodi, et explicabo dolorum non veritatis nobis perferendis, necessitatibus dolor magnam quaerat molestias?
+      <button type="submit" class="btn btn-success w-100">🚀 Créer le livre</button>
+    </form>
+  </div>
+  <%- include('../partials/footer') %>

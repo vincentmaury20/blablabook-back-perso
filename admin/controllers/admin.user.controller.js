@@ -95,7 +95,9 @@ export const adminUserController = {
             books = [books]; // transforme '19' en ['19']
          }
          req.body.books = books;
-
+         // if (req.body.bookIds) {
+         //    await user.setBooks(req.body.bookIds); // met à jour la relation UserBook
+         // }
          // Validation des données
          const data = Joi.attempt(req.body, updateUserSchema);
 

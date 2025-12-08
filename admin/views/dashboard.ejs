@@ -32,7 +32,6 @@
             <li class="nav-item"><a class="nav-link" href="/admin/books">📚 Livres</a></li>
             <li class="nav-item"><a class="nav-link" href="/admin/authors">✍️ Auteurs</a></li>
             <li class="nav-item"><a class="nav-link" href="/admin/">📊 Dashboard</a></li>
-            <li class="nav-item"><a class="nav-link" href="/admin/genres">🎭 Genres</a></li>
           </ul>
         </div>
       </nav>
@@ -40,11 +39,11 @@
       <!-- Main content -->
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <h1 class="mt-4">Tableau de bord</h1>
-        <p>Bienvenue, <%= adminName %> !</p>
+        <p>Bienvenue, <%= adminName %>!</p>
 
         <!-- Cards de stats -->
         <div class="row my-4">
-          <div class="col-md-3">
+          <div class="col-md-4">
             <div class="card text-center">
               <div class="card-body">
                 <h5 class="card-title">👤 Utilisateurs</h5>
@@ -52,7 +51,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-4">
             <div class="card text-center">
               <div class="card-body">
                 <h5 class="card-title">📚 Livres</h5>
@@ -60,19 +59,11 @@
               </div>
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-4">
             <div class="card text-center">
               <div class="card-body">
                 <h5 class="card-title">✍️ Auteurs</h5>
                 <p class="card-text"><%= stats.authors %></p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="card text-center">
-              <div class="card-body">
-                <h5 class="card-title">🎭 Genres</h5>
-                <p class="card-text"><%= stats.genres %></p>
               </div>
             </div>
           </div>

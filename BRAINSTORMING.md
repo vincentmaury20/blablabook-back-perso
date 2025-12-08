@@ -276,3 +276,14 @@ Parfait Vincent 👌, voici une **roadmap claire et recentrée** pour ton projet
 - **Étape 4** : ajouter un forum basique pour les améliorations et échanges entre utilisateurs.  
 
 ---
+🧹 Checklist avant refactor
+- [x] Créer une branche dédiée : refactor/admin-simplification.
+- [x] Commit de sauvegarde : chore: sauvegarde avant tri et simplification admin.
+- [x] Supprimer les formulaires séparés (auteurs, genres).
+- [ ] Mettre en place le formulaire complet de création de livre (titre, date, synopsis, cover, auteurs inline, genres inline).
+- [ ] Corriger les chemins des covers → /uploads/books/images/....
+- [ ] Il faut gérer le fait que dans la page admin/user/id/edit on clique sur mettre à jour et ça vide la bibliothèque
+- [ ] Centraliser l’API_URL dans .env (VITE_API_URL=http://localhost:3000).
+- [ ] Mettre à jour le front pour utiliser ${API_URL}${book.cover} et ${API_URL}${user.avatar}.
+- [ ] Tester : créer un livre complet depuis l’admin et vérifier affichage côté front.
+- [ ] Nettoyer la base : supprimer les données incohérentes ou recréer les livres via l’admin.

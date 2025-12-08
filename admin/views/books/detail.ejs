@@ -19,6 +19,20 @@
         Aucun genre
       <% } %>
     </li>
+    <li class="list-group-item"><strong>Synopsis :</strong>
+      <% if (book.synopsis && book.synopsis.length > 0) { %>
+        <%= book.synopsis %>
+      <% } else { %>
+        Aucun synopsis
+      <% } %>
+    </li>
+    <li class="list-group-item"><strong>Date de sortie :</strong>
+      <% if (book.formattedDate && book.formattedDate.length > 0) { %>
+        <%= book.formattedDate %>
+      <% } else { %>
+        Aucune date de sortie
+      <% } %>
+    </li>
   </ul>
 
   <a href="/admin/book/<%= book.id %>/edit" class="btn btn-warning">Modifier</a>

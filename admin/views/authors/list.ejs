@@ -3,7 +3,7 @@
 <div class="container my-4">
   <h1>📋 Liste des auteurs</h1>
 
-  <a href="/admin/author/create" class="btn btn-primary mb-3">Créer un auteur</a>
+  <a href="/admin" class="btn btn-primary mb-3">Retour au dashboard</a>
 
   <table class="table table-striped">
     <thead>
@@ -30,13 +30,7 @@
               </td>
               <td>
                 <%= author.books.map(b => b.genres.map(g => g.name).join(", ")).join(", ") %></td>
-          <td>
-            <a href="/admin/author/<%= author.id %>" class="btn btn-sm btn-info">Détail</a>
-            <a href="/admin/author/<%= author.id %>/edit" class="btn btn-sm btn-warning">Modifier</a>
-            <form action="/admin/author/<%= author.id %>?_method=DELETE" method="POST" style="display:inline;">
-              <button type="submit" class="btn btn-sm btn-danger">Supprimer</button>
-            </form>
-          </td>
+
         </tr>
       <% }) %>
     </tbody>

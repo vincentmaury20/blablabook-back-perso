@@ -13,6 +13,10 @@
       <input type="text" class="form-control" name="authors" value="<%= book.authors.map(a => a.name).join(', ') %>">
     </div>
     <div class="mb-3">
+      <label class="form-label">Synopsis</label>
+      <input type="text" class="form-control" name="synopsis" value="<%= book.synopsis %>">
+    </div>
+    <div class="mb-3">
       <label class="form-label">Genre(s)</label>
       <input type="text" class="form-control" name="genres" value="<%= book.genres.map(g => g.name).join(', ') %>">
     </div>
