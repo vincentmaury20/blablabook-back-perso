@@ -63,14 +63,14 @@ export const adminBookController = {
             newAuthorFirstname,
             newAuthorBio
          } = req.body;
-
          // 1) Créer le livre avec la couverture
          const book = await Book.create({
             title,
             release_date,
             synopsis,
-            cover: req.file ? `/uploads/${req.file.filename}` : null
+            cover: req.file ? `/uploads/books/images/${req.file.filename}` : null
          });
+         console.log(req.file);
 
          // 2) Associer des auteurs existants
          if (authorIds) {

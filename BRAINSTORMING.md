@@ -212,36 +212,67 @@ bookRouter.get('/home', bookController.getRandomBooks);
    npm install cookie-parser
 
 
-Pour la suite en tout cas il va falloir que je cravache sévère pour obtenir le titre et faire des codes review
+Je vais me concentrer sur une autre manière de faire qui serait tout simplement de centraliser le fait de créer un bouquin, et les users,
+les autres entités ne seront que secondaires comme genres et auteurs (tout de même avec la possibilité de créer un auteur ou autrice) 
+ce qui me fait penser qu'il y aura du tri à faire en tout cas ... ça engendre bien des modifications pour le coup :
 
-implémenter certtaines routes et aussi voir avec les copains si ils ont des idées pour le coup... et faire des croix sur mes objectifs également ^^
+Parfait Vincent 👌, voici une **roadmap claire et recentrée** pour ton projet BlaBlaBook. L’idée est de garder l’essentiel, simplifier l’admin, et poser les bases pour le forum en amélioration future.
 
-dans créer un auteur il faudra renseigner si il faut ...ah il faudrat dynamiser le fait de renseigner un auteur et aussi quel bouquin il  a écrit pour pouvoir prétendre à ce que ce soit vraiment une bonne expérience au niveau du user 
+---
 
-vérifier la création du bouquin également car ce n'est pas vraiment ça qui est ça il faut voir si je passe vraiment les bonnes variables...
+## 🛠️ Roadmap des modifications
 
-ok j'ai essayé quelque  chose au niveau de mes controllers de mes livres mais apparement ça ne fonctionne pas vraiment, avec un peu d'aide et de documentation ça devrait le faire et pourquoi pas en passant par joi... et faire du nettoyage de code de temps en temps ça ne ferait pas de mal
+### 1. **Recentrage du back admin**
+- **À garder** :
+  - Création complète des livres (titre, date, synopsis, couverture).
+  - Gestion des utilisateurs (auth, profils, avatars).
+  - Booklist (ajout/retrait, statut “à lire / lu”).
+- **À simplifier** :
+  - Pas de formulaires séparés pour auteurs/genres → intégration directe dans le formulaire de livre.
+  - Admin centré uniquement sur **livres + users**.
 
-ah oui l'ajout d'un avis sur un livre ce peut être un sacré truc quand même
+---
 
-ah mais je vais essayer de remettre lae champs cover en fait mais il ne suffit pas de mettre le champs cover il y a aussi à traiter du c^té de la méthode create, d'ailleurs ainsi que du cas de l'edit peut-être que l'utilisation de multer va être justifiée tines donc la page de tous les books aussi...ne fonctionne pas
+### 2. **Formulaire complet de création de livre**
+- Champs : titre, date, synopsis, couverture.
+- Sélecteur d’auteurs existants + possibilité d’ajouter un nouvel auteur inline (nom, prénom, bio).
+- Sélecteur de genres existants + possibilité d’ajouter un nouveau genre inline.
+- Contrôleur Express qui gère tout en une requête :
+  - Crée le livre.
+  - Associe auteurs/genres existants.
+  - Crée les nouveaux auteurs/genres si renseignés.
 
+---
 
-ok donc dans la création et peut-être du coup dans l'edit il y aura un souci..... mais je dois m'y remettre peut-être ce soir...
+### 3. **Front SvelteKit**
+- Centraliser l’`API_URL` via `.env` (`VITE_API_URL=http://localhost:3000`).
+- Utiliser `${API_URL}${book.cover}` pour les images (comme pour les avatars).
+- Pages principales :
+  - Catalogue (liste des livres).
+  - Détail d’un livre (infos + actions booklist).
+  - Profil utilisateur (infos + booklist).
+  - Admin (formulaire complet de création de livre).
 
-ajout d'un forum simplke pour le mmoment mais pourquoi pas un chat en direct
+---
 
-ajout de balise meta 
+### 4. **Forum (phase 2, amélioration)**
+- Tables :
+  - `posts` (id, titre, contenu, auteur, date).
+  - `comments` (id, contenu, auteur, date, postId).
+- Routes API :
+  - `GET /forum/posts` → liste des posts.
+  - `POST /forum/posts` → créer un post.
+  - `POST /forum/posts/:id/comments` → ajouter un commentaire.
+- Front :
+  - Page “Forum” → liste des posts + possibilité de commenter.
+- Simple CRUD au départ, chat temps réel (Socket.IO) en option plus tard.
 
-ajout de titres clairs
+---
 
-dans l'admin toujours mettre le footer vraiment en bas de la page
+## 🎯 Résumé
+- **Étape 1** : simplifier l’admin → focus sur livres + users.  
+- **Étape 2** : mettre en place le formulaire complet de création de livre avec inline auteurs/genres.  
+- **Étape 3** : harmoniser le front (API_URL, affichage images, pages principales).  
+- **Étape 4** : ajouter un forum basique pour les améliorations et échanges entre utilisateurs.  
 
-
-et puis à la création d'un livre, il faut que ça puisse ajouter un genre et un auteur si il n'existe pas donc vraiment à revoir ^^
-
-
-Pour bien résumer :
-Routes utilisateur fonctionnent toutes ok
-Routes auteurs :
-ok tout fonctionne mais il faut ajouter dans le template de création d'un auteur, une section livre et un genre
+---

@@ -2,9 +2,7 @@ import { Router } from "express";
 import { adminBookController } from "../controllers/admin.book.controller.js";
 import { authenticateAdmin } from "../middlewares/authenticateAdmin.middleware.js";
 import { isAdmin } from "../middlewares/isAdmin.middleware.js";
-import multer from "multer";
-
-const upload = multer({ dest: "uploads/" });
+import upload from "../../middlewares/uploadCover.middleware.js";
 export const adminBookRouter = Router();
 
 adminBookRouter.get("/admin/books", authenticateAdmin, isAdmin, adminBookController.getBooks);
