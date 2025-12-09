@@ -287,3 +287,12 @@ Parfait Vincent 👌, voici une **roadmap claire et recentrée** pour ton projet
 - [ ] Mettre à jour le front pour utiliser ${API_URL}${book.cover} et ${API_URL}${user.avatar}.
 - [ ] Tester : créer un livre complet depuis l’admin et vérifier affichage côté front.
 - [ ] Nettoyer la base : supprimer les données incohérentes ou recréer les livres via l’admin.
+
+
+aujourd'hui je rempli les cases, il y a un controleur que je n'ai pas importé dans les index: le "adminUserBookController" alors qu'il est tout à fait utilisable dans mon projet. 
+
+gérer la méthode pour le formulaire de création d'un user dans le controleur et changer dans le routeur l'appelle à cette méthode createUserForm
+
+Ok le bouton mettre à jour est maintenant géré et ne fait  plus de la mersde donc c'est plutôt cool car je commençais à en avoir plus que marre....
+
+Ok pour les users et leurs books c'est tout bon youpi tralala

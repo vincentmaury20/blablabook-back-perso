@@ -57,6 +57,8 @@ export const adminUserController = {
       }
    },
 
+
+
    // Création d’un utilisateur
    async createUser(req, res) {
       try {
@@ -105,8 +107,6 @@ export const adminUserController = {
          if (books) {
             const bookIds = books.map(Number);
             await user.setBooks(bookIds);
-         } else {
-            await user.setBooks([]);
          }
 
          // Mise à jour des champs simples

@@ -64,23 +64,3 @@ adminUserRouter.delete(
    isAdmin,
    adminUserController.deleteUser
 );
-adminUserRouter.post(
-   "/admin/user/:userId/book/add",
-   authenticateAdmin,
-   isAdmin,
-   adminUserBookController.addBook
-);
-
-adminUserRouter.post(
-   "/admin/user/:userId/book/:bookId/remove",
-   authenticateAdmin,
-   isAdmin,
-   adminUserBookController.removeBook
-);
-
-adminUserRouter.post(
-   "/admin/user/:userId/book/:bookId/status",
-   authenticateAdmin,
-   isAdmin,
-   adminUserBookController.updateStatus
-);

@@ -44,14 +44,16 @@
 
       <!-- Ajouter un livre -->
       <h3>➕ Ajouter un livre</h3>
-        <form action="/admin/user/<%= user.id %>/book/add" method="POST">
-          <select name="bookId" class="form-select">
-            <% books.forEach(book => { %>
-              <option value="<%= book.id %>"><%= book.title %></option>
-            <% }) %>
-          </select>
-          <button type="submit" class="btn btn-primary">Associer</button>
-        </form>
+      <!-- ⚠️ Ici il faut coller à ta route: /admin/user/:userId/book/:bookId -->
+      <!-- Donc on met bookId dans l'URL, pas dans le body -->
+      <form action="/admin/user/<%= user.id %>/book/<%= books[0]?.id %>/add" method="POST">
+        <select name="bookId" class="form-select" onchange="this.form.action='/admin/user/<%= user.id %>/book/' + this.value + '/add'">
+          <% books.forEach(book => { %>
+            <option value="<%= book.id %>"><%= book.title %></option>
+          <% }) %>
+        </select>
+        <button type="submit" class="btn btn-primary">Associer</button>
+      </form>
 
       <!-- Navigation -->
       <div class="mt-4">
