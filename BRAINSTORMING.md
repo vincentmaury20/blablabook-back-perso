@@ -279,6 +279,7 @@ Parfait Vincent 👌, voici une **roadmap claire et recentrée** pour ton projet
 🧹 Checklist avant refactor
 - [x] Créer une branche dédiée : refactor/admin-simplification.
 - [x] Commit de sauvegarde : chore: sauvegarde avant tri et simplification admin.
+- [x] Gérer l'association des livres par chaque user etc (crud).
 - [x] Supprimer les formulaires séparés (auteurs, genres).
 - [ ] Mettre en place le formulaire complet de création de livre (titre, date, synopsis, cover, auteurs inline, genres inline).
 - [ ] Corriger les chemins des covers → /uploads/books/images/....
@@ -296,3 +297,16 @@ gérer la méthode pour le formulaire de création d'un user dans le controleur 
 Ok le bouton mettre à jour est maintenant géré et ne fait  plus de la mersde donc c'est plutôt cool car je commençais à en avoir plus que marre....
 
 Ok pour les users et leurs books c'est tout bon youpi tralala
+
+
+En s'attaquant au big morceau du formulaire, lors de la modification des différents champs... seul le titre est modifiable et non le reste.. je vais voir vers les controlleurs car je pense que c'est là qu'il y a un souci notemment vers le req.params voir si ce n'est pas plutît dans le body, que se cache une inconhérence
+la suppression fonctionne modif juste pour le titre 
+page détail ok
+et list ok
+maintenant la création???? ou d'abord la petite erreur subtil de changement qui ne se fait pas??
+
+allez d'accord d'abord la petite erreur subtil de changement qui ne se fait pas
+Le souci venait du fait que j'envoyais les noms au lieu des IDs pour les relations, et que req.body n’était pas correctement alimenté sans Multer → une fois corrigé, tout fonctionne.
+
+
+petit commit 

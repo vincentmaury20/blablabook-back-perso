@@ -151,16 +151,31 @@ export const adminBookController = {
          if (!book) return res.status(404).send("Livre non trouvé");
 
          const updateData = {
-            ...req.body,
-            cover: req.file ? `/uploads/${req.file.filename}` : book.cover
+            title: req.body.title,
+            release_date: req.body.release_date,
+            synopsis: req.body.synopsis,
+            cover: req.file ? `/uploads/books/images/${req.file.filename}` : book.cover
          };
 
          await book.update(updateData);
+
+         if (req.body.authors) {
+            const authorIds = Array.isArray(req.body.authors) ? req.body.authors : [req.body.authors];
+            await book.setAuthors(authorIds.map(Number));
+         }
+
+         if (req.body.genres) {
+            const genreIds = Array.isArray(req.body.genres) ? req.body.genres : [req.body.genres];
+            await book.setGenres(genreIds.map(Number));
+         }
+
          res.redirect("/admin/books");
       } catch (error) {
+         console.error("Erreur updateBook:", error);
          res.status(500).send("Erreur serveur");
       }
-   },
+   }
+   ,
 
    // Suppression
    async deleteBook(req, res) {
