@@ -38,8 +38,9 @@ app.get("/read-cookie", (req, res) => {
 });
 app.use(methodOverride("_method"));
 
-app.use('/uploads', express.static('uploads'));
-app.use('/uploads/books/images', express.static('uploads/books/images'));
+// app.use('/uploads', express.static('uploads'));
+// app.use('/uploads/books/images', express.static('uploads/books/images'));
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 app.use(publicRouter);
 app.use(adminRouters);

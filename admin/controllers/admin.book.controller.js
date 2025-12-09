@@ -101,7 +101,7 @@ export const adminBookController = {
             title,
             release_date,
             synopsis,
-            cover: req.file ? `/uploads/books/images/${req.file.filename}` : null
+            cover: req.file ? `http://localhost:3000/uploads/books/images/${req.file.filename}` : null
          });
          console.log("Livre créé avec ID:", book.id);
 

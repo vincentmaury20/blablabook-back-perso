@@ -5,12 +5,18 @@ import path from 'path';
 // Définir le stockage
 const storage = multer.diskStorage({
    destination: (req, file, cb) => {
-      cb(null, 'uploads/books/images/'); // dossier où les fichiers seront enregistrés
+      // Rendre le chemin absolu pour garantir la stabilité
+      const destinationPath = path.join(process.cwd(), 'uploads', 'books', 'images');
+      console.log("MULTER VA ÉCRIRE ICI :", destinationPath);
+
+
+      cb(null, destinationPath);
    },
    filename: (req, file, cb) => {
       const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
       const ext = path.extname(file.originalname);
-      cb(null, file.fieldname + '-' + uniqueSuffix + ext);
+      // Utiliser le nom de fichier directement (req.file.filename contiendra ça)
+      cb(null, `cover-${uniqueSuffix}${ext}`);
    }
 });
 

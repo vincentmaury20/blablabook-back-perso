@@ -281,12 +281,12 @@ Parfait Vincent 👌, voici une **roadmap claire et recentrée** pour ton projet
 - [x] Commit de sauvegarde : chore: sauvegarde avant tri et simplification admin.
 - [x] Gérer l'association des livres par chaque user etc (crud).
 - [x] Supprimer les formulaires séparés (auteurs, genres).
-- [ ] Mettre en place le formulaire complet de création de livre (titre, date, synopsis, cover, auteurs inline, genres inline).
-- [ ] Corriger les chemins des covers → /uploads/books/images/....
-- [ ] Il faut gérer le fait que dans la page admin/user/id/edit on clique sur mettre à jour et ça vide la bibliothèque
+- [x] Mettre en place le formulaire complet de création de livre (titre, date, synopsis, cover, auteurs inline, genres inline).
+- [x] Il faut gérer le fait que dans la page admin/user/id/edit on clique sur mettre à jour et ça vide la bibliothèque
+- [x] Corriger les chemins des covers → /uploads/books/images/....
+- [x] Tester : créer un livre complet depuis l’admin et vérifier affichage côté front.
 - [ ] Centraliser l’API_URL dans .env (VITE_API_URL=http://localhost:3000).
 - [ ] Mettre à jour le front pour utiliser ${API_URL}${book.cover} et ${API_URL}${user.avatar}.
-- [ ] Tester : créer un livre complet depuis l’admin et vérifier affichage côté front.
 - [ ] Nettoyer la base : supprimer les données incohérentes ou recréer les livres via l’admin.
 
 
@@ -317,3 +317,8 @@ mais la création ne fonctionne pas ...
 - Le bug venait du mismatch entre les noms des champs (authors[] vs authorIds) et de l’absence de Multer sur la route.
 - Tu as corrigé le formulaire et la route (upload.single("cover")).
 - Résultat : req.body et req.file sont bien alimentés, et les associations fonctionnent.
+ok donc je voudrais maintenant voir si tout s'affiche du côté front
+je note maintenant mais il faudra faire un nettoyage au niveau des logs.... et des commentaires bien entendu
+
+
+punaise un des final goals que je m'étais fixé vient de se concrétiser.... enfin quand je crée un bouquin dans le back je peux l'afficher dans le front et ça c'est cool, j'ai dû finalement configurer dans le vite config que le server back était à l'url qui était definie dans le back et les fetch fonctionnent du coup ttrop cool mais il me reste à pouvoir créer un nouveau auteur ou autruce dans le formulaire de création de bouqin
