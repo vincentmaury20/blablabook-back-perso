@@ -75,6 +75,10 @@ export const adminBookController = {
    // Création (POST)
    async createBook(req, res) {
       try {
+         console.log("=== createBook appelé ===");
+         console.log("req.body brut:", req.body);
+         console.log("req.file:", req.file);
+
          const {
             title,
             release_date,
@@ -85,23 +89,30 @@ export const adminBookController = {
             newAuthorFirstname,
             newAuthorBio
          } = req.body;
-         // 1) Créer le livre avec la couverture
+
+         console.log("title:", title);
+         console.log("release_date:", release_date);
+         console.log("synopsis:", synopsis);
+         console.log("authorIds:", authorIds);
+         console.log("genreIds:", genreIds);
+         console.log("newAuthorName:", newAuthorName, "newAuthorFirstname:", newAuthorFirstname);
+
          const book = await Book.create({
             title,
             release_date,
             synopsis,
             cover: req.file ? `/uploads/books/images/${req.file.filename}` : null
          });
-         console.log(req.file);
+         console.log("Livre créé avec ID:", book.id);
 
-         // 2) Associer des auteurs existants
          if (authorIds) {
             const ids = Array.isArray(authorIds) ? authorIds : [authorIds];
-            await book.addAuthors(ids);
+            console.log("Association auteurs existants:", ids);
+            await book.addAuthors(ids.map(Number));
          }
 
-         // 3) Créer un nouvel auteur si renseigné
          if (newAuthorName && newAuthorFirstname) {
+            console.log("Création nouvel auteur:", newAuthorFirstname, newAuthorName);
             const [newAuthor] = await Author.findOrCreate({
                where: { name: newAuthorName, firstname: newAuthorFirstname },
                defaults: { bio: newAuthorBio || "" }
@@ -109,15 +120,15 @@ export const adminBookController = {
             await book.addAuthor(newAuthor);
          }
 
-         // 4) Associer des genres
          if (genreIds) {
             const ids = Array.isArray(genreIds) ? genreIds : [genreIds];
-            await book.addGenres(ids);
+            console.log("Association genres:", ids);
+            await book.addGenres(ids.map(Number));
          }
 
          res.redirect("/admin/books");
       } catch (error) {
-         console.error(error);
+         console.error("Erreur createBook:", error);
          res.status(500).send("Erreur lors de la création du livre");
       }
    },
@@ -146,9 +157,17 @@ export const adminBookController = {
    // Mise à jour (PUT)
    async updateBook(req, res) {
       try {
+         console.log("=== updateBook appelé ===");
+         console.log("req.params:", req.params);
+         console.log("req.body brut:", req.body);
+         console.log("req.file:", req.file);
+
          const { id } = req.params;
          const book = await Book.findByPk(id);
-         if (!book) return res.status(404).send("Livre non trouvé");
+         if (!book) {
+            console.log("Livre non trouvé pour ID:", id);
+            return res.status(404).send("Livre non trouvé");
+         }
 
          const updateData = {
             title: req.body.title,
@@ -156,16 +175,20 @@ export const adminBookController = {
             synopsis: req.body.synopsis,
             cover: req.file ? `/uploads/books/images/${req.file.filename}` : book.cover
          };
+         console.log("updateData:", updateData);
 
          await book.update(updateData);
+         console.log("Livre mis à jour:", book.id);
 
          if (req.body.authors) {
             const authorIds = Array.isArray(req.body.authors) ? req.body.authors : [req.body.authors];
+            console.log("Mise à jour auteurs:", authorIds);
             await book.setAuthors(authorIds.map(Number));
          }
 
          if (req.body.genres) {
             const genreIds = Array.isArray(req.body.genres) ? req.body.genres : [req.body.genres];
+            console.log("Mise à jour genres:", genreIds);
             await book.setGenres(genreIds.map(Number));
          }
 

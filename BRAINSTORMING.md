@@ -310,3 +310,10 @@ Le souci venait du fait que j'envoyais les noms au lieu des IDs pour les relatio
 
 
 petit commit 
+
+maintenant la création de ce petit formulaire de création de bouquin
+La page ajouter donc 'create' un livre fonctionne déjà 
+mais la création ne fonctionne pas ...
+- Le bug venait du mismatch entre les noms des champs (authors[] vs authorIds) et de l’absence de Multer sur la route.
+- Tu as corrigé le formulaire et la route (upload.single("cover")).
+- Résultat : req.body et req.file sont bien alimentés, et les associations fonctionnent.

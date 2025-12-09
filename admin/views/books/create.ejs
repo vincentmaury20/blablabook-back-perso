@@ -3,7 +3,7 @@
 <div class="container my-4">
   <h1>📖 Créer un nouveau livre</h1>
 
-  <form action="/admin/books" method="POST" enctype="multipart/form-data">
+  <form action="/admin/book" method="POST" enctype="multipart/form-data">
     <!-- Titre -->
     <div class="mb-3">
       <label class="form-label">Titre</label>
@@ -31,18 +31,19 @@
     <!-- Auteurs inline -->
     <div class="mb-3">
       <label class="form-label">Auteurs</label>
-      <select name="authors[]" class="form-select" multiple>
+      <select name="authorIds" class="form-select" multiple>
         <% authors.forEach(author => { %>
           <option value="<%= author.id %>"><%= author.name %></option>
         <% }) %>
       </select>
+
       <small class="text-muted">Maintenir Ctrl (ou Cmd) pour sélectionner plusieurs auteurs</small>
     </div>
 
     <!-- Genres inline -->
     <div class="mb-3">
       <label class="form-label">Genres</label>
-      <select name="genres[]" class="form-select" multiple>
+      <select name="genreIds" class="form-select" multiple>
         <% genres.forEach(genre => { %>
           <option value="<%= genre.id %>"><%= genre.name %></option>
         <% }) %>
@@ -56,3 +57,9 @@
 </div>
 
 <%- include("../partials/footer") %>
+
+
+
+Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam autem error, nulla aspernatur ipsum sunt, a modi nam unde, natus debitis minima deleniti sint molestiae vel omnis. Earum, minus sit?
+Dicta quod praesentium itaque modi, ullam doloremque corporis voluptates? Laboriosam quaerat delectus sequi perspiciatis, a quos expedita natus voluptatem, pariatur dicta possimus, mollitia amet enim corporis ducimus! Cupiditate, deserunt consequatur.
+Amet, fuga culpa dolore possimus ipsa velit molestias illum illo eos reiciendis laudantium accusamus, commodi aperiam saepe quos inventore, cumque tenetur perferendis facilis debitis rem quaerat! Quas, eum? Modi, omnis.
