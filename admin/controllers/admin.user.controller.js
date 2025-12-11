@@ -25,7 +25,6 @@ export const adminUserController = {
    },
 
    // Détail d’un utilisateur
-   // Détail d’un utilisateur
    async getUserById(req, res) {
       try {
          const user = await User.findByPk(req.params.id, {
@@ -55,6 +54,9 @@ export const adminUserController = {
          console.error("Erreur getUserById:", error);
          res.status(500).send("Erreur serveur");
       }
+   },
+   async createUserForm(req, res) {
+      res.render("users/create", { adminName: req.user.name, title: "Créer un utilisateur" });
    },
 
 

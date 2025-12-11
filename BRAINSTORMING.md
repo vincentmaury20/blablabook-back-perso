@@ -322,3 +322,18 @@ je note maintenant mais il faudra faire un nettoyage au niveau des logs.... et d
 
 
 punaise un des final goals que je m'étais fixé vient de se concrétiser.... enfin quand je crée un bouquin dans le back je peux l'afficher dans le front et ça c'est cool, j'ai dû finalement configurer dans le vite config que le server back était à l'url qui était definie dans le back et les fetch fonctionnent du coup ttrop cool mais il me reste à pouvoir créer un nouveau auteur ou autruce dans le formulaire de création de bouqin
+
+
+maintenant il s'agit d'avoir la possibilité de créer un auteur pour le mettre en base et pouvoir par la création d'un bouquin le selectionner pour lui attribuer :
+
+par rapport au model, je crée son schema → authorSchema
+Je l'importe dans l'index des schemas
+ensuite je vais m'occuper de rajouter les méthodes dans le controlleur dédié 
+
+1 méthode pour :
+
+formulaire de création
+création et mise en bdd
+suppression
+edition également
+les controlleurs sont faits mais j'en reste là pour le moment
