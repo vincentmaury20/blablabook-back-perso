@@ -3,7 +3,8 @@ import Joi from "joi";
 import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
 import { loginSchema } from "../schemas/login.schema.js";
-import { userSchema } from "../schemas/user.schema.js";
+import path from 'path';
+import fs from 'fs/promises';
 import { registerUserSchema } from "../schemas/registerUser.schema.js";
 
 export const userAuthentificationController = {
@@ -124,4 +125,35 @@ export const userAuthentificationController = {
       res.status(500).json({ error: "Erreur serveur" });
     }
   },
+  async updateUserAvatar(req, res) {
+    try {
+      // req.user doit être attaché par ton middleware authenticate
+      const userId = req.user?.id;
+      if (!userId) return res.status(401).json({ error: 'Non authentifié' });
+
+      if (!req.file) return res.status(400).json({ error: 'Fichier manquant' });
+
+      const user = await User.findByPk(userId);
+      if (!user) return res.status(404).json({ error: 'Utilisateur non trouvé' });
+
+      // Optionnel : supprimer l'ancien avatar du disque
+      if (user.avatar) {
+        try {
+          await fs.unlink(path.join(process.cwd(), user.avatar)).catch(() => null);
+        } catch (e) {
+          console.warn('Suppression ancien avatar échouée', e);
+        }
+      }
+
+      // Construire le chemin relatif stocké en DB (compatible express.static('/uploads'))
+      const avatarPath = path.join('uploads', 'avatars', req.file.filename).replace(/\\/g, '/');
+      user.avatar = avatarPath;
+      await user.save();
+
+      return res.status(200).json({ avatar: avatarPath });
+    } catch (error) {
+      console.error('updateUserAvatar error:', error);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+  }
 };

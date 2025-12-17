@@ -85,8 +85,8 @@ Back :
 🥸🤓🧐 Tâches à faire :  
 - ❎ Gestion des authentifications : Argon2 + JWT  
 - ❎ Sécuriser contre les injections XML  
--  Finaliser les avatars et les images de bouquins  
--  Compléter la liste des routes et des tests
+- ❎Finaliser les avatars et les images de bouquins  
+- ❎ Compléter la liste des routes et des tests
 
 🤯 Difficultés :  
 - La fatigue ......
@@ -136,13 +136,13 @@ J'ai recentré l’admin sur **livres** et **users**, corrigé l’upload et le 
 
 ## Ce qu’il me reste à faire
 - **Avatar utilisateur**
-  - [ ] Ajouter une route backend + Multer pour l’upload d’avatar.  
-  - [ ] Mettre à jour le front profil : upload, preview, envoi et affichage via `${API_URL}${user.avatar}`.  
+  - [❎ ] Ajouter une route backend + Multer pour l’upload d’avatar.  
+  - [❎ ] Mettre à jour le front profil : upload, preview, envoi et affichage via `${API_URL}${user.avatar}`.  
 - **Changement de mot de passe**
   - [ ] Créer un formulaire sécurisé (ancien mot de passe, nouveau, confirmation).  
   - [ ] Implémenter l’endpoint backend `POST /users/:id/password` avec validation et hashage.  
 - **Centralisation API_URL**
-  - [ ] Ajouter `VITE_API_URL=http://localhost:3000` dans `.env`.  
+  - [❎] Ajouter `VITE_API_URL=http://localhost:3000` dans `.env`.  
   - [ ] Mettre à jour le front pour utiliser `${API_URL}${book.cover}` et `${API_URL}${user.avatar}`.  
 - **Création inline d’auteur et de genre**
   - [ ] Ajouter le formulaire inline dans create book (créer l’auteur/genre avant la création du livre).  
@@ -178,5 +178,40 @@ J'ai recentré l’admin sur **livres** et **users**, corrigé l’upload et le 
 - Route avatar exemple : `POST /users/:id/avatar` → `upload.single('avatar')` → sauvegarder le chemin en DB.  
 - Flow changement de mot de passe : vérifier `oldPassword`, valider `newPassword`, hasher (bcrypt), sauvegarder.  
 - Flow création livre avec auteur inline : si `newAuthor` présent → POST `/admin/authors` → récupérer `id` → POST `/admin/books` avec `authorIds`.
-
+- Flow changement de mot de passe : vérifier `oldPassword`, valider `newPassword`, hasher (bcrypt), sauvegarder.  
+- Ajouter un bouton dans l'admin de retour vers le site front
+- Pouvoir mettre à jour les auteurs dans l'admin  
+- Pouvoir supprimer les auteurs dans l'admin  
 ---
+
+Ok alors faisons dans l'ordre :
+
+L'avatar d'abord ❎
+
+# Résumé des actions
+
+## Problèmes identifiés
+- **Interpolation littérale** des URLs : utilisation de `'${API_URL}/...'` au lieu de `` `${API_URL}/...` ``, provoquant des requêtes vers `/$%7BAPI_URL%7D/...`.  
+- **Import invalide dans la config Vite** : tentative d’importer `$lib/config.js` dans `vite.config.js`, impossible côté Node.  
+- **Parsing JSON sur page HTML** : `res.json()` échouait quand l’API renvoyait une page d’erreur (HTML).
+
+## Corrections appliquées
+- **Centralisation de l’URL** : création de `src/lib/config.js` exportant `API_URL` depuis `PUBLIC_API_URL` ou valeur par défaut.  
+- **Fetch corrigés** : remplacement de tous les `fetch('http://localhost:3000/...')` par ``fetch(`${API_URL}/...`)`` (avec backticks).  
+- **Config Vite** : utilisation de `process.env.PUBLIC_API_URL || 'http://localhost:3000'` dans `vite.config.js` pour le proxy.  
+- **Robustesse** : ajout recommandé de vérifications `if (!res.ok)` avant `res.json()`.
+
+## Fichiers modifiés
+- **Nouveaux**  
+  - `src/lib/config.js`  
+  - `.env.example`  
+- **Modifiés**  
+  - `src/routes/connexion/+page.svelte`  
+  - `src/routes/+page.js`  
+  - `src/routes/catalogue/+page.js`  
+  - `src/routes/livre/[id]/+page.js`  
+  - `src/routes/livre/[id]/+page.svelte`  
+  - `src/routes/ma-booklist/+page.svelte`  
+  - `src/routes/mon-compte/+page.svelte`  
+  - `src/routes/motdepasse-oublie/+page.svelte`  
+  - `vite.config.js`

@@ -1,4 +1,4 @@
-import { Book, Author, Genre, User } from '../models/index.js';
+import { User } from '../models/index.js';
 import Joi from "joi";
 import { userSchema } from '../schemas/user.schema.js';
 
