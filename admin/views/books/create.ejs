@@ -1,79 +1,59 @@
 <%- include("../partials/header") %>
 
 <div class="container my-4">
-  <h1>➕ Ajouter un livre</h1>
+  <h1>📖 Créer un nouveau livre</h1>
 
   <form action="/admin/book" method="POST" enctype="multipart/form-data">
     <!-- Titre -->
     <div class="mb-3">
-      <label for="title" class="form-label">Titre</label>
-      <input type="text" id="title" class="form-control" name="title" required>
+      <label class="form-label">Titre</label>
+      <input type="text" class="form-control" name="title" required>
     </div>
 
     <!-- Date de sortie -->
     <div class="mb-3">
-      <label for="release_date" class="form-label">Date de sortie</label>
-      <input type="date" id="release_date" class="form-control" name="release_date">
-    </div>
-
-    <!-- Auteurs existants -->
-    <div class="mb-3">
-      <label for="authorIds" class="form-label">Auteur(s) existants</label>
-      <select id="authorIds" class="form-select" name="authorIds[]" multiple>
-        <% authors.forEach(a => { %>
-          <option value="<%= a.id %>"><%= a.firstname %> <%= a.name %></option>
-        <% }) %>
-      </select>
-      <small class="form-text text-muted">
-        Maintenez Ctrl (Windows) ou Cmd (Mac) pour sélectionner plusieurs auteurs.
-      </small>
-    </div>
-
-    <!-- Nouvel auteur -->
-    <fieldset class="border p-3 mb-3">
-      <legend class="w-auto">Ajouter un nouvel auteur</legend>
-      <div class="mb-3">
-        <label for="newAuthorFirstname" class="form-label">Prénom</label>
-        <input type="text" id="newAuthorFirstname" class="form-control" name="newAuthorFirstname">
-      </div>
-      <div class="mb-3">
-        <label for="newAuthorName" class="form-label">Nom</label>
-        <input type="text" id="newAuthorName" class="form-control" name="newAuthorName">
-      </div>
-      <div class="mb-3">
-        <label for="newAuthorBio" class="form-label">Bio</label>
-        <textarea id="newAuthorBio" class="form-control" name="newAuthorBio" rows="3"></textarea>
-      </div>
-    </fieldset>
-
-    <!-- Genres -->
-    <div class="mb-3">
-      <label for="genreIds" class="form-label">Genre(s)</label>
-      <select id="genreIds" class="form-select" name="genreIds[]" multiple>
-        <% genres.forEach(g => { %>
-          <option value="<%= g.id %>"><%= g.name %></option>
-        <% }) %>
-      </select>
-      <small class="form-text text-muted">Vous pouvez choisir plusieurs genres.</small>
-    </div>
-
-    <!-- Couverture -->
-    <div class="mb-3">
-      <label for="cover" class="form-label">Couverture</label>
-      <input type="file" id="cover" class="form-control" name="cover">
+      <label class="form-label">Date de sortie</label>
+      <input type="date" class="form-control" name="release_date">
     </div>
 
     <!-- Synopsis -->
     <div class="mb-3">
-      <label for="synopsis" class="form-label">Synopsis</label>
-      <textarea id="synopsis" class="form-control" name="synopsis" rows="4"></textarea>
+      <label class="form-label">Synopsis</label>
+      <textarea class="form-control" name="synopsis" rows="4"></textarea>
     </div>
 
-    <button type="submit" class="btn btn-primary">Créer</button>
+    <!-- Cover -->
+    <div class="mb-3">
+      <label class="form-label">Couverture</label>
+      <input type="file" class="form-control" name="cover" accept="image/*">
+    </div>
+
+    <!-- Auteurs inline -->
+    <div class="mb-3">
+      <label class="form-label">Auteurs</label>
+      <select name="authorIds" class="form-select" multiple>
+        <% authors.forEach(author => { %>
+          <option value="<%= author.id %>"> <%= author.name %> <%= author.firstname %> </option>
+        <% }) %>
+      </select>
+
+      <small class="text-muted">Maintenir Ctrl (ou Cmd) pour sélectionner plusieurs auteurs</small>
+    </div>
+
+    <!-- Genres inline -->
+    <div class="mb-3">
+      <label class="form-label">Genres</label>
+      <select name="genreIds" class="form-select" multiple>
+        <% genres.forEach(genre => { %>
+          <option value="<%= genre.id %>"><%= genre.name %></option>
+        <% }) %>
+      </select>
+    </div>
+
+    <!-- Bouton -->
+    <button type="submit" class="btn btn-success">Créer le livre</button>
+    <a href="/admin/books" class="btn btn-secondary">Annuler</a>
   </form>
 </div>
 
 <%- include("../partials/footer") %>
-
-Lorem ipsum dolor sit amet consectetur, adipisicing elit. Totam, expedita amet. Totam ipsa quis sit ab officiis! Veniam saepe voluptatem quidem, nobis nemo doloremque, dignissimos laboriosam, voluptates facilis quae excepturi? Lorem ipsum dolor sit amet consectetur, adipisicing elit. Obcaecati magni quo aperiam, accusamus, perferendis sint placeat magnam suscipit voluptatum ea officia eligendi non, nihil debitis quas tenetur atque consectetur saepe?
-Ratione, aperiam similique. Delectus itaque quam suscipit ipsa. Placeat excepturi quidem quae unde facilis expedita eum corrupti commodi, et explicabo dolorum non veritatis nobis perferendis, necessitatibus dolor magnam quaerat molestias?

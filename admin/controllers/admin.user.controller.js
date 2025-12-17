@@ -25,7 +25,6 @@ export const adminUserController = {
    },
 
    // Détail d’un utilisateur
-   // Détail d’un utilisateur
    async getUserById(req, res) {
       try {
          const user = await User.findByPk(req.params.id, {
@@ -56,6 +55,11 @@ export const adminUserController = {
          res.status(500).send("Erreur serveur");
       }
    },
+   async createUserForm(req, res) {
+      res.render("users/create", { adminName: req.user.name, title: "Créer un utilisateur" });
+   },
+
+
 
    // Création d’un utilisateur
    async createUser(req, res) {
@@ -95,7 +99,9 @@ export const adminUserController = {
             books = [books]; // transforme '19' en ['19']
          }
          req.body.books = books;
-
+         // if (req.body.bookIds) {
+         //    await user.setBooks(req.body.bookIds); // met à jour la relation UserBook
+         // }
          // Validation des données
          const data = Joi.attempt(req.body, updateUserSchema);
 
@@ -103,8 +109,6 @@ export const adminUserController = {
          if (books) {
             const bookIds = books.map(Number);
             await user.setBooks(bookIds);
-         } else {
-            await user.setBooks([]);
          }
 
          // Mise à jour des champs simples

@@ -3,19 +3,54 @@
 <div class="container my-4">
   <h1>✏️ Modifier un livre</h1>
 
-  <form action="/admin/book/<%= book.id %>?_method=PUT" method="POST">
+  <form action="/admin/book/<%= book.id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+    <!-- Titre -->
     <div class="mb-3">
       <label class="form-label">Titre</label>
       <input type="text" class="form-control" name="title" value="<%= book.title %>" required>
     </div>
+
+    <!-- Auteurs -->
     <div class="mb-3">
       <label class="form-label">Auteur(s)</label>
-      <input type="text" class="form-control" name="authors" value="<%= book.authors.map(a => a.name).join(', ') %>">
+      <select name="authors[]" class="form-select" multiple>
+        <% authors.forEach(author => { %>
+          <option value="<%= author.id %>" <%= book.authors.some(a => a.id === author.id) ? "selected" : "" %>>
+            <%= author.name %>
+          </option>
+        <% }) %>
+      </select>
+      <small class="text-muted">Maintenir Ctrl (ou Cmd) pour sélectionner plusieurs auteurs</small>
     </div>
+
+    <!-- Synopsis -->
+    <div class="mb-3">
+      <label class="form-label">Synopsis</label>
+      <textarea class="form-control" name="synopsis" rows="4"><%= book.synopsis %></textarea>
+    </div>
+
+    <!-- Genres -->
     <div class="mb-3">
       <label class="form-label">Genre(s)</label>
-      <input type="text" class="form-control" name="genres" value="<%= book.genres.map(g => g.name).join(', ') %>">
+      <select name="genres[]" class="form-select" multiple>
+        <% genres.forEach(genre => { %>
+          <option value="<%= genre.id %>" <%= book.genres.some(g => g.id === genre.id) ? "selected" : "" %>>
+            <%= genre.name %>
+          </option>
+        <% }) %>
+      </select>
     </div>
+
+    <!-- Cover -->
+    <div class="mb-3">
+      <label class="form-label">Couverture</label>
+      <input type="file" class="form-control" name="cover" accept="image/*">
+      <% if (book.cover) { %>
+        <p class="mt-2">Image actuelle : <img src="<%= book.cover %>" alt="cover" style="max-height:100px;"></p>
+      <% } %>
+    </div>
+
+    <!-- Bouton -->
     <button type="submit" class="btn btn-primary">Mettre à jour</button>
   </form>
 </div>

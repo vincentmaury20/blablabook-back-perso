@@ -2,10 +2,14 @@ import { User, Book, UserBook } from "../../models/index.js";
 
 export const adminUserBookController = {
    // Ajouter un livre à un utilisateur
-   async addBook(req, res) {
+   async addBookToUser(req, res) {
       try {
-         const { userId } = req.params;
-         const { bookId, toRead = false } = req.body; // ✅ bookId vient du body
+         const { userId, bookId } = req.params; // ✅ bookId vient de l'URL
+         const { toRead = false } = req.body;
+
+         console.log("userId reçu:", userId);
+         console.log("bookId reçu:", bookId);
+         console.log("toRead reçu:", toRead);
 
          const user = await User.findByPk(userId);
          if (!user) return res.status(404).json({ error: "Utilisateur non trouvé" });
@@ -28,7 +32,7 @@ export const adminUserBookController = {
    },
 
    // Retirer un livre
-   async removeBook(req, res) {
+   async removeBookToUser(req, res) {
       try {
          const { userId, bookId } = req.params;
 
@@ -45,7 +49,7 @@ export const adminUserBookController = {
    },
 
    // Mettre à jour le statut de lecture
-   async updateStatus(req, res) {
+   async updateStatusToUser(req, res) {
       try {
          const { userId, bookId } = req.params;
          const { toRead } = req.body;

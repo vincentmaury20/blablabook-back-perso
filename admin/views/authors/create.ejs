@@ -3,52 +3,26 @@
 <div class="container my-4">
   <h1>➕ Ajouter un auteur</h1>
 
-  <form action="/admin/author" method="POST">
-    <!-- Nom -->
+  <form action="/admin/author" method="POST" class="mt-4">
     <div class="mb-3">
-      <label class="form-label">Nom</label>
-      <input type="text" class="form-control" name="name" required>
+      <label for="name" class="form-label"><strong>Nom</strong></label>
+      <input type="text" class="form-control" id="name" name="name" required placeholder="Ex: Martin">
     </div>
 
-    <!-- Prénom -->
     <div class="mb-3">
-      <label class="form-label">Prénom</label>
-      <input type="text" class="form-control" name="firstName" required>
+      <label for="firstname" class="form-label"><strong>Prénom</strong></label>
+      <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Ex: George">
     </div>
 
-    <!-- Bio -->
     <div class="mb-3">
-      <label class="form-label">Bio</label>
-      <textarea class="form-control" name="bio" rows="4"></textarea>
+      <label for="bio" class="form-label"><strong>Bio</strong></label>
+      <textarea class="form-control" id="bio" name="bio" rows="4" placeholder="Décrivez cet auteur..."></textarea>
     </div>
 
-    <!-- Livre(s) -->
-    <div class="mb-3">
-      <label class="form-label">Livre(s)</label>
-      <select class="form-select" name="bookIds[]" multiple>
-        <% books.forEach(b => { %>
-          <option value="<%= b.id %>"><%= b.title %></option>
-        <% }) %>
-      </select>
-      <small class="form-text text-muted">
-        Maintenez Ctrl (Windows) ou Cmd (Mac) pour sélectionner plusieurs livres.
-      </small>
+    <div class="d-flex gap-2">
+      <button type="submit" class="btn btn-success">Créer l'auteur</button>
+      <a href="/admin/authors" class="btn btn-secondary">Annuler</a>
     </div>
-
-    <!-- Genre(s) -->
-    <div class="mb-3">
-      <label class="form-label">Genre(s)</label>
-      <select class="form-select" name="genreIds[]" multiple>
-        <% genres.forEach(g => { %>
-          <option value="<%= g.id %>"><%= g.name %></option>
-        <% }) %>
-      </select>
-      <small class="form-text text-muted">
-        Vous pouvez choisir plusieurs genres.
-      </small>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Ajouter</button>
   </form>
 </div>
 

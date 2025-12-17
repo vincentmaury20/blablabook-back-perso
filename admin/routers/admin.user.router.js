@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { adminUserController } from "../controllers/admin.user.controller.js";
-import { adminUserBookController } from "../controllers/admin.user.book.controller.js";
 import { authenticateAdmin } from "../middlewares/authenticateAdmin.middleware.js";
 import { isAdmin } from "../middlewares/isAdmin.middleware.js";
 
@@ -20,9 +19,7 @@ adminUserRouter.get(
    "/admin/user/create",
    authenticateAdmin,
    isAdmin,
-   (req, res) => {
-      res.render("users/create", { adminName: req.user.name, title: "Créer un utilisateur" });
-   }
+   adminUserController.createUserForm
 );
 
 // Création
@@ -63,24 +60,4 @@ adminUserRouter.delete(
    authenticateAdmin,
    isAdmin,
    adminUserController.deleteUser
-);
-adminUserRouter.post(
-   "/admin/user/:userId/book/add",
-   authenticateAdmin,
-   isAdmin,
-   adminUserBookController.addBook
-);
-
-adminUserRouter.post(
-   "/admin/user/:userId/book/:bookId/remove",
-   authenticateAdmin,
-   isAdmin,
-   adminUserBookController.removeBook
-);
-
-adminUserRouter.post(
-   "/admin/user/:userId/book/:bookId/status",
-   authenticateAdmin,
-   isAdmin,
-   adminUserBookController.updateStatus
 );

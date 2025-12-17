@@ -4,11 +4,12 @@ import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
 import { loginSchema } from "../schemas/login.schema.js";
 import { userSchema } from "../schemas/user.schema.js";
+import { registerUserSchema } from "../schemas/registerUser.schema.js";
 
 export const userAuthentificationController = {
   async register(req, res) {
     try {
-      const { name, email, password, firstname, age } = Joi.attempt(req.body, userSchema);
+      const { name, email, password, firstname, age } = Joi.attempt(req.body, registerUserSchema);
 
       const isUserExists = await User.findOne({
         where: { email }
