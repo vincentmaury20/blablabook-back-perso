@@ -33,7 +33,7 @@
       <label class="form-label">Auteurs</label>
       <select name="authorIds" class="form-select" multiple>
         <% authors.forEach(author => { %>
-          <option value="<%= author.id %>"><%= author.name %></option>
+          <option value="<%= author.id %>"> <%= author.name %> <%= author.firstname %> </option>
         <% }) %>
       </select>
 

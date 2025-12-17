@@ -116,224 +116,67 @@ bookRouter.get('/home', bookController.getRandomBooks);
 
 # 🎯 Projet Blablabook – Focus Admin (Back Office dédié)
 
----
+# Roadmap et notes de brainstorming
 
-## 📁 Organisation des dossiers
-- Création d’un dossier `admin/` pour centraliser :
-  - `controllers/` → logique métier admin
-  - `routers/` → routes protégées `/admin/...`
-  - `middlewares/` → `isAdmin.js`, `authenticate.js`
-  - `views/` → templates EJS pour l’interface admin
-  - `utils/prototypes/` → maquettes HTML brutes
+## Résumé rapide
+J'ai recentré l’admin sur **livres** et **users**, corrigé l’upload et le service des covers (Multer + `express.static`), résolu le mismatch champs/IDs pour les relations, ajouté `upload.single("cover")` sur la route de création et configuré le front (proxy Vite / API_URL) pour afficher les covers depuis le backend. La création d’un livre dans le back s’affiche désormais dans le front ; le CRUD livres (liste, détail, suppression) fonctionne ; le bouton “mettre à jour” est réparé.
 
 ---
 
-## 📅 Objectifs à tenir jusqu’à dimanche
-- [x] Créer l’arborescence complète du dossier `admin/`
-- [x] Poser les fichiers vides avec `// TODO` dans `controllers`, `routers`, `middlewares`
-- [x] Créer les maquettes HTML statiques : `dashboard.html`, `users.html`, `books.html`
-- [ ] Préparer les routes Express admin (`/admin/dashboard`, `/admin/users`, etc.)
-- [x] Mettre en place les middlewares `authenticate` et `isAdmin`
-- [x] Tester une route simple qui rend une vue EJS (ex: `dashboard.ejs`)
+## Ce que j’ai déjà fait
+- **Uploads et static** : Multer écrit dans `uploads/books/images` et Express sert `/uploads`.  
+- **Affichage front** : images accessibles via `http://localhost:3000/uploads/...` et proxy Vite configuré.  
+- **Formulaire création livre** : page create existante ; route corrigée pour alimenter `req.body` et `req.file`.  
+- **Relations auteurs et genres** : envoi d’IDs corrigé ; associations fonctionnelles.  
+- **CRUD livres** : liste, détail, suppression OK.  
+- **Admin simplifié** : branche `refactor/admin-simplification`, commits de sauvegarde, suppression des formulaires séparés.  
+- **Bugs résolus** : mismatch `authors[]` vs `authorIds`, absence de Multer sur la route, envoi de noms au lieu d’IDs.
 
 ---
 
-## 📅 Objectifs semaine suivante
-- [ ] Convertir les maquettes HTML en templates EJS
-- [ ] Créer `layout.ejs` + `partials` (`header`, `footer`)
-- [ ] Injecter les données dynamiques dans les vues admin
-- [ ] Définir l’URL officielle du back office (ex: `/admin`)
+## Ce qu’il me reste à faire
+- **Avatar utilisateur**
+  - [ ] Ajouter une route backend + Multer pour l’upload d’avatar.  
+  - [ ] Mettre à jour le front profil : upload, preview, envoi et affichage via `${API_URL}${user.avatar}`.  
+- **Changement de mot de passe**
+  - [ ] Créer un formulaire sécurisé (ancien mot de passe, nouveau, confirmation).  
+  - [ ] Implémenter l’endpoint backend `POST /users/:id/password` avec validation et hashage.  
+- **Centralisation API_URL**
+  - [ ] Ajouter `VITE_API_URL=http://localhost:3000` dans `.env`.  
+  - [ ] Mettre à jour le front pour utiliser `${API_URL}${book.cover}` et `${API_URL}${user.avatar}`.  
+- **Création inline d’auteur et de genre**
+  - [ ] Ajouter le formulaire inline dans create book (créer l’auteur/genre avant la création du livre).  
+  - [ ] Finaliser les endpoints CRUD pour authors et genres.  
+- **Gestion des erreurs**
+  - [ ] Ajouter un middleware global d’erreurs côté Express.  
+  - [ ] Créer des templates pages d’erreur (404, 500, validation).  
+- **Forum et chat (phase 2)**
+  - [ ] Implémenter CRUD posts/comments.  
+  - [ ] Étudier Socket.IO pour un chat temps réel.  
+- **Nettoyage**
+  - [ ] Purger logs et commentaires temporaires.  
+  - [ ] Nettoyer la base des données incohérentes.
 
 ---
 
-## 📅 Objectifs semaine suivante (documentation)
-- [ ] Rédiger la documentation des routes admin
-- [ ] Ajouter des exemples Postman
-- [ ] Documenter la logique MVC et la séparation FO/BO
-- [ ] Tester des outils de génération automatique de doc (Swagger, apidoc)
+## Priorités immédiates
+1. **Centraliser `VITE_API_URL`** et remplacer les URLs hardcodées dans le front.  
+2. **Ajouter l’upload d’avatar** : route backend + Multer + champ profil.  
+3. **Finaliser la création inline d’auteur** : endpoint POST `/admin/authors` et logique create book pour créer l’auteur si nécessaire puis créer le livre.
 
 ---
 
-## 🎨 Maquettes et vues
-- Maquettes HTML pour valider l’interface admin
-- Conversion en EJS avec injection dynamique
-- Factorisation avec `layout.ejs` et `partials`
+## Bonnes pratiques et workflow
+- Lancer **backend + frontend** en parallèle (ou via `concurrently`).  
+- Tester chaque étape manuellement : vérifier `req.body`, `req.file`, puis affichage front.  
+- Faire des commits atomiques et une branche par feature.  
+- Nettoyer logs et commentaires avant merge.
 
 ---
 
-## 🔐 Sécurité et middlewares
-- Middleware `authenticate` pour vérifier l’identité
-- Middleware `isAdmin` pour restreindre l’accès
-- Vérification des inputs
-- Optionnel : logs/audit des actions admin
+## Notes rapides pour implémentation
+- Route avatar exemple : `POST /users/:id/avatar` → `upload.single('avatar')` → sauvegarder le chemin en DB.  
+- Flow changement de mot de passe : vérifier `oldPassword`, valider `newPassword`, hasher (bcrypt), sauvegarder.  
+- Flow création livre avec auteur inline : si `newAuthor` présent → POST `/admin/authors` → récupérer `id` → POST `/admin/books` avec `authorIds`.
 
 ---
-
-## ⚙️ Fonctionnalités admin à développer
-- **Gestion des utilisateurs** :
-  - CRUD complet
-  - Visualisation des bibliothèques perso
-- **Gestion des bibliothèques perso** :
-  - Ajout/suppression de livres
-  - Modification du statut
-- **Gestion du catalogue global** :
-  - Injection de livres en BDD
-  - Suppression/modification
-- **Dashboard admin** :
-  - Statistiques clés
-
----
-
-## 📚 Documentation
-- Routes admin
-- Schémas de données
-- Logique MVC
-- Mise à jour du `BRAINSTORMING.md`
-
----
-
-## 🎤 Démo pour le jury
-- Maquette HTML statique → interface admin
-- Version EJS dynamique → données injectées
-- Route Express → vue rendue
-- Séparation claire FO (SvelteKit) / BO (admin)
-
-
-## 🔐 Gestion par Cookie (sécurité renforcée)
-
-### Objectifs
-- Remplacer l’usage du JWT en query string par un **cookie HTTPOnly** pour l’espace admin.
-- Éviter que le token soit visible dans l’URL.
-- Séparer la logique front (SvelteKit) et back office (EJS/Express).
-
-### Étapes
-1. **Installer et configurer `cookie-parser`** dans le backend Express.
-   ```bash
-   npm install cookie-parser
-
-
-Je vais me concentrer sur une autre manière de faire qui serait tout simplement de centraliser le fait de créer un bouquin, et les users,
-les autres entités ne seront que secondaires comme genres et auteurs (tout de même avec la possibilité de créer un auteur ou autrice) 
-ce qui me fait penser qu'il y aura du tri à faire en tout cas ... ça engendre bien des modifications pour le coup :
-
-Parfait Vincent 👌, voici une **roadmap claire et recentrée** pour ton projet BlaBlaBook. L’idée est de garder l’essentiel, simplifier l’admin, et poser les bases pour le forum en amélioration future.
-
----
-
-## 🛠️ Roadmap des modifications
-
-### 1. **Recentrage du back admin**
-- **À garder** :
-  - Création complète des livres (titre, date, synopsis, couverture).
-  - Gestion des utilisateurs (auth, profils, avatars).
-  - Booklist (ajout/retrait, statut “à lire / lu”).
-- **À simplifier** :
-  - Pas de formulaires séparés pour auteurs/genres → intégration directe dans le formulaire de livre.
-  - Admin centré uniquement sur **livres + users**.
-
----
-
-### 2. **Formulaire complet de création de livre**
-- Champs : titre, date, synopsis, couverture.
-- Sélecteur d’auteurs existants + possibilité d’ajouter un nouvel auteur inline (nom, prénom, bio).
-- Sélecteur de genres existants + possibilité d’ajouter un nouveau genre inline.
-- Contrôleur Express qui gère tout en une requête :
-  - Crée le livre.
-  - Associe auteurs/genres existants.
-  - Crée les nouveaux auteurs/genres si renseignés.
-
----
-
-### 3. **Front SvelteKit**
-- Centraliser l’`API_URL` via `.env` (`VITE_API_URL=http://localhost:3000`).
-- Utiliser `${API_URL}${book.cover}` pour les images (comme pour les avatars).
-- Pages principales :
-  - Catalogue (liste des livres).
-  - Détail d’un livre (infos + actions booklist).
-  - Profil utilisateur (infos + booklist).
-  - Admin (formulaire complet de création de livre).
-
----
-
-### 4. **Forum (phase 2, amélioration)**
-- Tables :
-  - `posts` (id, titre, contenu, auteur, date).
-  - `comments` (id, contenu, auteur, date, postId).
-- Routes API :
-  - `GET /forum/posts` → liste des posts.
-  - `POST /forum/posts` → créer un post.
-  - `POST /forum/posts/:id/comments` → ajouter un commentaire.
-- Front :
-  - Page “Forum” → liste des posts + possibilité de commenter.
-- Simple CRUD au départ, chat temps réel (Socket.IO) en option plus tard.
-
----
-
-## 🎯 Résumé
-- **Étape 1** : simplifier l’admin → focus sur livres + users.  
-- **Étape 2** : mettre en place le formulaire complet de création de livre avec inline auteurs/genres.  
-- **Étape 3** : harmoniser le front (API_URL, affichage images, pages principales).  
-- **Étape 4** : ajouter un forum basique pour les améliorations et échanges entre utilisateurs.  
-
----
-🧹 Checklist avant refactor
-- [x] Créer une branche dédiée : refactor/admin-simplification.
-- [x] Commit de sauvegarde : chore: sauvegarde avant tri et simplification admin.
-- [x] Gérer l'association des livres par chaque user etc (crud).
-- [x] Supprimer les formulaires séparés (auteurs, genres).
-- [x] Mettre en place le formulaire complet de création de livre (titre, date, synopsis, cover, auteurs inline, genres inline).
-- [x] Il faut gérer le fait que dans la page admin/user/id/edit on clique sur mettre à jour et ça vide la bibliothèque
-- [x] Corriger les chemins des covers → /uploads/books/images/....
-- [x] Tester : créer un livre complet depuis l’admin et vérifier affichage côté front.
-- [ ] Centraliser l’API_URL dans .env (VITE_API_URL=http://localhost:3000).
-- [ ] Mettre à jour le front pour utiliser ${API_URL}${book.cover} et ${API_URL}${user.avatar}.
-- [ ] Nettoyer la base : supprimer les données incohérentes ou recréer les livres via l’admin.
-
-
-aujourd'hui je rempli les cases, il y a un controleur que je n'ai pas importé dans les index: le "adminUserBookController" alors qu'il est tout à fait utilisable dans mon projet. 
-
-gérer la méthode pour le formulaire de création d'un user dans le controleur et changer dans le routeur l'appelle à cette méthode createUserForm
-
-Ok le bouton mettre à jour est maintenant géré et ne fait  plus de la mersde donc c'est plutôt cool car je commençais à en avoir plus que marre....
-
-Ok pour les users et leurs books c'est tout bon youpi tralala
-
-
-En s'attaquant au big morceau du formulaire, lors de la modification des différents champs... seul le titre est modifiable et non le reste.. je vais voir vers les controlleurs car je pense que c'est là qu'il y a un souci notemment vers le req.params voir si ce n'est pas plutît dans le body, que se cache une inconhérence
-la suppression fonctionne modif juste pour le titre 
-page détail ok
-et list ok
-maintenant la création???? ou d'abord la petite erreur subtil de changement qui ne se fait pas??
-
-allez d'accord d'abord la petite erreur subtil de changement qui ne se fait pas
-Le souci venait du fait que j'envoyais les noms au lieu des IDs pour les relations, et que req.body n’était pas correctement alimenté sans Multer → une fois corrigé, tout fonctionne.
-
-
-petit commit 
-
-maintenant la création de ce petit formulaire de création de bouquin
-La page ajouter donc 'create' un livre fonctionne déjà 
-mais la création ne fonctionne pas ...
-- Le bug venait du mismatch entre les noms des champs (authors[] vs authorIds) et de l’absence de Multer sur la route.
-- Tu as corrigé le formulaire et la route (upload.single("cover")).
-- Résultat : req.body et req.file sont bien alimentés, et les associations fonctionnent.
-ok donc je voudrais maintenant voir si tout s'affiche du côté front
-je note maintenant mais il faudra faire un nettoyage au niveau des logs.... et des commentaires bien entendu
-
-
-punaise un des final goals que je m'étais fixé vient de se concrétiser.... enfin quand je crée un bouquin dans le back je peux l'afficher dans le front et ça c'est cool, j'ai dû finalement configurer dans le vite config que le server back était à l'url qui était definie dans le back et les fetch fonctionnent du coup ttrop cool mais il me reste à pouvoir créer un nouveau auteur ou autruce dans le formulaire de création de bouqin
-
-
-maintenant il s'agit d'avoir la possibilité de créer un auteur pour le mettre en base et pouvoir par la création d'un bouquin le selectionner pour lui attribuer :
-
-par rapport au model, je crée son schema → authorSchema
-Je l'importe dans l'index des schemas
-ensuite je vais m'occuper de rajouter les méthodes dans le controlleur dédié 
-
-1 méthode pour :
-
-formulaire de création
-création et mise en bdd
-suppression
-edition également
-les controlleurs sont faits mais j'en reste là pour le moment

@@ -19,7 +19,7 @@ export const adminAuthorController = {
          res.render("authors/list", {
             authors,
             adminName: req.user.name,
-            title: "Liste des auteurs"
+            title: "Liste des auteurs" // pourquoi doit-on renseigner du title ici ?
          });
       } catch (error) {
          console.error(error);
