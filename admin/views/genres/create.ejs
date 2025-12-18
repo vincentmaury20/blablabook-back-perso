@@ -1,0 +1,28 @@
+<%- include("../partials/header") %>
+
+<div class="container my-4">
+  <h1>➕ Ajouter un genre</h1>
+
+  <form action="/admin/genres/create" method="POST" class="mt-4">
+
+    <div class="mb-3">
+      <label for="name" class="form-label"><strong>Nom du genre</strong></label>
+      <input 
+        type="text" 
+        class="form-control" 
+        id="name" 
+        name="name" 
+        required 
+        placeholder="Ex : Fantasy"
+      >
+    </div>
+
+    <div class="d-flex gap-2">
+      <button type="submit" class="btn btn-success">Créer le genre</button>
+      <a href="/admin/genres" class="btn btn-secondary">Annuler</a>
+    </div>
+
+  </form>
+</div>
+
+<%- include("../partials/footer") %>

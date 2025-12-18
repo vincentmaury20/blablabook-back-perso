@@ -4,32 +4,26 @@
 
   <!-- Titre + actions -->
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="fw-bold"><i class="bi bi-list-ul"></i> Liste des utilisateurs</h1>
-    <a href="/admin/user/create" class="btn btn-success">
-      ➕ Créer un utilisateur
+    <h1 class="fw-bold"><i class="bi bi-list-ul"></i> Liste des Genres</h1>
+    <a href="/admin/genres/create" class="btn btn-success">
+      ➕ Ajouter un genre
     </a>
   </div>
 
   <!-- Barre d'outils -->
   <div class="card shadow-sm mb-4">
     <div class="card-body d-flex justify-content-between align-items-center">
-
       <a href="/admin" class="btn btn-outline-primary">
         ⬅️ Retour au dashboard
       </a>
 
-      <form class="d-flex" method="GET" action="/admin/users" style="max-width: 300px;">
-        <input 
-          class="form-control form-control-sm me-2" 
-          type="search" 
-          placeholder="Rechercher..." 
-          aria-label="Search" 
-          name="search"
-          value="<%= search || '' %>"
-        >
+      <form class="d-flex" method="GET" action="/admin/genres" style="max-width: 300px;">
+        <input class="form-control form-control-sm me-2" type="search"
+               placeholder="Rechercher ..."
+               name="search"
+               value="<%= search || '' %>">
         <button class="btn btn-sm btn-outline-secondary" type="submit">OK</button>
       </form>
-
     </div>
   </div>
 
@@ -41,25 +35,20 @@
         <thead class="table-dark">
           <tr>
             <th>Nom</th>
-            <th>Prénom</th>
-            <th>Email</th>
             <th>Livres associés</th>
             <th class="text-center">Actions</th>
           </tr>
         </thead>
 
         <tbody>
-          <% users.forEach(user => { %>
+          <% genres.forEach(genre => { %>
             <tr>
+              <td class="fw-semibold"><%= genre.name %></td>
 
-              <td class="fw-semibold"><%= user.name %></td>
-              <td><%= user.firstname %></td>
-              <td class="text-muted"><%= user.email %></td>
-
-              <!-- Livres -->
+              <!-- Livres associés -->
               <td>
-                <% if (user.books && user.books.length > 0) { %>
-                  <%= user.books.map(b => b.title).join(", ") %>
+                <% if (genre.books && genre.books.length > 0) { %>
+                  <%= genre.books.length %> livre(s)
                 <% } else { %>
                   <span class="text-muted">Aucun</span>
                 <% } %>
@@ -70,21 +59,21 @@
                 <div class="btn-group" role="group">
 
                   <!-- Voir -->
-                  <a href="/admin/user/<%= user.id %>"
+                  <a href="/admin/genres/<%= genre.id %>"
                      class="btn btn-sm btn-outline-info">
                     👁️
                   </a>
 
                   <!-- Modifier -->
-                  <a href="/admin/user/<%= user.id %>/edit"
+                  <a href="/admin/genres/<%= genre.id %>/edit"
                      class="btn btn-sm btn-outline-warning">
                     ✏️
                   </a>
 
                   <!-- Supprimer -->
-                  <form action="/admin/user/<%= user.id %>?_method=DELETE"
+                  <form action="/admin/genres/<%= genre.id %>?_method=DELETE"
                         method="POST"
-                        onsubmit="return confirm('Supprimer cet utilisateur ? Cette action est irréversible.')">
+                        onsubmit="return confirm('Supprimer ce genre ? Cette action est irréversible.')">
                     <button type="submit" class="btn btn-sm btn-outline-danger">
                       🗑️
                     </button>
@@ -92,7 +81,6 @@
 
                 </div>
               </td>
-
             </tr>
           <% }) %>
         </tbody>

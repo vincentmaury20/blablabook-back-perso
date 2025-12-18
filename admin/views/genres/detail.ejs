@@ -1,0 +1,26 @@
+<%- include("../partials/header") %>
+
+<div class="container my-4">
+  <h1>🔎 Détails du genre</h1>
+
+  <ul class="list-group mb-3">
+    <li class="list-group-item">
+      <strong>Nom :</strong> <%= genre.name %>
+    </li>
+
+    <li class="list-group-item">
+      <strong>Livres :</strong>
+      <% if (genre.books && genre.books.length > 0) { %>
+        <%= genre.books.map(b => b.title).join(", ") %>
+      <% } else { %>
+        <span class="text-muted">Aucun livre</span>
+      <% } %>
+    </li>
+  </ul>
+
+  <a href="/admin/genres/<%= genre.id %>/edit" class="btn btn-warning">Modifier</a>
+  <a href="/admin/genres" class="btn btn-secondary">Retour à la liste des genres</a>
+  <a href="/admin" class="btn btn-outline-info">Retour au dashboard</a>
+</div>
+
+<%- include("../partials/footer") %>

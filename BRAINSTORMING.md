@@ -114,109 +114,90 @@ bookRouter.get('/home', bookController.getRandomBooks);
 // cette route est à renommer, je le (re)note en gros ici pour ne pas oublier ^^
 ```
 
-# 🎯 Projet Blablabook – Focus Admin (Back Office dédié)
-
-# Roadmap et notes de brainstorming
+# 🎯 Projet Blablabook – Back Office Admin (Roadmap Backend)
 
 ## Résumé rapide
-J'ai recentré l’admin sur **livres** et **users**, corrigé l’upload et le service des covers (Multer + `express.static`), résolu le mismatch champs/IDs pour les relations, ajouté `upload.single("cover")` sur la route de création et configuré le front (proxy Vite / API_URL) pour afficher les covers depuis le backend. La création d’un livre dans le back s’affiche désormais dans le front ; le CRUD livres (liste, détail, suppression) fonctionne ; le bouton “mettre à jour” est réparé.
+L’admin est désormais stabilisé : layout unifié (header/footer/sidebar), Dashboard harmonisé, CRUD Livres fonctionnel, upload des covers corrigé, relations auteurs/genres opérationnelles, upload avatar terminé, et affichage front cohérent via API_URL centralisé. Les pages admin sont propres, cohérentes et maintenables.
 
 ---
 
-## Ce que j’ai déjà fait
-- **Uploads et static** : Multer écrit dans `uploads/books/images` et Express sert `/uploads`.  
-- **Affichage front** : images accessibles via `http://localhost:3000/uploads/...` et proxy Vite configuré.  
-- **Formulaire création livre** : page create existante ; route corrigée pour alimenter `req.body` et `req.file`.  
-- **Relations auteurs et genres** : envoi d’IDs corrigé ; associations fonctionnelles.  
-- **CRUD livres** : liste, détail, suppression OK.  
-- **Admin simplifié** : branche `refactor/admin-simplification`, commits de sauvegarde, suppression des formulaires séparés.  
-- **Bugs résolus** : mismatch `authors[]` vs `authorIds`, absence de Multer sur la route, envoi de noms au lieu d’IDs.
+## ✔️ Ce qui est déjà fait (Backend)
+- **Layout admin refactorisé** : partials EJS (header/footer/sidebar), Dashboard harmonisé.
+- **CRUD Livres complet** : liste, détail, création, édition, suppression.
+- **Upload images** :
+  - Covers : Multer + `uploads/books/images`.
+  - Avatars utilisateurs : route + Multer + stockage + affichage front OK.
+  - Express sert `/uploads`.
+- **Relations Sequelize** :
+  - Livres ↔ Auteurs (Many-to-Many).
+  - Livres ↔ Genres (Many-to-Many).
+- **Fixs importants** :
+  - Correction `authors[]` → `authorIds`.
+  - Correction `genres[]` → `genreIds`.
+  - Ajout de `upload.single("cover")` sur la route create.
+  - Proxy Vite + API_URL pour affichage des images.
+- **Admin Authors** :
+  - Mise à jour OK.
+  - Suppression OK.
+- **Centralisation API_URL** :
+  - `src/lib/config.js` + `.env.example`.
+  - Remplacement des URLs hardcodées.
 
 ---
 
-## Ce qu’il me reste à faire
-- **Avatar utilisateur**
-  - [❎ ] Ajouter une route backend + Multer pour l’upload d’avatar.  
-  - [❎ ] Mettre à jour le front profil : upload, preview, envoi et affichage via `${API_URL}${user.avatar}`.  
-- **Changement de mot de passe**
-  - [ ] Créer un formulaire sécurisé (ancien mot de passe, nouveau, confirmation).  
-  - [ ] Implémenter l’endpoint backend `POST /users/:id/password` avec validation et hashage.  
-- **Centralisation API_URL**
-  - [❎] Ajouter `VITE_API_URL=http://localhost:3000` dans `.env`.  
-  - [❎] Mettre à jour le front pour utiliser `${API_URL}${book.cover}` et `${API_URL}${user.avatar}`.  
-- **Création inline d’auteur et de genre**
-  - [ ] Ajouter le formulaire inline dans create book (créer l’auteur/genre avant la création du livre).  
-  - [ ] Finaliser les endpoints CRUD pour authors et genres.  
-- **Gestion des erreurs**
-  - [ ] Ajouter un middleware global d’erreurs côté Express.  
-  - [ ] Créer des templates pages d’erreur (404, 500, validation).  
-- **Forum et chat (phase 2)**
-  - [ ] Implémenter CRUD posts/comments.  
-  - [ ] Étudier Socket.IO pour un chat temps réel.  
-- **Nettoyage**
-  - [ ] Purger logs et commentaires temporaires.  
-  - [ ] Nettoyer la base des données incohérentes.
+## 🔧 Ce qu’il reste à faire (Backend)
+
+### 1. CRUD Genres (PRIORITÉ)
+- [ ] Model Genre.
+- [ ] Table pivot BookGenre.
+- [ ] CRUD admin : list, create, edit, delete.
+- [ ] Sélection multiple dans la création/édition d’un livre.
+- [ ] Harmonisation des vues (comme auteurs).
+
+### 2. Avis sur les livres (Reviews)
+- [ ] Model Review (rating, comment, userId, bookId).
+- [ ] Relations : User.hasMany, Book.hasMany.
+- [ ] Formulaire utilisateur (front).
+- [ ] Modération admin (delete).
+- [ ] Affichage des avis sur la page livre.
+
+### 3. Gestion des erreurs
+- [ ] Middleware global d’erreurs Express.
+- [ ] Pages d’erreur admin : 404, 500.
+- [ ] Gestion des erreurs Multer (taille, format).
+
+### 4. Nettoyage final
+- [ ] Purger logs et `console.log`.
+- [ ] Supprimer commentaires temporaires.
+- [ ] Nettoyer la base (auteurs/genres orphelins).
+- [ ] Vérifier cohérence des routes admin.
 
 ---
 
-## Priorités immédiates
-1. **Centraliser `VITE_API_URL`** et remplacer les URLs hardcodées dans le front.  
-2. **Ajouter l’upload d’avatar** : route backend + Multer + champ profil.  
-3. **Finaliser la création inline d’auteur** : endpoint POST `/admin/authors` et logique create book pour créer l’auteur si nécessaire puis créer le livre.
+## Ce qui est repoussé (après TP)
+
+### Changement de mot de passe
+- [ ] Formulaire sécurisé (ancien + nouveau).
+- [ ] Endpoint backend avec validation + hashage.
+
+### Forum / Chat (Phase 2)
+- [ ] CRUD posts/comments.
+- [ ] Étude Socket.IO pour chat temps réel.
+- [ ] Présenté comme **axe d’amélioration**.
 
 ---
 
-## Bonnes pratiques et workflow
-- Lancer **backend + frontend** en parallèle (ou via `concurrently`).  
-- Tester chaque étape manuellement : vérifier `req.body`, `req.file`, puis affichage front.  
-- Faire des commits atomiques et une branche par feature.  
-- Nettoyer logs et commentaires avant merge.
+## Priorités immédiates (ordre conseillé)
+1. **CRUD Genres** (fondamental pour les livres).
+2. **Avis sur les livres** (feature forte pour ton projet).
+3. **Nettoyage + pages d’erreur**.
+4. **Préparation dossier projet + dossier pro**.
 
 ---
 
-## Notes rapides pour implémentation
-- Route avatar exemple : `POST /users/:id/avatar` → `upload.single('avatar')` → sauvegarder le chemin en DB.  
-- Flow changement de mot de passe : vérifier `oldPassword`, valider `newPassword`, hasher (bcrypt), sauvegarder.  
-- Flow création livre avec auteur inline : si `newAuthor` présent → POST `/admin/authors` → récupérer `id` → POST `/admin/books` avec `authorIds`.
-- Flow changement de mot de passe : vérifier `oldPassword`, valider `newPassword`, hasher (bcrypt), sauvegarder.  
-- Ajouter un bouton dans l'admin de retour vers le site front
-- Pouvoir mettre à jour les auteurs dans l'admin  
-- Pouvoir supprimer les auteurs dans l'admin  
----
-
-Ok alors faisons dans l'ordre :
-
-# L'avatar d'abord ❎
-
-## Résumé des actions
-
-### Problèmes identifiés
-- **Interpolation littérale** des URLs : utilisation de `'${API_URL}/...'` au lieu de `` `${API_URL}/...` ``, provoquant des requêtes vers `/$%7BAPI_URL%7D/...`.  
-- **Import invalide dans la config Vite** : tentative d’importer `$lib/config.js` dans `vite.config.js`, impossible côté Node.  
-- **Parsing JSON sur page HTML** : `res.json()` échouait quand l’API renvoyait une page d’erreur (HTML).
-
-### Corrections appliquées
-- **Centralisation de l’URL** : création de `src/lib/config.js` exportant `API_URL` depuis `PUBLIC_API_URL` ou valeur par défaut.  
-- **Fetch corrigés** : remplacement de tous les `fetch('http://localhost:3000/...')` par ``fetch(`${API_URL}/...`)`` (avec backticks).  
-- **Config Vite** : utilisation de `process.env.PUBLIC_API_URL || 'http://localhost:3000'` dans `vite.config.js` pour le proxy.  
-- **Robustesse** : ajout recommandé de vérifications `if (!res.ok)` avant `res.json()`.
-
-### Fichiers modifiés
-- **Nouveaux**  
-  - `src/lib/config.js`  
-  - `.env.example`  
-- **Modifiés**  
-  - `src/routes/connexion/+page.svelte`  
-  - `src/routes/+page.js`  
-  - `src/routes/catalogue/+page.js`  
-  - `src/routes/livre/[id]/+page.js`  
-  - `src/routes/livre/[id]/+page.svelte`  
-  - `src/routes/ma-booklist/+page.svelte`  
-  - `src/routes/mon-compte/+page.svelte`  
-  - `src/routes/motdepasse-oublie/+page.svelte`  
-  - `vite.config.js`
-
-# Pouvoir mettre à jour les auteurs dans l'admin❎ 
-# Pouvoir supprimer les auteurs dans l'admin ❎ 
-
-Refactor complet du layout admin : unification du header, footer et sidebar via des partials EJS, harmonisation du Dashboard avec les autres pages, correction des chemins d’includes, ajout du titre dans les contrôleurs, nettoyage des vues (suppression des containers conflictuels), stabilisation du layout Bootstrap en 2 colonnes, et mise en cohérence visuelle de toutes les pages admin (listes, dashboard, navigation).
+## Bonnes pratiques
+- Une branche par feature.
+- Commits atomiques et explicites.
+- Tester chaque route avec Postman avant d’intégrer au front.
+- Toujours vérifier `req.body`, `req.file`, et les relations Sequelize.
+- Garder l’admin simple, clair, cohérent.

@@ -24,6 +24,7 @@
   "homepage": "https://github.com/O-clock-Cambridge/projet-blablabook-back#readme",
   "dependencies": {
     "argon2": "^0.44.0",
+    "bootstrap-icons": "^1.13.1",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dayjs": "^1.11.19",
