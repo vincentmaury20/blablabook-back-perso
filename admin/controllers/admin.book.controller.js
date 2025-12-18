@@ -1,27 +1,58 @@
+import { Op } from "sequelize";
 import { Book, Author, Genre } from "../../models/index.js";
 import dayjs from "dayjs";
 import "dayjs/locale/fr.js";
+
 
 export const adminBookController = {
    // Liste
    async getBooks(req, res) {
       try {
+         const search = req.query.search || "";
+
+         // Construction du filtre (même style que getAuthors)
+         const where = search
+            ? {
+               [Op.or]: [
+                  { title: { [Op.iLike]: `%${search}%` } },
+                  { "$authors.name$": { [Op.iLike]: `%${search}%` } },
+                  { "$authors.firstname$": { [Op.iLike]: `%${search}%` } },
+                  { "$genres.name$": { [Op.iLike]: `%${search}%` } }
+               ]
+            }
+            : {};
+
+         // Requête avec include + filtre
          const books = await Book.findAll({
+            where,
             include: [
                { model: Author, as: "authors" },
                { model: Genre, as: "genres" }
             ]
          });
+
+         // Formatage des dates
          const formattedBooks = books.map(b => ({
             ...b.toJSON(),
-            formattedDate: b.release_date ? dayjs(b.release_date).locale("fr").format("DD MMMM YYYY") : null
+            formattedDate: b.release_date
+               ? dayjs(b.release_date).locale("fr").format("DD MMMM YYYY")
+               : null
          }));
-         ;
-         res.render("books/list", { books: formattedBooks, adminName: req.user.name, title: "Liste des livres" });
+
+         res.render("books/list", {
+            books: formattedBooks,
+            search,
+            adminName: req.user.name,
+            title: "Liste des livres"
+         });
+
       } catch (error) {
+         console.error(error);
          res.status(500).send("Erreur serveur");
       }
-   },
+   }
+   ,
+
 
    // Détail
    async getBookById(req, res) { // en paramtre req on récupère le livre par son id et en res on envoie la réponse avex la vue/ dans le try on met toutes les données que l'on veut donner à la vue 

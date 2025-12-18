@@ -1,43 +1,111 @@
 <%- include("../partials/header") %>
 
-<div class="container my-4">
-  <h1>📋 Liste des auteurs</h1>
+<div class="my-4">
 
-  <div class="mb-3 d-flex gap-2">
-    <a href="/admin" class="btn btn-primary">Retour au dashboard</a>
-    <a href="/admin/author/create" class="btn btn-success">➕ Ajouter un auteur</a>
+  <!-- Titre + actions -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="fw-bold">📋 Liste des auteurs</h1>
+    <a href="/admin/author/create" class="btn btn-success">
+      ➕ Ajouter un auteur
+    </a>
   </div>
 
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Nom</th>
-        <th>Prénom</th>
-        <th>Bio</th>
-        <th>Livre(s) associé(s)</th>
-        <th>Genre(s) associé(s)</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% authors.forEach(author => { %>
-        <tr>
-          <td><%= author.name %></td>
-          <td><%= author.firstname %></td>
-          <td><%= author.bio %></td>
-          <td>
-            <% if (author.books && author.books.length > 0) { %>
-              <%= author.books.map(b => b.title).join(", ") %>
-              <% } else { %>
-                Aucun livre
+  <!-- Barre d'outils -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-body d-flex justify-content-between align-items-center">
+      <a href="/admin" class="btn btn-outline-primary">
+        ⬅️ Retour au dashboard
+      </a>
+
+      <form class="d-flex" method="GET" action="/admin/authors" style="max-width: 300px;">
+        <input class="form-control form-control-sm me-2" type="search"   placeholder="Rechercher ..." aria-label="Search" name="search" value="<%= search || '' %>">
+        <button class="btn btn-sm btn-outline-secondary" type="submit">OK</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Tableau -->
+  <div class="card shadow-sm">
+    <div class="card-body p-0">
+
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-dark">
+          <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Bio</th>
+            <th>Livres</th>
+            <th>Genres</th>
+            <th class="text-center">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% authors.forEach(author => { %>
+            <tr>
+              <td class="fw-semibold"><%= author.name %></td>
+              <td><%= author.firstname %></td>
+              <td class="text-muted" style="max-width: 250px;">
+                <%= author.bio ? author.bio.substring(0, 80) + "..." : "—" %>
+              </td>
+
+              <!-- Livres -->
+              <td>
+                <% if (author.books && author.books.length > 0) { %>
+                  <%= author.books.map(b => b.title).join(", ") %>
+                <% } else { %>
+                  <span class="text-muted">Aucun</span>
                 <% } %>
               </td>
-              <td>
-                <%= author.books.map(b => b.genres.map(g => g.name).join(", ")).join(", ") %></td>
 
-        </tr>
-      <% }) %>
-    </tbody>
-  </table>
+              <!-- Genres -->
+              <td>
+                <% if (author.books && author.books.length > 0) { %>
+                  <% author.books.flatMap(b => b.genres).forEach(g => { %>
+                    <span class="badge bg-secondary me-1"><%= g.name %></span>
+                  <% }) %>
+                <% } else { %>
+                  <span class="text-muted">Aucun</span>
+                <% } %>
+              </td>
+
+              <!-- Actions -->
+              <td class="text-center">
+
+                <div class="btn-group" role="group">
+
+                  <!-- Voir -->
+                  <a href="/admin/author/<%= author.id %>"
+                     class="btn btn-sm btn-outline-info">
+                    👁️
+                  </a>
+
+                  <!-- Modifier -->
+                  <a href="/admin/author/<%= author.id %>/edit"
+                     class="btn btn-sm btn-outline-warning">
+                    ✏️
+                  </a>
+
+                  <!-- Supprimer -->
+                  <form action="/admin/author/<%= author.id %>?_method=DELETE"
+                        method="POST"
+                        onsubmit="return confirm('Supprimer cet auteur ? Cette action est irréversible.')">
+                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                      🗑️
+                    </button>
+                  </form>
+
+                </div>
+
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
 </div>
 
 <%- include("../partials/footer") %>

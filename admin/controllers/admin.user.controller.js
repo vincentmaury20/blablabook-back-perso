@@ -1,6 +1,7 @@
 import { User, Book } from "../../models/index.js";
 import Joi from "joi";
 import argon2 from "argon2";
+import { Op } from "sequelize";
 import { userSchema } from "../../schemas/user.schema.js";
 import { updateUserSchema } from "../../schemas/updateUser.schema.js";
 
@@ -9,15 +10,36 @@ export const adminUserController = {
    // Liste des utilisateurs
    async getUsers(req, res) {
       try {
+         const search = req.query.search || "";
+
+         // Condition de recherche
+         const where = search
+            ? {
+               [Op.or]: [
+                  { name: { [Op.iLike]: `%${search}%` } },
+                  { firstname: { [Op.iLike]: `%${search}%` } },
+                  { email: { [Op.iLike]: `%${search}%` } } // optionnel mais utile
+               ]
+            }
+            : {};
+
+         // Récupération des utilisateurs
          const users = await User.findAll({
-            include: [{ model: Book, as: "books", through: { attributes: [] } }],
+            where,
+            include: [
+               { model: Book, as: "books", through: { attributes: [] } }
+            ],
+            order: [["name", "ASC"]] // optionnel mais propre
          });
 
+         // Rendu de la vue
          res.render("users/list", {
             users,
+            search, // pour garder la valeur dans l’input
             adminName: req.user?.name || "Admin",
-            title: "Liste des utilisateurs",
+            title: "Liste des utilisateurs"
          });
+
       } catch (error) {
          console.error("Erreur getUsers:", error);
          res.status(500).send("Erreur lors de la récupération des utilisateurs");

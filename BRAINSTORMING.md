@@ -65,12 +65,12 @@ Back :
 - ❎ Renommer la route `book/home` → `book/random` par exemple  
 - ❎ Tests de connexion front/back  
 - ❎ Authentification :  
-  - POST /register  
-  - POST /login  
-  - Middleware JWT  
-  - PUT /user/avatar  
-  - PUT /user/:id/book/:id  
-  - DELETE /user (à voir pour v2)  
+  -❎ POST /register  
+  -❎ POST /login  
+  -❎ Middleware JWT  
+  -❎ PUT /user/avatar  
+  -❎ PUT /user/:id/book/:id  
+  -❎ DELETE /user (à voir pour v2)  
 
 
 🤯 Difficultés :  
@@ -143,7 +143,7 @@ J'ai recentré l’admin sur **livres** et **users**, corrigé l’upload et le 
   - [ ] Implémenter l’endpoint backend `POST /users/:id/password` avec validation et hashage.  
 - **Centralisation API_URL**
   - [❎] Ajouter `VITE_API_URL=http://localhost:3000` dans `.env`.  
-  - [ ] Mettre à jour le front pour utiliser `${API_URL}${book.cover}` et `${API_URL}${user.avatar}`.  
+  - [❎] Mettre à jour le front pour utiliser `${API_URL}${book.cover}` et `${API_URL}${user.avatar}`.  
 - **Création inline d’auteur et de genre**
   - [ ] Ajouter le formulaire inline dans create book (créer l’auteur/genre avant la création du livre).  
   - [ ] Finaliser les endpoints CRUD pour authors et genres.  
@@ -186,22 +186,22 @@ J'ai recentré l’admin sur **livres** et **users**, corrigé l’upload et le 
 
 Ok alors faisons dans l'ordre :
 
-L'avatar d'abord ❎
+# L'avatar d'abord ❎
 
-# Résumé des actions
+## Résumé des actions
 
-## Problèmes identifiés
+### Problèmes identifiés
 - **Interpolation littérale** des URLs : utilisation de `'${API_URL}/...'` au lieu de `` `${API_URL}/...` ``, provoquant des requêtes vers `/$%7BAPI_URL%7D/...`.  
 - **Import invalide dans la config Vite** : tentative d’importer `$lib/config.js` dans `vite.config.js`, impossible côté Node.  
 - **Parsing JSON sur page HTML** : `res.json()` échouait quand l’API renvoyait une page d’erreur (HTML).
 
-## Corrections appliquées
+### Corrections appliquées
 - **Centralisation de l’URL** : création de `src/lib/config.js` exportant `API_URL` depuis `PUBLIC_API_URL` ou valeur par défaut.  
 - **Fetch corrigés** : remplacement de tous les `fetch('http://localhost:3000/...')` par ``fetch(`${API_URL}/...`)`` (avec backticks).  
 - **Config Vite** : utilisation de `process.env.PUBLIC_API_URL || 'http://localhost:3000'` dans `vite.config.js` pour le proxy.  
 - **Robustesse** : ajout recommandé de vérifications `if (!res.ok)` avant `res.json()`.
 
-## Fichiers modifiés
+### Fichiers modifiés
 - **Nouveaux**  
   - `src/lib/config.js`  
   - `.env.example`  
@@ -215,3 +215,8 @@ L'avatar d'abord ❎
   - `src/routes/mon-compte/+page.svelte`  
   - `src/routes/motdepasse-oublie/+page.svelte`  
   - `vite.config.js`
+
+# Pouvoir mettre à jour les auteurs dans l'admin❎ 
+# Pouvoir supprimer les auteurs dans l'admin ❎ 
+
+Refactor complet du layout admin : unification du header, footer et sidebar via des partials EJS, harmonisation du Dashboard avec les autres pages, correction des chemins d’includes, ajout du titre dans les contrôleurs, nettoyage des vues (suppression des containers conflictuels), stabilisation du layout Bootstrap en 2 colonnes, et mise en cohérence visuelle de toutes les pages admin (listes, dashboard, navigation).

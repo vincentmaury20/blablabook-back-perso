@@ -1,12 +1,29 @@
 import { Author, Book, Genre } from "../../models/index.js";
 import Joi from "joi";
 import { authorSchema } from "../../schemas/author.schema.js";
+import { Op } from "sequelize";
+
 
 export const adminAuthorController = {
    // Liste
    async getAuthors(req, res) {
       try {
+         const search = req.query.search || ""; // récupération du terme de recherche
+
+         // Construction du filtre
+         const where = search
+            ? {
+               [Op.or]: [
+                  { name: { [Op.iLike]: `%${search}%` } },
+                  { firstname: { [Op.iLike]: `%${search}%` } },
+                  { bio: { [Op.iLike]: `%${search}%` } }
+               ]
+            }
+            : {};
+
+         // Requête avec filtre éventuel
          const authors = await Author.findAll({
+            where,
             include: [
                {
                   model: Book,
@@ -18,14 +35,17 @@ export const adminAuthorController = {
 
          res.render("authors/list", {
             authors,
+            search, // pour pré-remplir le champ dans la vue
             adminName: req.user.name,
-            title: "Liste des auteurs" // pourquoi doit-on renseigner du title ici ?
+            title: "Liste des auteurs"
          });
+
       } catch (error) {
          console.error(error);
          res.status(500).send("Erreur serveur");
       }
-   },
+   }
+   ,
 
    // Détail
    async getAuthorById(req, res) {
@@ -129,7 +149,7 @@ export const adminAuthorController = {
          await author.update(data);
          console.log("Auteur mis à jour avec ID:", author.id);
 
-         res.redirect(`/admin/authors/${author.id}`);
+         res.redirect(`/admin/author/${author.id}`);
       } catch (error) {
          console.error("Erreur updateAuthor:", error);
          res.status(500).send("Erreur lors de la mise à jour de l'auteur");

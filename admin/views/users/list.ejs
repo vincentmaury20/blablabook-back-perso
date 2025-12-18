@@ -1,51 +1,106 @@
 <%- include("../partials/header") %>
 
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-2">
-      <%- include("../partials/sidebar") %>
+<div class="my-4">
+
+  <!-- Titre + actions -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="fw-bold">👤 Liste des utilisateurs</h1>
+    <a href="/admin/user/create" class="btn btn-success">
+      ➕ Créer un utilisateur
+    </a>
+  </div>
+
+  <!-- Barre d'outils -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-body d-flex justify-content-between align-items-center">
+
+      <a href="/admin" class="btn btn-outline-primary">
+        ⬅️ Retour au dashboard
+      </a>
+
+      <form class="d-flex" method="GET" action="/admin/users" style="max-width: 300px;">
+        <input 
+          class="form-control form-control-sm me-2" 
+          type="search" 
+          placeholder="Rechercher..." 
+          aria-label="Search" 
+          name="search"
+          value="<%= search || '' %>"
+        >
+        <button class="btn btn-sm btn-outline-secondary" type="submit">OK</button>
+      </form>
+
     </div>
-    <div class="col-10 my-4">
-      <h1>📋 Liste des utilisateurs</h1>
+  </div>
 
-      <a href="/admin/user/create" class="btn btn-primary mb-3">Créer un utilisateur</a>
+  <!-- Tableau -->
+  <div class="card shadow-sm">
+    <div class="card-body p-0">
 
-      <table class="table table-striped">
-        <thead>
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-dark">
           <tr>
             <th>Nom</th>
             <th>Prénom</th>
             <th>Email</th>
             <th>Livres associés</th>
-            <th>Actions</th>
+            <th class="text-center">Actions</th>
           </tr>
         </thead>
+
         <tbody>
           <% users.forEach(user => { %>
             <tr>
-              <td><%= user.name %></td>
+
+              <td class="fw-semibold"><%= user.name %></td>
               <td><%= user.firstname %></td>
-              <td><%= user.email %></td>
+              <td class="text-muted"><%= user.email %></td>
+
+              <!-- Livres -->
               <td>
                 <% if (user.books && user.books.length > 0) { %>
                   <%= user.books.map(b => b.title).join(", ") %>
                 <% } else { %>
-                  Aucun livre
+                  <span class="text-muted">Aucun</span>
                 <% } %>
               </td>
-              <td>
-                <a href="/admin/user/<%= user.id %>" class="btn btn-sm btn-info">Détail</a>
-                <a href="/admin/user/<%= user.id %>/edit" class="btn btn-sm btn-warning">Modifier</a>
-                <form action="/admin/user/<%= user.id %>?_method=DELETE" method="POST" style="display:inline;">
-                  <button type="submit" class="btn btn-sm btn-danger">Supprimer</button>
-                </form>
+
+              <!-- Actions -->
+              <td class="text-center">
+                <div class="btn-group" role="group">
+
+                  <!-- Voir -->
+                  <a href="/admin/user/<%= user.id %>"
+                     class="btn btn-sm btn-outline-info">
+                    👁️
+                  </a>
+
+                  <!-- Modifier -->
+                  <a href="/admin/user/<%= user.id %>/edit"
+                     class="btn btn-sm btn-outline-warning">
+                    ✏️
+                  </a>
+
+                  <!-- Supprimer -->
+                  <form action="/admin/user/<%= user.id %>?_method=DELETE"
+                        method="POST"
+                        onsubmit="return confirm('Supprimer cet utilisateur ? Cette action est irréversible.')">
+                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                      🗑️
+                    </button>
+                  </form>
+
+                </div>
               </td>
+
             </tr>
           <% }) %>
         </tbody>
       </table>
+
     </div>
   </div>
+
 </div>
 
 <%- include("../partials/footer") %>

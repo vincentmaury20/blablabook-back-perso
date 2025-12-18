@@ -16,20 +16,10 @@ adminAuthorRouter.post("/admin/author", authenticateAdmin, isAdmin, adminAuthorC
 adminAuthorRouter.get("/admin/author/:id", authenticateAdmin, isAdmin, adminAuthorController.getAuthorById);
 
 // Formulaire édition
-adminAuthorRouter.get(
-   "/admin/author/:id/edit",
-   authenticateAdmin,
-   isAdmin,
-   adminAuthorController.editAuthorForm
-);
+adminAuthorRouter.get("/admin/author/:id/edit", authenticateAdmin, isAdmin, adminAuthorController.editAuthorForm);
 
 // Mise à jour
-adminAuthorRouter.put(
-   "/admin/author/:id",
-   authenticateAdmin,
-   isAdmin,
-   adminAuthorController.updateAuthor
-);
+adminAuthorRouter.put("/admin/author/:id", authenticateAdmin, isAdmin, adminAuthorController.updateAuthor);
 
 
 // Suppression d'un auteur

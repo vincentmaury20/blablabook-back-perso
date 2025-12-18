@@ -12,6 +12,7 @@ export const adminController = {
 
          res.render("dashboard", {
             adminName: req.user.name, // récupéré depuis le JWT
+            title: "Dashboard",
             stats: {
                users: userCount,
                books: bookCount,
