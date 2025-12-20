@@ -11,9 +11,9 @@ import { reviewRouter } from "./review.router.js";
 
 export const publicRouter = Router();
 
+publicRouter.use(reviewRouter);
 publicRouter.use(bookRouter);
 publicRouter.use(authorRouter);
 publicRouter.use(genreRouter);
 publicRouter.use(userRouter);
 publicRouter.use(userbookRouter);
-publicRouter.use(reviewRouter);
