@@ -148,11 +148,11 @@ L’admin est désormais stabilisé : layout unifié (header/footer/sidebar), Da
 ## 🔧 Ce qu’il reste à faire (Backend)
 
 ### 1. CRUD Genres (PRIORITÉ)
-- [ ] Model Genre.
-- [ ] Table pivot BookGenre.
-- [ ] CRUD admin : list, create, edit, delete.
-- [ ] Sélection multiple dans la création/édition d’un livre.
-- [ ] Harmonisation des vues (comme auteurs).
+- [❎] Model Genre.
+- [❎] Table pivot BookGenre.
+- [❎] CRUD admin : list, create, edit, delete.
+- [❎] Sélection multiple dans la création/édition d’un livre.
+- [❎] Harmonisation des vues (comme auteurs).
 
 ### 2. Avis sur les livres (Reviews)
 - [ ] Model Review (rating, comment, userId, bookId).

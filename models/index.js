@@ -3,6 +3,7 @@ import { Book } from "./book.model.js";
 import { UserBook } from "./userBook.model.js";
 import { Genre } from "./genre.model.js";
 import { Author } from "./author.model.js";
+import { Review } from "./review.model.js";
 import { sequelize } from "./sequelize.client.js";
 
 
@@ -17,13 +18,13 @@ User.hasMany(UserBook, {
 });
 
 User.belongsToMany(Book, {
-   through: UserBook,                  
+   through: UserBook,
    foreignKey: "user_id",             // Clé étrangère dans la table de liaison pointant vers User
    as: "books"                        // Alias pour accéder aux livres d'un utilisateur
 });
 
 Book.belongsToMany(User, {
-   through: UserBook,                  
+   through: UserBook,
    foreignKey: "book_id",             // Clé étrangère dans la table de liaison pointant vers Book
    as: "users"                        // Alias pour accéder aux utilisateurs possédant le livre
 });
@@ -40,7 +41,7 @@ Book.hasMany(UserBook, {
 
 
 Genre.belongsToMany(Book, {
-   through: "belongs_to",           
+   through: "belongs_to",
    foreignKey: "genre_id",
    otherKey: "book_id",
    as: "books"                       // genre.getBooks(), genre.addBook()
@@ -55,7 +56,7 @@ Book.belongsToMany(Genre, {
 
 
 Author.belongsToMany(Book, {
-   through: "written_by",           
+   through: "written_by",
    foreignKey: "author_id",
    otherKey: "book_id",
    as: "books"                      // author.getBooks(), author.addBook()
@@ -68,5 +69,14 @@ Book.belongsToMany(Author, {
    as: "authors"                    // book.getAuthors(), book.addAuthor()
 });
 
+// USER ↔ REVIEW
+User.hasMany(Review, { foreignKey: "user_id" });
+Review.belongsTo(User, { foreignKey: "user_id" });
 
-export { User, Book, Author, Genre, UserBook, sequelize };
+// BOOK ↔ REVIEW
+Book.hasMany(Review, { foreignKey: "book_id" });
+Review.belongsTo(Book, { foreignKey: "book_id" });
+
+
+
+export { User, Book, Author, Genre, UserBook, Review, sequelize };

@@ -1,4 +1,4 @@
-import { Genre, Book, Author, User, UserBook, sequelize } from "../models/index.js";
+import { Genre, Book, Author, User, UserBook, Review, sequelize } from "../models/index.js";
 
 console.log("🌱 Seeding des tables...");
 
@@ -244,6 +244,40 @@ await book18.addGenre(genre17); // Endymion → Science-fiction
 await book19.addGenre(genre18); // Seigneur des Anneaux → High Fantasy
 await book20.addGenre(genre19); // Conan → Sword & Sorcery
 
+// ça faisait un moment que je n'avais pas touché à ce fichier mais il est temps maintenant de faire une nouvelle migration comprenant les reviews des user sur les livres présents en BDD
+
+
+// REVIEW 2 — Sébastien Martin → Book 7 (NANA)
+const review2 = await Review.create({
+   rating: 8,
+   comment: "Très touchant, j’ai adoré l’évolution des deux Nana."
+});
+await review2.setUser(user2);
+await review2.setBook(book7);
+
+// REVIEW 3 — Ludivine Durand → Book 11 (La petite confiserie…)
+const review3 = await Review.create({
+   rating: 7,
+   comment: "Un conte doux et poétique, parfait pour une lecture détente."
+});
+await review3.setUser(user3);
+await review3.setBook(book11);
+
+// REVIEW 4 — Claude Bernard → Book 17 (Druss la Légende)
+const review4 = await Review.create({
+   rating: 10,
+   comment: "Une épopée incroyable. Druss est un personnage inoubliable."
+});
+await review4.setUser(user4);
+await review4.setBook(book17);
+
+// REVIEW 5 — Bastien Lemoine → Book 19 (Le Seigneur des Anneaux)
+const review5 = await Review.create({
+   rating: 10,
+   comment: "Un chef‑d’œuvre absolu. L’univers, les thèmes, tout est magistral."
+});
+await review5.setUser(user5);
+await review5.setBook(book19);
 
 console.log("🎉 Seeding terminé avec succès");
 await sequelize.close();
