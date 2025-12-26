@@ -3,3 +3,4 @@ export { loginSchema } from './login.schema.js';
 export { updateUserSchema } from './updateUser.schema.js';
 export { userSchema } from './user.schema.js';
 export { authorSchema } from './author.schema.js';
+export { reviewSchema } from './review.schema.js';

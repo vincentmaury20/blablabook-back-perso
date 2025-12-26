@@ -19,6 +19,11 @@ Review.init({
       type: DataTypes.TEXT,
       allowNull: true
    },
+   is_published: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
+   }
+
 }, {
    sequelize,
    tableName: 'reviews',

@@ -201,3 +201,71 @@ L’admin est désormais stabilisé : layout unifié (header/footer/sidebar), Da
 - Tester chaque route avec Postman avant d’intégrer au front.
 - Toujours vérifier `req.body`, `req.file`, et les relations Sequelize.
 - Garder l’admin simple, clair, cohérent.
+
+
+# Checklist – Feature Admin Reviews (CRUD + Modération)
+
+## 1. Validation & sécurité
+- Créer un `reviewSchema` (Joi) pour valider :
+  - `rating` (1–10)
+  - `comment` (texte optionnel)
+  - `is_published` (booléen)
+- Gérer les erreurs de validation proprement (retour dans le formulaire avec message).
+
+OK CETTE TACHE EST FAITE ❎❎❎❎❎
+
+## 2. Contrôleur admin (CRUD complet)
+Créer dans `adminReviewController` :
+
+- `getReviews` → afficher tous les avis (avec User + Book)
+- `createReview (GET)` → afficher le formulaire de création
+- `createReview (POST)` → valider + créer un avis
+- `editReview (GET)` → afficher le formulaire d’édition
+- `editReview (POST)` → valider + mettre à jour un avis
+- `togglePublish` → publier / dépublier un avis
+- `deleteReview` → supprimer un avis
+
+OK CETTE TACHE EST FAITE ❎❎❎❎❎
+
+## 3. Routes admin
+Créer ou compléter les routes :
+
+- `GET /admin/reviews`
+- `GET /admin/reviews/create`
+- `POST /admin/reviews/create`
+- `GET /admin/reviews/:id/edit`
+- `POST /admin/reviews/:id/edit`
+- `POST /admin/reviews/:id/toggle`
+- `POST /admin/reviews/:id/delete`
+
+Toutes protégées par :
+- middleware `isAuthenticated`
+- middleware `isAdmin`
+
+## 4. Templates EJS (avec Bootstrap Icons)
+Créer dans `views/admin/reviews/` :
+
+- `index.ejs` → tableau des avis (User, Book, note, commentaire, statut, actions)
+- `create.ejs` → formulaire de création
+- `edit.ejs` → formulaire d’édition
+
+Utiliser :
+- layout admin existant
+- icônes Bootstrap (`bi bi-trash`, `bi bi-pencil`, `bi bi-eye`, `bi bi-eye-slash`)
+
+## 5. Mise à jour du modèle Review
+- Ajouter `is_published` (déjà fait)
+- Vérifier que `sequelize.sync({ force: true })` recrée bien la colonne
+
+## 6. Mise à jour du front
+- Dans l’API `/books/:id/reviews`, filtrer :
+  - `where: { is_published: true }`
+- Le front affiche uniquement les avis publiés
+- L’admin voit tout
+
+## 7. Tests rapides
+- Créer un avis via l’admin
+- Modifier un avis
+- Publier/dépublier un avis
+- Vérifier que le front n’affiche que les avis publiés
+- Vérifier que tout apparaît correctement dans la base
