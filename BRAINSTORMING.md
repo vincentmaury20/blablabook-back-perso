@@ -231,12 +231,13 @@ OK CETTE TACHE EST FAITE ❎❎❎❎❎
 Créer ou compléter les routes :
 
 - `GET /admin/reviews`
-- `GET /admin/reviews/create`
-- `POST /admin/reviews/create`
+- `POST /admin/review/create`
 - `GET /admin/reviews/:id/edit`
-- `POST /admin/reviews/:id/edit`
+- `PUT /admin/reviews/:id/edit`
+- `DELETE /admin/reviews/:id/delete`
 - `POST /admin/reviews/:id/toggle`
-- `POST /admin/reviews/:id/delete`
+
+OK CETTE TACHE EST FAITE ❎❎❎❎❎
 
 Toutes protégées par :
 - middleware `isAuthenticated`
@@ -245,25 +246,42 @@ Toutes protégées par :
 ## 4. Templates EJS (avec Bootstrap Icons)
 Créer dans `views/admin/reviews/` :
 
-- `index.ejs` → tableau des avis (User, Book, note, commentaire, statut, actions)
-- `create.ejs` → formulaire de création
+- `list.ejs` → tableau des avis (User, Book, note, commentaire, statut, actions)
 - `edit.ejs` → formulaire d’édition
+<!-- - `detail.ejs` → détails d'un avis... je dirai que ce n'est pas forcément nécessaire -->
+<!-- - `create.ejs` → à voir si je le mets en place ou non , il faut voir -->
+
+Les templates sont en cours de réalisation, j'ai dû simplement gérer au niveau du front pour 'affichage d'un texte si l'admin n'a selectionné aucun avis à publish ou non.
+Peut-être serait il pertinant de ne faire que deux templates pour ce list et edit, mais je me pose la question  de savoir si éventuellement un admin voudrait créer un avis manuellement 
+
+##  🔴 BUGS À CORRIGER - Admin Reviews
+- ❌ **Nom utilisateur non visible** → affichage de `review.user.name` + `review.user.firstname` ne marche pas, effectivement il fallait utiliser User.name et User.firstname dans le controller admin.review.controller.js peut-être à corriger par la suite pour avoir une meilleure lisibilité et pouvoir mettre user.firstname et user.name dans le template ejs
+  pour le moment c'est fonctionnel comme ça.
+- ❌ **Livre non visible** → affichage de `review.book.title` ne marche pas  et c'est le même problème que pour l'utilisateur, il faut utiliser Book.title dans le template ejs.
+- ❌ **Système de note cassé** → le rendu des étoiles et du badge /5 ne fonctionne pas corrigé simplement en mettant les notes /10 par contre voir si je peux faire mieux par la suite nottamment affichage de jauge ou étoiles... et.
+donc on peut considére que la résolution de ces "bugs" c'est : OK CETTE TACHE EST FAITE ❎❎❎❎❎
 
 Utiliser :
 - layout admin existant
 - icônes Bootstrap (`bi bi-trash`, `bi bi-pencil`, `bi bi-eye`, `bi bi-eye-slash`)
 
-## 5. Mise à jour du modèle Review
-- Ajouter `is_published` (déjà fait)
-- Vérifier que `sequelize.sync({ force: true })` recrée bien la colonne
 
-## 6. Mise à jour du front
-- Dans l’API `/books/:id/reviews`, filtrer :
-  - `where: { is_published: true }`
-- Le front affiche uniquement les avis publiés
-- L’admin voit tout
 
-## 7. Tests rapides
+
+# ↓↓↓↓↓ Voilà les questionnements au niveau de l'admin reviews, le 30/12/2025 en résumé ↓↓↓↓↓
+- je me pose des questions sur l'utilité d'un template detail... est ce vraiment pertinent ?
+- et finalement est ce que je ne mettrai pas un formulaire de création d'avis côté admin, en justifiant que l'admin pourrait vouloir créer des avis manuellement pour lancer le site avec des avis déjà présents ?
+- et aussi enfin, surement améliorer mon controller pour pouvoir afficher les prénoms et noms des utilisateurs dans le front convenablement.
+
+
+
+
+
+
+
+
+
+##  Tests rapides à faire après l’implémentation
 - Créer un avis via l’admin
 - Modifier un avis
 - Publier/dépublier un avis

@@ -14,7 +14,7 @@ export const adminReviewController = {
             order: [["created_at", "DESC"]]
          });
 
-         res.render("admin/reviews/index", { reviews });
+         res.render("reviews/list", { reviews, adminName: req.user.name, title: "Gestion des avis" });
 
       } catch (error) {
          console.error("Erreur récupération reviews admin:", error);
