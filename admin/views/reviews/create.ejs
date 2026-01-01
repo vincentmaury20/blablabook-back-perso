@@ -2,9 +2,9 @@
 
 <div class="container my-4">
 
-  <h1 class="mb-4">✏️ Modifier un avis</h1>
+  <h1 class="mb-4">➕ Créer un avis</h1>
 
-  <form id="editReviewForm" action="/admin/review/<%= review.id %>?_method=PUT" method="POST">
+  <form id="createReviewForm" action="/admin/review" method="POST">
 
     <!-- Note -->
     <div class="mb-3">
@@ -15,7 +15,6 @@
         class="form-control" 
         min="1" 
         max="10" 
-        value="<%= review.rating %>" 
         required
       >
     </div>
@@ -27,8 +26,7 @@
         name="comment" 
         class="form-control" 
         rows="4"
-        required
-      ><%= review.comment %></textarea>
+      ></textarea>
     </div>
 
     <!-- Utilisateur -->
@@ -36,11 +34,8 @@
       <label class="form-label">Utilisateur</label>
       <select name="user_id" class="form-select" required>
         <% users.forEach(user => { %>
-          <option 
-            value="<%= user.id %>" 
-            <%= review.user_id === user.id ? "selected" : "" %>
-          >
-            <%= user.name %>
+          <option value="<%= user.id %>">
+            <%= user.firstname %> <%= user.name %>
           </option>
         <% }) %>
       </select>
@@ -51,12 +46,7 @@
       <label class="form-label">Livre concerné</label>
       <select name="book_id" class="form-select" required>
         <% books.forEach(book => { %>
-          <option 
-            value="<%= book.id %>" 
-            <%= review.book_id === book.id ? "selected" : "" %>
-          >
-            <%= book.title %>
-          </option>
+          <option value="<%= book.id %>"><%= book.title %></option>
         <% }) %>
       </select>
     </div>
@@ -68,7 +58,6 @@
         type="checkbox" 
         name="is_published" 
         value="true"
-        <%= review.is_published ? "checked" : "" %>
       >
       <label class="form-check-label">Publié</label>
     </div>
@@ -80,29 +69,25 @@
       data-bs-toggle="modal" 
       data-bs-target="#confirmModal"
     >
-      Mettre à jour
+      Créer l’avis
     </button>
 
   </form>
 </div>
 
-
-<!-- ========================= -->
-<!--   MODALE DE CONFIRMATION  -->
-<!-- ========================= -->
-
+<!-- MODALE -->
 <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
 
       <div class="modal-header">
-        <h5 class="modal-title">Confirmer la modification</h5>
+        <h5 class="modal-title">Confirmer la création</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
       <div class="modal-body">
-        <p>Es-tu sûr de vouloir modifier cet avis ?</p>
-        <p class="text-muted small">Cette action mettra immédiatement à jour l'avis dans la base de données.</p>
+        <p>Créer cet avis ?</p>
+        <p class="text-muted small">Il sera immédiatement ajouté à la base de données.</p>
       </div>
 
       <div class="modal-footer">
@@ -127,10 +112,9 @@
   </div>
 </div>
 
-
 <script>
   document.getElementById("confirmSubmit").addEventListener("click", () => {
-    document.getElementById("editReviewForm").submit();
+    document.getElementById("createReviewForm").submit();
   });
 </script>
 

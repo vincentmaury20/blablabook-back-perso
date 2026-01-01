@@ -10,6 +10,11 @@ import { adminReviewRouter } from "./admin.review.router.js";
 
 export const adminRouters = Router();
 
+adminRouters.use((req, res, next) => {  //ajout de ce middleware pour éviter de répéter dans le code, l'adminName dans les controllers 
+   res.locals.adminName = req.user ? req.user.name : null;
+   next();
+});
+
 adminRouters.use(adminUserRouter);
 adminRouters.use(adminBookRouter);
 adminRouters.use(adminUserBookRouter);

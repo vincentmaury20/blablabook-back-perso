@@ -114,176 +114,171 @@ bookRouter.get('/home', bookController.getRandomBooks);
 // cette route est à renommer, je le (re)note en gros ici pour ne pas oublier ^^
 ```
 
-# 🎯 Projet Blablabook – Back Office Admin (Roadmap Backend)
-
-## Résumé rapide
-L’admin est désormais stabilisé : layout unifié (header/footer/sidebar), Dashboard harmonisé, CRUD Livres fonctionnel, upload des covers corrigé, relations auteurs/genres opérationnelles, upload avatar terminé, et affichage front cohérent via API_URL centralisé. Les pages admin sont propres, cohérentes et maintenables.
+# 🎯 Projet Blablabook – Back Office Admin  
+## Roadmap Backend (version mise à jour)
 
 ---
 
-## ✔️ Ce qui est déjà fait (Backend)
-- **Layout admin refactorisé** : partials EJS (header/footer/sidebar), Dashboard harmonisé.
-- **CRUD Livres complet** : liste, détail, création, édition, suppression.
-- **Upload images** :
-  - Covers : Multer + `uploads/books/images`.
-  - Avatars utilisateurs : route + Multer + stockage + affichage front OK.
-  - Express sert `/uploads`.
-- **Relations Sequelize** :
-  - Livres ↔ Auteurs (Many-to-Many).
-  - Livres ↔ Genres (Many-to-Many).
-- **Fixs importants** :
-  - Correction `authors[]` → `authorIds`.
-  - Correction `genres[]` → `genreIds`.
-  - Ajout de `upload.single("cover")` sur la route create.
-  - Proxy Vite + API_URL pour affichage des images.
-- **Admin Authors** :
-  - Mise à jour OK.
-  - Suppression OK.
-- **Centralisation API_URL** :
-  - `src/lib/config.js` + `.env.example`.
-  - Remplacement des URLs hardcodées.
+# 🟦 1. Résumé global
+
+Le back-office admin de Blablabook est désormais **quasi complet**.  
+Les CRUD principaux sont terminés (Livres, Auteurs, Genres, Avis), les uploads fonctionnent, les relations Sequelize sont en place, et l’admin est visuellement harmonisé grâce aux partials EJS.
+
+Il me reste maintenant à **renforcer la gestion des erreurs**, **finaliser les templates EJS**, et **nettoyer le code** avant de préparer mon dossier professionnel pour le Titre Pro DWWM.
 
 ---
 
-## 🔧 Ce qu’il reste à faire (Backend)
+# 🟩 2. Ce qui est déjà fait (Backend)
 
-### 1. CRUD Genres (PRIORITÉ)
-- [❎] Model Genre.
-- [❎] Table pivot BookGenre.
-- [❎] CRUD admin : list, create, edit, delete.
-- [❎] Sélection multiple dans la création/édition d’un livre.
-- [❎] Harmonisation des vues (comme auteurs).
+## 🧱 Structure & Layout
+- Layout admin refactorisé (header, footer, sidebar).
+- Dashboard harmonisé.
+- Navigation cohérente sur toutes les pages admin.
 
-### 2. Avis sur les livres (Reviews)
-- [ ] Model Review (rating, comment, userId, bookId).
-- [ ] Relations : User.hasMany, Book.hasMany.
-- [ ] Formulaire utilisateur (front).
-- [ ] Modération admin (delete).
-- [ ] Affichage des avis sur la page livre.
+## 📚 CRUD Livres
+- Liste, création, édition, suppression.
+- Upload de cover (Multer) fonctionnel.
+- Relations Many-to-Many avec auteurs et genres.
 
-### 3. Gestion des erreurs
-- [ ] Middleware global d’erreurs Express.
-- [ ] Pages d’erreur admin : 404, 500.
-- [ ] Gestion des erreurs Multer (taille, format).
+## 🖼️ Uploads
+- Covers → `uploads/books/images`
+- Avatars utilisateurs → upload + stockage + affichage front OK
+- Express sert `/uploads` proprement.
 
-### 4. Nettoyage final
-- [ ] Purger logs et `console.log`.
-- [ ] Supprimer commentaires temporaires.
-- [ ] Nettoyer la base (auteurs/genres orphelins).
-- [ ] Vérifier cohérence des routes admin.
+## 🔗 Relations Sequelize
+- Book ↔ Author (N-N)
+- Book ↔ Genre (N-N)
+- Book ↔ Review (1-N)
+- User ↔ Review (1-N)
+
+## 🛠️ Fixs importants
+- `authors[]` → `authorIds`
+- `genres[]` → `genreIds`
+- Ajout de `upload.single("cover")` sur la route create
+- Proxy Vite + API_URL pour affichage des images
+- Centralisation API_URL (`src/lib/config.js` + `.env.example`)
+
+## 👤 Admin Authors
+- Mise à jour OK
+- Suppression OK
+
+## 🟪 Admin Genres
+- CRUD complet terminé
+- Sélection multiple dans les livres OK
+- Templates harmonisés
+
+## ⭐ Admin Reviews (Avis)
+- CRUD complet terminé
+- Formulaire de création ajouté
+- Formulaire d’édition avec modale de confirmation
+- Toggle publish OK
+- Suppression OK
+- Affichage User / Book corrigé
+- Notes /10 OK
+- Liste harmonisée
 
 ---
 
-## Ce qui est repoussé (après TP)
+# 🟧 3. Ce qu’il reste à faire (Backend)
 
-### Changement de mot de passe
-- [ ] Formulaire sécurisé (ancien + nouveau).
-- [ ] Endpoint backend avec validation + hashage.
+## 🔥 1. Gestion des erreurs (PRIORITÉ)
+- [ ] Middleware global d’erreurs Express  
+- [ ] Pages d’erreur admin (404, 500)  
+- [ ] Gestion des erreurs Multer (taille, format)  
+- [ ] Messages d’erreur dans les formulaires (EJS)
 
-### Forum / Chat (Phase 2)
-- [ ] CRUD posts/comments.
-- [ ] Étude Socket.IO pour chat temps réel.
-- [ ] Présenté comme **axe d’amélioration**.
+## 🧹 2. Nettoyage final
+- [ ] Purger logs et `console.log`  
+- [ ] Supprimer commentaires temporaires  
+- [ ] Nettoyer la base (auteurs/genres orphelins)  
+- [ ] Vérifier cohérence des routes admin  
+- [ ] Vérifier cohérence des partials EJS
+
+## 🖼️ 3. Templates EJS à finaliser
+- [ ] Harmoniser tous les formulaires (boutons, modales, labels)
+- [ ] Ajouter des messages de succès / erreur (Bootstrap alerts)
+- [ ] Vérifier responsive du layout admin
 
 ---
 
-## Priorités immédiates (ordre conseillé)
-1. **CRUD Genres** (fondamental pour les livres).
-2. **Avis sur les livres** (feature forte pour ton projet).
-3. **Nettoyage + pages d’erreur**.
-4. **Préparation dossier projet + dossier pro**.
+# 🟦 4. Ce qui est repoussé (après TP)
+
+## 🔐 Changement de mot de passe
+- [ ] Formulaire sécurisé  
+- [ ] Endpoint backend + validation + hashage  
+
+## 💬 Forum / Chat (Phase 2)
+- [ ] CRUD posts/comments  
+- [ ] Étude Socket.IO  
+- [ ] Présenté comme axe d’amélioration  
 
 ---
 
-## Bonnes pratiques
-- Une branche par feature.
-- Commits atomiques et explicites.
-- Tester chaque route avec Postman avant d’intégrer au front.
-- Toujours vérifier `req.body`, `req.file`, et les relations Sequelize.
-- Garder l’admin simple, clair, cohérent.
+# 🟩 5. Priorités immédiates (ordre conseillé)
 
+1. **Gestion des erreurs (Express + EJS)**  
+2. **Finalisation des templates EJS**  
+3. **Nettoyage du code**  
+4. **Préparation dossier projet + dossier pro (Titre Pro DWWM)**  
 
-# Checklist – Feature Admin Reviews (CRUD + Modération)
+---
 
-## 1. Validation & sécurité
-- Créer un `reviewSchema` (Joi) pour valider :
-  - `rating` (1–10)
-  - `comment` (texte optionnel)
-  - `is_published` (booléen)
-- Gérer les erreurs de validation proprement (retour dans le formulaire avec message).
+# 🟦 6. Bonnes pratiques adoptées
 
-OK CETTE TACHE EST FAITE ❎❎❎❎❎
+- Une branche Git par feature  
+- Commits atomiques et explicites  
+- Tests Postman avant intégration front  
+- Vérification systématique de `req.body`, `req.file`, relations Sequelize  
+- Admin simple, clair, cohérent  
 
-## 2. Contrôleur admin (CRUD complet)
-Créer dans `adminReviewController` :
+---
 
-- `getReviews` → afficher tous les avis (avec User + Book)
-- `createReview (GET)` → afficher le formulaire de création
-- `createReview (POST)` → valider + créer un avis
-- `editReview (GET)` → afficher le formulaire d’édition
-- `editReview (POST)` → valider + mettre à jour un avis
-- `togglePublish` → publier / dépublier un avis
-- `deleteReview` → supprimer un avis
+# 🟨 7. Feature Admin Reviews – Checklist complète (100% OK)
 
-OK CETTE TACHE EST FAITE ❎❎❎❎❎
+## ✔️ Validation & sécurité
+- `reviewSchema` (Joi) : rating, comment, is_published  
+- Validation + conversion des types (`convert: true`)  
+- Gestion correcte des booleans  
 
-## 3. Routes admin
-Créer ou compléter les routes :
+## ✔️ Contrôleur admin (CRUD complet)
+- `getReviews`  
+- `createReviewForm`  
+- `createReview`  
+- `editReviewForm`  
+- `updateReview`  
+- `togglePublish`  
+- `deleteReview`  
 
-- `GET /admin/reviews`
-- `POST /admin/review/create`
-- `GET /admin/reviews/:id/edit`
-- `PUT /admin/reviews/:id/edit`
-- `DELETE /admin/reviews/:id/delete`
-- `POST /admin/reviews/:id/toggle`
+## ✔️ Routes admin
+- GET `/admin/reviews`  
+- GET `/admin/review/create`  
+- POST `/admin/review`  
+- GET `/admin/review/:id/edit`  
+- PUT `/admin/review/:id`  
+- DELETE `/admin/review/:id`  
+- POST `/admin/review/:id/toggle`  
 
-OK CETTE TACHE EST FAITE ❎❎❎❎❎
+## ✔️ Templates EJS
+- `list.ejs`  
+- `edit.ejs`  
+- `create.ejs`  
 
-Toutes protégées par :
-- middleware `isAuthenticated`
-- middleware `isAdmin`
+## ✔️ Bugs corrigés
+- Affichage User.firstname / User.name  
+- Affichage Book.title  
+- Système de note (étoiles + badge)  
 
-## 4. Templates EJS (avec Bootstrap Icons)
-Créer dans `views/admin/reviews/` :
+---
 
-- `list.ejs` → tableau des avis (User, Book, note, commentaire, statut, actions)
-- `edit.ejs` → formulaire d’édition
-<!-- - `detail.ejs` → détails d'un avis... je dirai que ce n'est pas forcément nécessaire -->
-<!-- - `create.ejs` → à voir si je le mets en place ou non , il faut voir -->
+# 🟩 8. Prochaines étapes
 
-Les templates sont en cours de réalisation, j'ai dû simplement gérer au niveau du front pour 'affichage d'un texte si l'admin n'a selectionné aucun avis à publish ou non.
-Peut-être serait il pertinant de ne faire que deux templates pour ce list et edit, mais je me pose la question  de savoir si éventuellement un admin voudrait créer un avis manuellement 
+Je vais maintenant :
+- renforcer la gestion des erreurs  
+- finaliser les templates EJS  
+- relire tout le code  
+- nettoyer les commentaires et les logs   
+- vérifier 100 fois que tout fonctionne parfaitement  
+- préparer le dossier projet  
+- préparer le dossier professionnel pour le Titre Pro DWWM  
 
-##  🔴 BUGS À CORRIGER - Admin Reviews
-- ❌ **Nom utilisateur non visible** → affichage de `review.user.name` + `review.user.firstname` ne marche pas, effectivement il fallait utiliser User.name et User.firstname dans le controller admin.review.controller.js peut-être à corriger par la suite pour avoir une meilleure lisibilité et pouvoir mettre user.firstname et user.name dans le template ejs
-  pour le moment c'est fonctionnel comme ça.
-- ❌ **Livre non visible** → affichage de `review.book.title` ne marche pas  et c'est le même problème que pour l'utilisateur, il faut utiliser Book.title dans le template ejs.
-- ❌ **Système de note cassé** → le rendu des étoiles et du badge /5 ne fonctionne pas corrigé simplement en mettant les notes /10 par contre voir si je peux faire mieux par la suite nottamment affichage de jauge ou étoiles... et.
-donc on peut considére que la résolution de ces "bugs" c'est : OK CETTE TACHE EST FAITE ❎❎❎❎❎
-
-Utiliser :
-- layout admin existant
-- icônes Bootstrap (`bi bi-trash`, `bi bi-pencil`, `bi bi-eye`, `bi bi-eye-slash`)
-
-
-
-
-# ↓↓↓↓↓ Voilà les questionnements au niveau de l'admin reviews, le 30/12/2025 en résumé ↓↓↓↓↓
-- je me pose des questions sur l'utilité d'un template detail... est ce vraiment pertinent ?
-- et finalement est ce que je ne mettrai pas un formulaire de création d'avis côté admin, en justifiant que l'admin pourrait vouloir créer des avis manuellement pour lancer le site avec des avis déjà présents ?
-- et aussi enfin, surement améliorer mon controller pour pouvoir afficher les prénoms et noms des utilisateurs dans le front convenablement.
-
-
-
-
-
-
-
-
-
-##  Tests rapides à faire après l’implémentation
-- Créer un avis via l’admin
-- Modifier un avis
-- Publier/dépublier un avis
-- Vérifier que le front n’affiche que les avis publiés
-- Vérifier que tout apparaît correctement dans la base
+Je suis dans la dernière ligne droite, pour avoir un BO propre et simple à la fois

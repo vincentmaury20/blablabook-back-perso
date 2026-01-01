@@ -9,8 +9,10 @@ export const adminReviewRouter = Router();
 
 adminReviewRouter.get('/admin/reviews', authenticateAdmin, isAdmin, adminReviewController.getReviews);
 
-// Le formulaire de création d'une review est déjà géré côté user donc ne pas le refaire ici me parait ok
-//donc on passe à la création directe
+// ensuite le formulaire de création d'une review
+adminReviewRouter.get('/admin/review/create', authenticateAdmin, isAdmin, adminReviewController.createReviewForm);
+
+// la création elle-même pour valider en base de données
 adminReviewRouter.post('/admin/review', authenticateAdmin, isAdmin, adminReviewController.createReview);
 
 // pour l'édition ce sera seulement également une route pour l'admin , disons si il y a des fautes ou encore des abus donc il y a besoin d'un formulaire prévu à cet effet

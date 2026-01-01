@@ -14,7 +14,10 @@ export const adminReviewController = {
             order: [["created_at", "DESC"]]
          });
 
-         res.render("reviews/list", { reviews, adminName: req.user.name, title: "Gestion des avis" });
+         res.render("reviews/list", {
+            reviews,
+            title: "Gestion des avis"
+         });
 
       } catch (error) {
          console.error("Erreur récupération reviews admin:", error);
@@ -22,19 +25,34 @@ export const adminReviewController = {
       }
    },
 
+   async createReviewForm(req, res) {
+      try {
+         const users = await User.findAll();
+         const books = await Book.findAll();
+
+         res.render("reviews/create", {
+            title: "Créer un avis",
+            users,
+            books
+         });
+
+      } catch (error) {
+         console.error("Erreur createReviewForm:", error);
+         res.status(500).send("Erreur serveur");
+      }
+   },
+
    async createReview(req, res) {
       try {
-         // Validation des champs rating, comment, is_published
-         const data = Joi.attempt(req.body, reviewSchema);
+         const data = reviewSchema.validate(req.body, { convert: true }).value;
 
-         // Récupération des IDs
          const { user_id, book_id } = req.body;
 
-         // Création de l'avis
          await Review.create({
             ...data,
             user_id,
-            book_id
+            book_id,
+            is_published: req.body.is_published === "true"
          });
 
          res.redirect("/admin/reviews");
@@ -49,27 +67,23 @@ export const adminReviewController = {
       try {
          const { id } = req.params;
 
-         // 1. Récupérer la review
          const review = await Review.findByPk(id);
 
          if (!review) {
             return res.status(404).send("Review introuvable");
          }
 
-         // 2. Valider les champs rating/comment/is_published
-         const data = Joi.attempt(req.body, reviewSchema);
+         const data = reviewSchema.validate(req.body, { allowUnknown: true, convert: true }).value;
 
-         // 3. Récupérer user_id et book_id envoyés par le formulaire
          const { user_id, book_id } = req.body;
 
-         // 4. Mettre à jour la review
          await review.update({
             ...data,
             user_id,
-            book_id
+            book_id,
+            is_published: req.body.is_published === "true"
          });
 
-         // 5. Redirection
          res.redirect("/admin/reviews");
 
       } catch (error) {
@@ -93,11 +107,11 @@ export const adminReviewController = {
             return res.status(404).send("Review introuvable");
          }
 
-         // Récupérer tous les users et books pour les <select>
          const users = await User.findAll();
          const books = await Book.findAll();
 
-         res.render("admin/reviews/edit", {
+         res.render("reviews/edit", {
+            title: "Modifier un avis",
             review,
             users,
             books
