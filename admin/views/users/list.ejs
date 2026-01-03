@@ -6,7 +6,7 @@
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h1 class="fw-bold"><i class="bi bi-list-ul"></i> Liste des utilisateurs</h1>
     <a href="/admin/user/create" class="btn btn-success">
-      ➕ Créer un utilisateur
+      <i class="bi bi-plus-circle"></i> Créer un utilisateur
     </a>
   </div>
 
@@ -38,7 +38,7 @@
     <div class="card-body p-0">
 
       <table class="table table-hover align-middle mb-0">
-        <thead class="table-dark">
+        <thead class="table-info">
           <tr>
             <th>Nom</th>
             <th>Prénom</th>
@@ -71,22 +71,32 @@
 
                   <!-- Voir -->
                   <a href="/admin/user/<%= user.id %>"
-                     class="btn btn-sm btn-outline-info">
-                    👁️
+                     class="btn btn-lg btn-outline-info"
+                     data-bs-toggle="tooltip"
+                     data-bs-placement="top"
+                     title="Voir le profil">
+                    <i class="bi bi-file-earmark-person-fill"></i>
                   </a>
 
                   <!-- Modifier -->
                   <a href="/admin/user/<%= user.id %>/edit"
-                     class="btn btn-sm btn-outline-warning">
-                    ✏️
+                     class="btn btn-lg btn-outline-warning"
+                     data-bs-toggle="tooltip"
+                     data-bs-placement="top"
+                     title="Modifier l'utilisateur">
+                    <i class="bi bi-vector-pen"></i>
                   </a>
 
                   <!-- Supprimer -->
                   <form action="/admin/user/<%= user.id %>?_method=DELETE"
                         method="POST"
                         onsubmit="return confirm('Supprimer cet utilisateur ? Cette action est irréversible.')">
-                    <button type="submit" class="btn btn-sm btn-outline-danger">
-                      🗑️
+                    <button type="submit" class="btn btn-lg btn-outline-danger"
+                     data-bs-toggle="tooltip"
+                     data-bs-placement="top"
+                     title="Supprimer l'utilisateur"
+                    >
+                      <i class="bi bi-trash3-fill"></i>
                     </button>
                   </form>
 

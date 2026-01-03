@@ -7,7 +7,10 @@ export const reviewController = {
          const bookId = req.params.id;
 
          const reviews = await Review.findAll({
-            where: { book_id: bookId },
+            where: {
+               book_id: bookId,
+               is_published: true
+            },
             include: [
                { model: User, attributes: ["id", "firstname", "name", "avatar"] },
                { model: Book, attributes: ["id", "title"] }

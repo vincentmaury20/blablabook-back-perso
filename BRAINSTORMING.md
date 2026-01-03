@@ -214,7 +214,7 @@ Il me reste maintenant à **renforcer la gestion des erreurs**, **finaliser les 
 
 ---
 
-# 🟩 5. Priorités immédiates (ordre conseillé)
+# 🟩 5. Priorités immédiates 
 
 1. **Gestion des erreurs (Express + EJS)**  
 2. **Finalisation des templates EJS**  
@@ -273,6 +273,7 @@ Il me reste maintenant à **renforcer la gestion des erreurs**, **finaliser les 
 # 🟩 8. Prochaines étapes
 
 Je vais maintenant :
+- revoir un peu le style de mon côté admin 🟩
 - renforcer la gestion des erreurs  
 - finaliser les templates EJS  
 - relire tout le code  

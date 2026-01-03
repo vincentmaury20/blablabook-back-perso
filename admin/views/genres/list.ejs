@@ -32,7 +32,7 @@
     <div class="card-body p-0">
 
       <table class="table table-hover align-middle mb-0">
-        <thead class="table-dark">
+        <thead class="table-info">
           <tr>
             <th>Nom</th>
             <th>Livres associés</th>
@@ -60,22 +60,31 @@
 
                   <!-- Voir -->
                   <a href="/admin/genres/<%= genre.id %>"
-                     class="btn btn-sm btn-outline-info">
-                    👁️
+                     class="btn btn-lg btn-outline-info"
+                     data-bs-toggle="tooltip"
+                     data-bs-placement="top"
+                     title="Voir le détail">
+                    <i class="bi bi-file-earmark-text-fill"></i>
                   </a>
 
                   <!-- Modifier -->
                   <a href="/admin/genres/<%= genre.id %>/edit"
-                     class="btn btn-sm btn-outline-warning">
-                    ✏️
+                     class="btn btn-lg btn-outline-warning"
+                     data-bs-toggle="tooltip"
+                     data-bs-placement="top"
+                     title="Modifier le genre">
+                    <i class="bi bi-pencil-fill"></i>
                   </a>
 
                   <!-- Supprimer -->
                   <form action="/admin/genres/<%= genre.id %>?_method=DELETE"
                         method="POST"
                         onsubmit="return confirm('Supprimer ce genre ? Cette action est irréversible.')">
-                    <button type="submit" class="btn btn-sm btn-outline-danger">
-                      🗑️
+                    <button type="submit" class="btn btn-lg btn-outline-danger"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="top"
+                            title="Supprimer le genre">
+                      <i class="bi bi-trash3-fill"></i>
                     </button>
                   </form>
 

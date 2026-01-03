@@ -24,7 +24,7 @@
     <div class="card-body p-0">
 
       <table class="table table-hover align-middle mb-0">
-        <thead class="table-dark">
+        <thead class="table-info">
           <tr>
             <th>Utilisateur</th>
             <th>Livre</th>
@@ -63,7 +63,7 @@
                   <% for (let i = 0; i < review.rating; i++) { %>
                     <i class="bi bi-star-fill text-warning"></i>
                   <% } %>
-                  <span class="ms-2 badge bg-info"><%= review.rating %>/10</span>
+                  <span class="ms-2 badge bg-secondary"><%= review.rating %>/10</span>
                 </div>
               </td>
 
@@ -89,13 +89,15 @@
 
               <!-- Actions -->
               <td class="text-center">
-                <div class="btn-group btn-group-sm" role="group">
+                <div class="btn-group btn-group-lg" role="group">
 
                   <!-- Modifier -->
                   <a href="/admin/review/<%= review.id %>/edit"
-                     class="btn btn-outline-warning"
+                     class="btn btn-lg btn-outline-warning"
+                     data-bs-toggle="tooltip"
+                     data-bs-placement="top"
                      title="Modifier cet avis">
-                    ✏️
+                    <i class="bi bi-pencil-fill"></i>
                   </a>
 
                   <!-- Toggle Publish -->
@@ -103,7 +105,9 @@
                         method="POST"
                         style="display: inline;">
                     <button type="submit" 
-                            class="btn btn-outline-<%= review.is_published ? 'info' : 'secondary' %>"
+                            class="btn btn-lg btn-outline-<%= review.is_published ? 'info' : 'secondary' %>"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="top"
                             title="<%= review.is_published ? 'Dépublier' : 'Publier' %>">
                       <i class="bi <%= review.is_published ? 'bi-eye-slash' : 'bi-eye' %>"></i>
                     </button>
@@ -114,9 +118,11 @@
                         method="POST"
                         style="display: inline;"
                         onsubmit="return confirm('Supprimer cet avis ? Cette action est irréversible.')">
-                    <button type="submit" class="btn btn-outline-danger"
+                    <button type="submit" class="btn btn-lg btn-outline-danger"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="top"
                             title="Supprimer cet avis">
-                      🗑️
+                      <i class="bi bi-trash3-fill"></i>
                     </button>
                   </form>
 

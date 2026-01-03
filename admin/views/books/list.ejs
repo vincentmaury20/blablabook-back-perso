@@ -36,7 +36,7 @@
     <div class="card-body p-0">
 
       <table class="table table-hover align-middle mb-0">
-        <thead class="table-dark">
+        <thead class="table-info">
           <tr>
             <th>Titre</th>
             <th>Auteur(s)</th>
@@ -86,22 +86,32 @@
 
                   <!-- Voir -->
                   <a href="/admin/book/<%= book.id %>"
-                     class="btn btn-sm btn-outline-info">
-                    👁️
+                    class="btn btn-lg btn-outline-info"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="Détail du livre">
+                    <i class="bi bi-file-earmark-text-fill"></i>
                   </a>
 
                   <!-- Modifier -->
                   <a href="/admin/book/<%= book.id %>/edit"
-                     class="btn btn-sm btn-outline-warning">
-                    ✏️
+                    class="btn btn-lg btn-outline-warning"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="Modifier les information du livre">
+                    <i class="bi bi-pencil-fill"></i>
                   </a>
 
                   <!-- Supprimer -->
                   <form action="/admin/book/<%= book.id %>?_method=DELETE"
                         method="POST"
                         onsubmit="return confirm('Supprimer ce livre ? Cette action est irréversible.')">
-                    <button type="submit" class="btn btn-sm btn-outline-danger">
-                      🗑️
+                    <button type="submit" 
+                    class="btn btn-lg btn-outline-danger"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="Supprimer le livre">
+                      <i class="bi bi-trash3-fill"></i>
                     </button>
                   </form>
 
