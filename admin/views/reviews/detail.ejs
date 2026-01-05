@@ -1,1 +1,91 @@
-<!-- Simplement un commentaire pour mettre ce fichier en attente car je ne pense pas qu'il soit pertinent de le garder -->
+<%- include("../partials/header") %>
+
+<div class="container my-4">
+
+  <!-- HEADER DE PAGE -->
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+    <h1 class="fw-bold text-secondary">
+      <i class="bi bi-chat-left-quote-fill text-success"></i> Détails de l'avis
+    </h1>
+  </div>
+
+  <!-- CONTENU -->
+  <ul class="list-group mb-4">
+    <li class="list-group-item">
+      <strong>Utilisateur :</strong>
+      <% if (review.User) { %>
+        <%= review.User.firstname %> <%= review.User.name %>
+      <% } else { %>
+        <span class="text-muted">Utilisateur supprimé</span>
+      <% } %>
+    </li>
+
+    <li class="list-group-item">
+      <strong>Livre :</strong>
+      <% if (review.Book) { %>
+        <%= review.Book.title %>
+      <% } else { %>
+        <span class="text-muted">Livre supprimé</span>
+      <% } %>
+    </li>
+
+    <li class="list-group-item">
+      <strong>Note :</strong>
+      <div class="d-flex align-items-center gap-2">
+        <% for (let i = 0; i < review.rating; i++) { %>
+          <i class="bi bi-star-fill text-warning"></i>
+        <% } %>
+        <span class="badge bg-secondary"><%= review.rating %>/10</span>
+      </div>
+    </li>
+
+    <li class="list-group-item">
+      <strong>Commentaire :</strong>
+      <% if (review.comment && review.comment.length > 0) { %>
+        <p class="mb-0"><%= review.comment %></p>
+      <% } else { %>
+        <span class="text-muted">Aucun commentaire</span>
+      <% } %>
+    </li>
+
+    <li class="list-group-item">
+      <strong>Statut :</strong>
+      <% if (review.is_published) { %>
+        <span class="badge bg-success">Publié</span>
+      <% } else { %>
+        <span class="badge bg-warning text-dark">Brouillon</span>
+      <% } %>
+    </li>
+  </ul>
+
+  <!-- BOUTONS -->
+  <div class="d-flex flex-column flex-md-row gap-2">
+    <a href="/admin/review/<%= review.id %>/edit" class="btn btn-warning">
+      <i class="bi bi-pencil-square"></i> Modifier
+    </a>
+
+    <form action="/admin/review/<%= review.id %>/toggle" method="POST" style="display: inline;">
+      <button type="submit" class="btn btn-<%= review.is_published ? 'info' : 'secondary' %>">
+        <i class="bi <%= review.is_published ? 'bi-eye-slash-fill' : 'bi-eye-fill' %>"></i>
+        <%= review.is_published ? 'Dépublier' : 'Publier' %>
+      </button>
+    </form>
+
+    <form action="/admin/review/<%= review.id %>?_method=DELETE" method="POST" style="display: inline;" onsubmit="return confirm('Supprimer cet avis ? Cette action est irréversible.')">
+      <button type="submit" class="btn btn-danger">
+        <i class="bi bi-trash3-fill"></i> Supprimer
+      </button>
+    </form>
+
+    <a href="/admin" class="btn btn-outline-info">
+      <i class="bi bi-clipboard2-data"></i> Tableau de bord
+    </a>
+
+    <a href="/admin/reviews" class="btn btn-secondary">
+      <i class="bi bi-arrow-left-circle"></i> Retour à la liste
+    </a>
+  </div>
+
+</div>
+
+<%- include("../partials/footer") %>

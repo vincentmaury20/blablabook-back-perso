@@ -2,53 +2,66 @@
 
 <div class="container my-4">
 
-  <h1 class="mb-4">➕ Créer un avis</h1>
+  <!-- HEADER DE PAGE -->
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+    <h1 class="fw-bold text-secondary">
+      <i class="bi bi-plus-circle-fill text-success"></i> Créer un avis
+    </h1>
+  </div>
 
-  <form id="createReviewForm" action="/admin/review" method="POST">
+  <!-- FORMULAIRE -->
+  <form id="createReviewForm" action="/admin/review" method="POST" class="mt-4">
 
-    <!-- Note -->
-    <div class="mb-3">
-      <label class="form-label">Note (1 à 10)</label>
-      <input 
-        type="number" 
-        name="rating" 
-        class="form-control" 
-        min="1" 
-        max="10" 
-        required
-      >
-    </div>
+    <!-- Note + Utilisateur -->
+    <div class="row">
+      <div class="col-12 col-md-6 mb-3">
+        <label for="rating" class="form-label fw-semibold">Note (1 à 10)</label>
+        <input 
+          type="number" 
+          id="rating"
+          name="rating" 
+          class="form-control" 
+          min="1" 
+          max="10" 
+          required
+          placeholder="Ex: 8"
+        >
+      </div>
 
-    <!-- Commentaire -->
-    <div class="mb-3">
-      <label class="form-label">Commentaire</label>
-      <textarea 
-        name="comment" 
-        class="form-control" 
-        rows="4"
-      ></textarea>
-    </div>
-
-    <!-- Utilisateur -->
-    <div class="mb-3">
-      <label class="form-label">Utilisateur</label>
-      <select name="user_id" class="form-select" required>
-        <% users.forEach(user => { %>
-          <option value="<%= user.id %>">
-            <%= user.firstname %> <%= user.name %>
-          </option>
-        <% }) %>
-      </select>
+      <div class="col-12 col-md-6 mb-3">
+        <label for="user_id" class="form-label fw-semibold">Utilisateur</label>
+        <select name="user_id" id="user_id" class="form-select" required>
+          <option value="">-- Sélectionner un utilisateur --</option>
+          <% users.forEach(user => { %>
+            <option value="<%= user.id %>">
+              <%= user.firstname %> <%= user.name %>
+            </option>
+          <% }) %>
+        </select>
+      </div>
     </div>
 
     <!-- Livre -->
     <div class="mb-3">
-      <label class="form-label">Livre concerné</label>
-      <select name="book_id" class="form-select" required>
+      <label for="book_id" class="form-label fw-semibold">Livre concerné</label>
+      <select name="book_id" id="book_id" class="form-select" required>
+        <option value="">-- Sélectionner un livre --</option>
         <% books.forEach(book => { %>
           <option value="<%= book.id %>"><%= book.title %></option>
         <% }) %>
       </select>
+    </div>
+
+    <!-- Commentaire -->
+    <div class="mb-3">
+      <label for="comment" class="form-label fw-semibold">Commentaire</label>
+      <textarea 
+        name="comment" 
+        id="comment"
+        class="form-control" 
+        rows="4"
+        placeholder="Avis sur le livre..."
+      ></textarea>
     </div>
 
     <!-- Publication -->
@@ -57,20 +70,27 @@
         class="form-check-input" 
         type="checkbox" 
         name="is_published" 
+        id="is_published"
         value="true"
       >
-      <label class="form-check-label">Publié</label>
+      <label class="form-check-label" for="is_published">Publié</label>
     </div>
 
-    <!-- Bouton -->
-    <button 
-      type="button" 
-      class="btn btn-primary" 
-      data-bs-toggle="modal" 
-      data-bs-target="#confirmModal"
-    >
-      Créer l’avis
-    </button>
+    <!-- Boutons -->
+    <div class="d-flex flex-column flex-md-row gap-2 mt-3">
+      <button 
+        type="button" 
+        class="btn btn-success info-hover" 
+        data-bs-toggle="modal" 
+        data-bs-target="#confirmModal"
+      >
+        <i class="bi bi-check-circle-fill"></i> Créer l'avis
+      </button>
+
+      <a href="/admin/reviews" class="btn btn-secondary">
+        <i class="bi bi-x-circle"></i> Annuler
+      </a>
+    </div>
 
   </form>
 </div>
@@ -101,10 +121,10 @@
 
         <button 
           type="button" 
-          class="btn btn-primary" 
+          class="btn btn-success" 
           id="confirmSubmit"
         >
-          Confirmer
+          <i class="bi bi-check-circle-fill"></i> Confirmer
         </button>
       </div>
 

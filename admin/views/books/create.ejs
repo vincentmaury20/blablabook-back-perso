@@ -1,58 +1,76 @@
 <%- include("../partials/header") %>
 
 <div class="container my-4">
-  <h1>📖 Créer un nouveau livre</h1>
 
-  <form action="/admin/book" method="POST" enctype="multipart/form-data">
-    <!-- Titre -->
-    <div class="mb-3">
-      <label class="form-label">Titre</label>
-      <input type="text" class="form-control" name="title" required>
-    </div>
+  <!-- HEADER DE PAGE -->
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+    <h1 class="fw-bold text-secondary">
+      <i class="bi bi-plus-circle-fill text-success"></i> Créer un nouveau livre
+    </h1>
+  </div>
 
-    <!-- Date de sortie -->
-    <div class="mb-3">
-      <label class="form-label">Date de sortie</label>
-      <input type="date" class="form-control" name="release_date">
+  <!-- FORMULAIRE -->
+  <form action="/admin/book" method="POST" enctype="multipart/form-data" class="mt-4">
+
+    <!-- Titre + Date -->
+    <div class="row">
+      <div class="col-12 col-md-6 mb-3">
+        <label for="title" class="form-label fw-semibold">Titre</label>
+        <input type="text" class="form-control" id="title" name="title" required placeholder="Ex : Le Seigneur des Anneaux">
+      </div>
+
+      <div class="col-12 col-md-6 mb-3">
+        <label for="release_date" class="form-label fw-semibold">Date de sortie</label>
+        <input type="date" class="form-control" id="release_date" name="release_date">
+      </div>
     </div>
 
     <!-- Synopsis -->
     <div class="mb-3">
-      <label class="form-label">Synopsis</label>
-      <textarea class="form-control" name="synopsis" rows="4"></textarea>
+      <label for="synopsis" class="form-label fw-semibold">Synopsis</label>
+      <textarea class="form-control" id="synopsis" name="synopsis" rows="4" placeholder="Résumé du livre..."></textarea>
     </div>
 
-    <!-- Cover -->
+    <!-- Couverture -->
     <div class="mb-3">
-      <label class="form-label">Couverture</label>
-      <input type="file" class="form-control" name="cover" accept="image/*">
+      <label for="cover" class="form-label fw-semibold">Couverture</label>
+      <input type="file" class="form-control" id="cover" name="cover" accept="image/*">
+      <small class="text-muted">Formats acceptés : JPG, PNG, WEBP</small>
     </div>
 
-    <!-- Auteurs inline -->
+    <!-- Auteurs -->
     <div class="mb-3">
-      <label class="form-label">Auteurs</label>
-      <select name="authorIds" class="form-select" multiple>
+      <label for="authorIds" class="form-label fw-semibold">Auteurs</label>
+      <select name="authorIds" id="authorIds" class="form-select" multiple>
         <% authors.forEach(author => { %>
-          <option value="<%= author.id %>"> <%= author.name %> <%= author.firstname %> </option>
+          <option value="<%= author.id %>"><%= author.name %> <%= author.firstname %></option>
         <% }) %>
       </select>
-
       <small class="text-muted">Maintenir Ctrl (ou Cmd) pour sélectionner plusieurs auteurs</small>
     </div>
 
-    <!-- Genres inline -->
+    <!-- Genres -->
     <div class="mb-3">
-      <label class="form-label">Genres</label>
-      <select name="genreIds" class="form-select" multiple>
+      <label for="genreIds" class="form-label fw-semibold">Genres</label>
+      <select name="genreIds" id="genreIds" class="form-select" multiple>
         <% genres.forEach(genre => { %>
           <option value="<%= genre.id %>"><%= genre.name %></option>
         <% }) %>
       </select>
+      <small class="text-muted">Maintenir Ctrl (ou Cmd) pour sélectionner plusieurs genres</small>
     </div>
 
-    <!-- Bouton -->
-    <button type="submit" class="btn btn-success">Créer le livre</button>
-    <a href="/admin/books" class="btn btn-secondary">Annuler</a>
+    <!-- Boutons -->
+    <div class="d-flex flex-column flex-md-row gap-2 mt-3">
+      <button type="submit" class="btn btn-success info-hover">
+        <i class="bi bi-check-circle-fill"></i> Créer le livre
+      </button>
+
+      <a href="/admin/books" class="btn btn-secondary">
+        <i class="bi bi-x-circle"></i> Annuler
+      </a>
+    </div>
+
   </form>
 </div>
 

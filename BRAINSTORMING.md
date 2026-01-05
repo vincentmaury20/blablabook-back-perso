@@ -272,14 +272,83 @@ Il me reste maintenant à **renforcer la gestion des erreurs**, **finaliser les 
 
 # 🟩 8. Prochaines étapes
 
-Je vais maintenant :
-- revoir un peu le style de mon côté admin 🟩
-- renforcer la gestion des erreurs  
-- finaliser les templates EJS  
-- relire tout le code  
-- nettoyer les commentaires et les logs   
-- vérifier 100 fois que tout fonctionne parfaitement  
-- préparer le dossier projet  
-- préparer le dossier professionnel pour le Titre Pro DWWM  
+# 🗓️ Planning de finalisation du projet (1 semaine)
 
-Je suis dans la dernière ligne droite, pour avoir un BO propre et simple à la fois
+## 🎨 Lundi — Finitions EJS (1h–1h30)
+- Harmonisation des boutons (Bootstrap)
+- Ajout des tooltips
+- Remplacement des emojis par des icônes Bootstrap
+- Nettoyage des templates (indentation, classes, cohérence)
+- Vérification du responsive léger
+
+---
+
+## ⚠️ Mardi — Gestion des erreurs globales (1h–2h)
+- Création de `404.ejs`
+- Création de `500.ejs`
+- Mise en place d’un middleware global Express
+- Tests d’erreurs contrôlées (routes inexistantes, erreurs serveur)
+
+---
+
+## 🧱 Mercredi — Gestion des erreurs Multer + messages EJS (1h–1h30)
+- Gestion des erreurs de taille/format d’image
+- Ajout d’alertes Bootstrap dans les formulaires
+- Redirections propres en cas d’erreur
+- Vérification des messages d’erreur côté admin
+
+---
+
+## 🧹 Jeudi — Review + nettoyage du code backend (1h–1h30)
+- Suppression des logs inutiles
+- Suppression des commentaires temporaires
+- Vérification des includes Sequelize
+- Vérification des routes admin
+- Vérification des try/catch et des status codes
+- Harmonisation des noms de variables
+
+---
+
+## 🐳 Vendredi — Dockerisation backend + base de données (1h–2h)
+- Création du `Dockerfile` backend
+- Création du `docker-compose.yml` (backend + DB)
+- Tests en local
+- Vérification du fonctionnement des migrations/seed
+
+---
+
+## 🖥️ Samedi — Dockerisation front + tests (1h–1h30)
+- Création du `Dockerfile` front
+- Ajout du front dans `docker-compose.yml`
+- Tests front + back + DB ensemble
+- Vérification des variables d’environnement
+
+---
+
+## 🚀 Dimanche — Déploiement (1h–2h)
+- Déploiement backend (Render ou VPS Docker)
+- Déploiement front (Vercel ou VPS)
+- Tests en production (CRUD, images, avis, erreurs)
+- Vérification du fonctionnement global
+
+---
+
+# 🗂️ Planning dossiers (2 semaines)
+
+## 📁 Semaine 1 — Dossier Projet
+- Contexte et objectifs
+- Architecture technique
+- Choix techniques
+- Fonctionnalités détaillées
+- Sécurité
+- Déploiement
+- Captures d’écran
+- Conclusion
+
+## 🧑‍💼 Semaine 2 — Dossier Professionnel ( déjà fait mais à revoir tout de même )
+- Parcours
+- Compétences
+- Expériences
+- Projet principal (Blablabook)
+- Mise en situation professionnelle
+- Auto-évaluation

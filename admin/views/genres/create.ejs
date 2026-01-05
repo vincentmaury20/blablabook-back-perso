@@ -1,12 +1,19 @@
 <%- include("../partials/header") %>
 
 <div class="container my-4">
-  <h1>➕ Ajouter un genre</h1>
 
+  <!-- HEADER DE PAGE -->
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+    <h1 class="fw-bold text-secondary">
+      <i class="bi bi-plus-circle-fill text-success"></i> Ajouter un genre
+    </h1>
+  </div>
+
+  <!-- FORMULAIRE -->
   <form action="/admin/genres/create" method="POST" class="mt-4">
 
     <div class="mb-3">
-      <label for="name" class="form-label"><strong>Nom du genre</strong></label>
+      <label for="name" class="form-label fw-semibold">Nom du genre</label>
       <input 
         type="text" 
         class="form-control" 
@@ -17,9 +24,15 @@
       >
     </div>
 
-    <div class="d-flex gap-2">
-      <button type="submit" class="btn btn-success">Créer le genre</button>
-      <a href="/admin/genres" class="btn btn-secondary">Annuler</a>
+    <!-- Boutons -->
+    <div class="d-flex flex-column flex-md-row gap-2 mt-3">
+      <button type="submit" class="btn btn-success info-hover">
+        <i class="bi bi-check-circle-fill"></i> Créer le genre
+      </button>
+
+      <a href="/admin/genres" class="btn btn-secondary">
+        <i class="bi bi-x-circle"></i> Annuler
+      </a>
     </div>
 
   </form>

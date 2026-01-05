@@ -1,0 +1,29 @@
+.info-hover {
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.btn-success.info-hover:hover {
+  background-color: #f3f3f3;
+  color: #ff9d00;
+}
+/* Sidebar améliorée */
+.sidebar .nav-link {
+  padding: 10px 15px;
+  color: #333;
+  transition: background-color 0.2s ease;
+}
+
+.sidebar .nav-link:hover {
+  background-color: #e9ecef;
+  border-radius: 4px;
+}
+
+/* Cards */
+.card {
+  border-radius: 8px;
+}
+
+/* Titre dashboard premium */
+.dashboard-title {
+  color: #4a6cf7;
+}

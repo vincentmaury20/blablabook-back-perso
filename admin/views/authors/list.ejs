@@ -2,115 +2,135 @@
 
 <div class="my-4">
 
-  <!-- Titre + actions -->
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="fw-bold"><i class="bi bi-list-ul"></i> Liste des auteurs</h1>
-    <a href="/admin/author/create" class="btn btn-success">
-      ➕ Ajouter un auteur
+  <!-- HEADER DE PAGE -->
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+    <h1 class="fw-bold text-secondary">
+      <i class="bi bi-list-ul text-success"></i> Liste des auteurs
+    </h1>
+
+    <a href="/admin/author/create" class="btn btn-success info-hover">
+      <i class="bi bi-plus-circle-fill"></i> Ajouter un auteur
     </a>
   </div>
 
-  <!-- Barre d'outils -->
+  <!-- BARRE D'OUTILS -->
   <div class="card shadow-sm mb-4">
-    <div class="card-body d-flex justify-content-between align-items-center">
+    <div class="card-body d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+
       <a href="/admin" class="btn btn-outline-primary">
-        ⬅️ Retour au dashboard
+        <i class="bi bi-clipboard2-data"></i> Tableau de bord
       </a>
 
       <form class="d-flex" method="GET" action="/admin/authors" style="max-width: 300px;">
-        <input class="form-control form-control-sm me-2" type="search"   placeholder="Rechercher ..." aria-label="Search" name="search" value="<%= search || '' %>">
+        <input 
+          class="form-control form-control-sm me-2" 
+          type="search" 
+          placeholder="Rechercher..." 
+          aria-label="Search" 
+          name="search" 
+          value="<%= search || '' %>"
+        >
         <button class="btn btn-sm btn-outline-secondary" type="submit">OK</button>
       </form>
+
     </div>
   </div>
 
-  <!-- Tableau -->
+  <!-- TABLEAU -->
   <div class="card shadow-sm">
     <div class="card-body p-0">
 
-      <table class="table table-hover align-middle mb-0">
-        <thead class="table-info">
-          <tr>
-            <th>Nom</th>
-            <th>Prénom</th>
-            <th>Bio</th>
-            <th>Livres</th>
-            <th>Genres</th>
-            <th class="text-center">Actions</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <% authors.forEach(author => { %>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-info">
             <tr>
-              <td class="fw-semibold"><%= author.name %></td>
-              <td><%= author.firstname %></td>
-              <td class="text-muted" style="max-width: 250px;">
-                <%= author.bio ? author.bio.substring(0, 80) + "..." : "—" %>
-              </td>
-
-              <!-- Livres -->
-              <td>
-                <% if (author.books && author.books.length > 0) { %>
-                  <%= author.books.map(b => b.title).join(", ") %>
-                <% } else { %>
-                  <span class="text-muted">Aucun</span>
-                <% } %>
-              </td>
-
-              <!-- Genres -->
-              <td>
-                <% if (author.books && author.books.length > 0) { %>
-                  <% author.books.flatMap(b => b.genres).forEach(g => { %>
-                    <span class="badge bg-secondary me-1"><%= g.name %></span>
-                  <% }) %>
-                <% } else { %>
-                  <span class="text-muted">Aucun</span>
-                <% } %>
-              </td>
-
-              <!-- Actions -->
-              <td class="text-center">
-
-                <div class="btn-group" role="group">
-
-                  <!-- Voir -->
-                  <a href="/admin/author/<%= author.id %>"
-                     class="btn btn-lg btn-outline-info"
-                     data-bs-toggle="tooltip"
-                     data-bs-placement="top"
-                     title="Voir le profil">
-                    <i class="bi bi-file-earmark-person-fill"></i>
-                  </a>
-
-                  <!-- Modifier -->
-                  <a href="/admin/author/<%= author.id %>/edit"
-                     class="btn btn-lg btn-outline-warning"
-                     data-bs-toggle="tooltip"
-                     data-bs-placement="top"
-                     title="Modifier l'auteur">
-                    <i class="bi bi-pencil-fill"></i>
-                  </a>
-
-                  <!-- Supprimer -->
-                  <form action="/admin/author/<%= author.id %>?_method=DELETE"
-                        method="POST"
-                        onsubmit="return confirm('Supprimer cet auteur ? Cette action est irréversible.')">
-                    <button type="submit" class="btn btn-lg btn-outline-danger"
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="top"
-                            title="Supprimer l'auteur">
-                      <i class="bi bi-trash3-fill"></i>
-                    </button>
-                  </form>
-
-                </div>
-
-              </td>
+              <th>Nom</th>
+              <th>Prénom</th>
+              <th>Bio</th>
+              <th>Livres</th>
+              <th>Genres</th>
+              <th class="text-center">Actions</th>
             </tr>
-          <% }) %>
-        </tbody>
-      </table>
+          </thead>
+
+          <tbody>
+            <% authors.forEach(author => { %>
+              <tr>
+
+                <!-- Nom -->
+                <td class="fw-semibold"><%= author.name %></td>
+
+                <!-- Prénom -->
+                <td><%= author.firstname %></td>
+
+                <!-- Bio -->
+                <td class="text-muted" style="max-width: 250px;">
+                  <%= author.bio ? author.bio.substring(0, 80) + "..." : "—" %>
+                </td>
+
+                <!-- Livres -->
+                <td>
+                  <% if (author.books && author.books.length > 0) { %>
+                    <%= author.books.map(b => b.title).join(", ") %>
+                  <% } else { %>
+                    <span class="text-muted">Aucun</span>
+                  <% } %>
+                </td>
+
+                <!-- Genres -->
+                <td>
+                  <% if (author.books && author.books.length > 0) { %>
+                    <% author.books.flatMap(b => b.genres).forEach(g => { %>
+                      <span class="badge bg-secondary me-1"><%= g.name %></span>
+                    <% }) %>
+                  <% } else { %>
+                    <span class="text-muted">Aucun</span>
+                  <% } %>
+                </td>
+
+                <!-- Actions -->
+                <td class="text-center">
+
+                  <div class="btn-group" role="group">
+
+                    <!-- Voir -->
+                    <a href="/admin/author/<%= author.id %>"
+                       class="btn btn-sm btn-outline-info"
+                       data-bs-toggle="tooltip"
+                       title="Voir le profil">
+                      <i class="bi bi-file-earmark-person-fill"></i>
+                    </a>
+
+                    <!-- Modifier -->
+                    <a href="/admin/author/<%= author.id %>/edit"
+                       class="btn btn-sm btn-outline-warning"
+                       data-bs-toggle="tooltip"
+                       title="Modifier l'auteur">
+                      <i class="bi bi-pencil-fill"></i>
+                    </a>
+
+                    <!-- Supprimer -->
+                    <form action="/admin/author/<%= author.id %>?_method=DELETE"
+                          method="POST"
+                          onsubmit="return confirm('Supprimer cet auteur ? Cette action est irréversible.')">
+                      <button type="submit" 
+                              class="btn btn-sm btn-outline-danger"
+                              data-bs-toggle="tooltip"
+                              title="Supprimer l'auteur">
+                        <i class="bi bi-trash3-fill"></i>
+                      </button>
+                    </form>
+
+                  </div>
+
+                </td>
+
+              </tr>
+            <% }) %>
+          </tbody>
+
+        </table>
+      </div>
 
     </div>
   </div>

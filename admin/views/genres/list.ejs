@@ -2,19 +2,22 @@
 
 <div class="my-4">
 
-  <!-- Titre + actions -->
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="fw-bold"><i class="bi bi-list-ul"></i> Liste des Genres</h1>
-    <a href="/admin/genres/create" class="btn btn-success">
-      ➕ Ajouter un genre
+  <!-- HEADER DE PAGE -->
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+    <h1 class="fw-bold text-secondary">
+      <i class="bi bi-list-ul text-success"></i> Liste des genres
+    </h1>
+
+    <a href="/admin/genres/create" class="btn btn-success info-hover">
+      <i class="bi bi-plus-circle-fill"></i> Ajouter un genre
     </a>
   </div>
 
-  <!-- Barre d'outils -->
+  <!-- BARRE D'OUTILS -->
   <div class="card shadow-sm mb-4">
-    <div class="card-body d-flex justify-content-between align-items-center">
+    <div class="card-body d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
       <a href="/admin" class="btn btn-outline-primary">
-        ⬅️ Retour au dashboard
+        <i class="bi bi-clipboard2-data"></i> Tableau de bord
       </a>
 
       <form class="d-flex" method="GET" action="/admin/genres" style="max-width: 300px;">
@@ -56,11 +59,12 @@
 
               <!-- Actions -->
               <td class="text-center">
+
                 <div class="btn-group" role="group">
 
                   <!-- Voir -->
                   <a href="/admin/genres/<%= genre.id %>"
-                     class="btn btn-lg btn-outline-info"
+                     class="btn btn-sm btn-outline-info"
                      data-bs-toggle="tooltip"
                      data-bs-placement="top"
                      title="Voir le détail">
@@ -69,7 +73,7 @@
 
                   <!-- Modifier -->
                   <a href="/admin/genres/<%= genre.id %>/edit"
-                     class="btn btn-lg btn-outline-warning"
+                     class="btn btn-sm btn-outline-warning"
                      data-bs-toggle="tooltip"
                      data-bs-placement="top"
                      title="Modifier le genre">
@@ -80,7 +84,7 @@
                   <form action="/admin/genres/<%= genre.id %>?_method=DELETE"
                         method="POST"
                         onsubmit="return confirm('Supprimer ce genre ? Cette action est irréversible.')">
-                    <button type="submit" class="btn btn-lg btn-outline-danger"
+                    <button type="submit" class="btn btn-sm btn-outline-danger"
                             data-bs-toggle="tooltip"
                             data-bs-placement="top"
                             title="Supprimer le genre">

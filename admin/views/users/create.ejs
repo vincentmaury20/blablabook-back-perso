@@ -1,55 +1,72 @@
 <%- include("../partials/header") %>
 
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-2">
-      <%- include("../partials/sidebar") %>
-    </div>
-    <div class="col-6 my-4 mx-auto">
-      <div class="card shadow-sm">
-        <div class="card-body">
-          <h1 class="card-title mb-4">➕ Créer un utilisateur</h1>
+<div class="container my-4">
 
-          <form action="/admin/user" method="POST">
-            <div class="mb-3">
-              <label for="name" class="form-label">Nom</label>
-              <input type="text" class="form-control" id="name" name="name" required>
-            </div>
+  <!-- HEADER DE PAGE -->
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+    <h1 class="fw-bold text-secondary">
+      <i class="bi bi-person-plus-fill text-success"></i> Créer un utilisateur
+    </h1>
+  </div>
 
-            <div class="mb-3">
-              <label for="firstname" class="form-label">Prénom</label>
-              <input type="text" class="form-control" id="firstname" name="firstname" required>
-            </div>
+  <!-- FORMULAIRE -->
+  <form action="/admin/user" method="POST" class="mt-4">
 
-            <div class="mb-3">
-              <label for="password" class="form-label">Mot de passe temporaire</label>
-              <input type="password" class="form-control" id="password" name="password" required>
-            </div>
+    <!-- Nom + Prénom -->
+    <div class="row">
+      <div class="col-12 col-md-6 mb-3">
+        <label for="name" class="form-label fw-semibold">Nom</label>
+        <input type="text" class="form-control" id="name" name="name" required placeholder="Ex: Martin">
+      </div>
 
-            <div class="mb-3">
-              <label for="role" class="form-label">Rôle</label>
-              <select class="form-control" id="role" name="role" required>
-                <option value="user">Utilisateur</option>
-                <option value="admin">Administrateur</option>
-              </select>
-            </div>
-
-            <div class="mb-3">
-              <label for="age" class="form-label">Âge</label>
-              <input type="number" class="form-control" id="age" name="age" required>
-            </div>
-
-            <div class="mb-3">
-              <label for="email" class="form-label">Email</label>
-              <input type="email" class="form-control" id="email" name="email" required>
-            </div>
-
-            <button type="submit" class="btn btn-primary w-100">Créer</button>
-          </form>
-        </div>
+      <div class="col-12 col-md-6 mb-3">
+        <label for="firstname" class="form-label fw-semibold">Prénom</label>
+        <input type="text" class="form-control" id="firstname" name="firstname" required placeholder="Ex: Jean">
       </div>
     </div>
-  </div>
+
+    <!-- Email + Âge -->
+    <div class="row">
+      <div class="col-12 col-md-6 mb-3">
+        <label for="email" class="form-label fw-semibold">Email</label>
+        <input type="email" class="form-control" id="email" name="email" required placeholder="Ex: utilisateur@example.com">
+      </div>
+
+      <div class="col-12 col-md-6 mb-3">
+        <label for="age" class="form-label fw-semibold">Âge</label>
+        <input type="number" class="form-control" id="age" name="age" required placeholder="Ex: 25">
+      </div>
+    </div>
+
+    <!-- Mot de passe + Rôle -->
+    <div class="row">
+      <div class="col-12 col-md-6 mb-3">
+        <label for="password" class="form-label fw-semibold">Mot de passe temporaire</label>
+        <input type="password" class="form-control" id="password" name="password" required placeholder="Entrez un mot de passe">
+      </div>
+
+      <div class="col-12 col-md-6 mb-3">
+        <label for="role" class="form-label fw-semibold">Rôle</label>
+        <select class="form-select" id="role" name="role" required>
+          <option value="">-- Sélectionner un rôle --</option>
+          <option value="user">Utilisateur</option>
+          <option value="admin">Administrateur</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Boutons -->
+    <div class="d-flex flex-column flex-md-row gap-2 mt-3">
+      <button type="submit" class="btn btn-success info-hover">
+        <i class="bi bi-check-circle-fill"></i> Créer l'utilisateur
+      </button>
+
+      <a href="/admin/users" class="btn btn-secondary">
+        <i class="bi bi-x-circle"></i> Annuler
+      </a>
+    </div>
+
+  </form>
 </div>
 
 <%- include("../partials/footer") %>

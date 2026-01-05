@@ -18,6 +18,8 @@ app.set("view engine", "ejs");
 
 app.set("views", path.join(process.cwd(), "admin/views"));
 
+app.use("/admin", express.static("public"))
+
 
 app.use(express.json());
 

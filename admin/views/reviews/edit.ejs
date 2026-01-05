@@ -2,54 +2,53 @@
 
 <div class="container my-4">
 
-  <h1 class="mb-4">✏️ Modifier un avis</h1>
+  <!-- HEADER DE PAGE -->
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+    <h1 class="fw-bold text-secondary">
+      <i class="bi bi-pencil-square text-success"></i> Modifier un avis
+    </h1>
+  </div>
 
-  <form id="editReviewForm" action="/admin/review/<%= review.id %>?_method=PUT" method="POST">
+  <!-- FORMULAIRE -->
+  <form id="editReviewForm" action="/admin/review/<%= review.id %>?_method=PUT" method="POST" class="mt-4">
 
-    <!-- Note -->
-    <div class="mb-3">
-      <label class="form-label">Note (1 à 10)</label>
-      <input 
-        type="number" 
-        name="rating" 
-        class="form-control" 
-        min="1" 
-        max="10" 
-        value="<%= review.rating %>" 
-        required
-      >
-    </div>
+    <!-- Note + Utilisateur -->
+    <div class="row">
+      <div class="col-12 col-md-6 mb-3">
+        <label for="rating" class="form-label fw-semibold">Note (1 à 10)</label>
+        <input 
+          type="number" 
+          id="rating"
+          name="rating" 
+          class="form-control" 
+          min="1" 
+          max="10" 
+          value="<%= review.rating %>" 
+          required
+        >
+      </div>
 
-    <!-- Commentaire -->
-    <div class="mb-3">
-      <label class="form-label">Commentaire</label>
-      <textarea 
-        name="comment" 
-        class="form-control" 
-        rows="4"
-        required
-      ><%= review.comment %></textarea>
-    </div>
-
-    <!-- Utilisateur -->
-    <div class="mb-3">
-      <label class="form-label">Utilisateur</label>
-      <select name="user_id" class="form-select" required>
-        <% users.forEach(user => { %>
-          <option 
-            value="<%= user.id %>" 
-            <%= review.user_id === user.id ? "selected" : "" %>
-          >
-            <%= user.name %>
-          </option>
-        <% }) %>
-      </select>
+      <div class="col-12 col-md-6 mb-3">
+        <label for="user_id" class="form-label fw-semibold">Utilisateur</label>
+        <select name="user_id" id="user_id" class="form-select" required>
+          <option value="">-- Sélectionner un utilisateur --</option>
+          <% users.forEach(user => { %>
+            <option 
+              value="<%= user.id %>" 
+              <%= review.user_id === user.id ? "selected" : "" %>
+            >
+              <%= user.firstname %> <%= user.name %>
+            </option>
+          <% }) %>
+        </select>
+      </div>
     </div>
 
     <!-- Livre -->
     <div class="mb-3">
-      <label class="form-label">Livre concerné</label>
-      <select name="book_id" class="form-select" required>
+      <label for="book_id" class="form-label fw-semibold">Livre concerné</label>
+      <select name="book_id" id="book_id" class="form-select" required>
+        <option value="">-- Sélectionner un livre --</option>
         <% books.forEach(book => { %>
           <option 
             value="<%= book.id %>" 
@@ -61,36 +60,52 @@
       </select>
     </div>
 
+    <!-- Commentaire -->
+    <div class="mb-3">
+      <label for="comment" class="form-label fw-semibold">Commentaire</label>
+      <textarea 
+        name="comment" 
+        id="comment"
+        class="form-control" 
+        rows="4"
+        required
+      ><%= review.comment %></textarea>
+    </div>
+
     <!-- Publication -->
     <div class="form-check form-switch mb-4">
       <input 
         class="form-check-input" 
         type="checkbox" 
         name="is_published" 
+        id="is_published"
         value="true"
         <%= review.is_published ? "checked" : "" %>
       >
-      <label class="form-check-label">Publié</label>
+      <label class="form-check-label" for="is_published">Publié</label>
     </div>
 
-    <!-- Bouton -->
-    <button 
-      type="button" 
-      class="btn btn-primary" 
-      data-bs-toggle="modal" 
-      data-bs-target="#confirmModal"
-    >
-      Mettre à jour
-    </button>
+    <!-- Boutons -->
+    <div class="d-flex flex-column flex-md-row gap-2 mt-3">
+      <button 
+        type="button" 
+        class="btn btn-success info-hover" 
+        data-bs-toggle="modal" 
+        data-bs-target="#confirmModal"
+      >
+        <i class="bi bi-check-circle-fill"></i> Mettre à jour
+      </button>
+
+      <a href="/admin/reviews" class="btn btn-secondary">
+        <i class="bi bi-x-circle"></i> Annuler
+      </a>
+    </div>
 
   </form>
+
 </div>
 
-
-<!-- ========================= -->
-<!--   MODALE DE CONFIRMATION  -->
-<!-- ========================= -->
-
+<!-- MODALE DE CONFIRMATION -->
 <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -101,7 +116,7 @@
       </div>
 
       <div class="modal-body">
-        <p>Es-tu sûr de vouloir modifier cet avis ?</p>
+        <p>Êtes-vous sûr de vouloir modifier cet avis ?</p>
         <p class="text-muted small">Cette action mettra immédiatement à jour l'avis dans la base de données.</p>
       </div>
 
@@ -116,17 +131,16 @@
 
         <button 
           type="button" 
-          class="btn btn-primary" 
+          class="btn btn-success" 
           id="confirmSubmit"
         >
-          Confirmer
+          <i class="bi bi-check-circle-fill"></i> Confirmer
         </button>
       </div>
 
     </div>
   </div>
 </div>
-
 
 <script>
   document.getElementById("confirmSubmit").addEventListener("click", () => {
