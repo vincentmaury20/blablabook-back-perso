@@ -9,8 +9,6 @@ import path from "path";
 import methodOverride from "method-override";
 
 
-
-
 const PORT = process.env.PORT || 3000;
 const app = express();
 
@@ -29,25 +27,15 @@ app.use(cors());
 
 app.use(xss());
 
-app.use(cookieParser());
-app.get("/test-cookie", (req, res) => {
-  res.cookie("test", "hello", { httpOnly: true });
-  res.send("Cookie posé !");
-});
 
-app.get("/read-cookie", (req, res) => {
-  res.send(`Cookie reçu: ${req.cookies.test}`);
-});
+app.use(cookieParser());
+
 app.use(methodOverride("_method"));
 
-// app.use('/uploads', express.static('uploads'));
-// app.use('/uploads/books/images', express.static('uploads/books/images'));
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 app.use(publicRouter);
 app.use(adminRouters);
-
-
 
 app.listen(PORT, () => {
   console.log(`BlaBlaBook 📘📗📕 is "reading" 👍 on http://localhost:${PORT}`);

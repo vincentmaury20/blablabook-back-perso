@@ -270,46 +270,41 @@ Il me reste maintenant à **renforcer la gestion des erreurs**, **finaliser les 
 
 ---
 
-# 🟩 8. Prochaines étapes
+# 🟩 8. Prochaines étapes — Version mise à jour
 
 # 🗓️ Planning de finalisation du projet (1 semaine)
 
-## 🎨 Lundi — Finitions EJS (1h–1h30)
-- Harmonisation des boutons (Bootstrap)
-- Ajout des tooltips
-- Remplacement des emojis par des icônes Bootstrap
-- Nettoyage des templates (indentation, classes, cohérence)
-- Vérification du responsive léger
+## 🎨 Lundi — CV + Lettre de motivation (1h–2h)
+- Mise à jour du CV
+- Rédaction de la lettre de motivation
+- Harmonisation du style et du ton
+- Vérification orthographique et cohérence
+- Export propre (PDF) pour candidature
 
 ---
 
-## ⚠️ Mardi — Gestion des erreurs globales (1h–2h)
-- Création de `404.ejs`
-- Création de `500.ejs`
-- Mise en place d’un middleware global Express
-- Tests d’erreurs contrôlées (routes inexistantes, erreurs serveur)
-
----
-
-## 🧱 Mercredi — Gestion des erreurs Multer + messages EJS (1h–1h30)
-- Gestion des erreurs de taille/format d’image
-- Ajout d’alertes Bootstrap dans les formulaires
-- Redirections propres en cas d’erreur
-- Vérification des messages d’erreur côté admin
-
----
-
-## 🧹 Jeudi — Review + nettoyage du code backend (1h–1h30)
+## 🧹 Mardi matin — Review + nettoyage du code backend (1h–1h30)
 - Suppression des logs inutiles
 - Suppression des commentaires temporaires
 - Vérification des includes Sequelize
 - Vérification des routes admin
 - Vérification des try/catch et des status codes
 - Harmonisation des noms de variables
+- Vérification des middlewares admin
+- Vérification des templates EJS admin
 
 ---
 
-## 🐳 Vendredi — Dockerisation backend + base de données (1h–2h)
+## 🎨 Mardi après‑midi — Review du front (1h–1h30)
+- Vérification des pages
+- Vérification des appels API
+- Vérification des messages d’erreur
+- Vérification du responsive
+- Nettoyage du code (CSS, JS)
+
+---
+
+## 🐳 Mercredi — Dockerisation backend + base de données (1h–2h)
 - Création du `Dockerfile` backend
 - Création du `docker-compose.yml` (backend + DB)
 - Tests en local
@@ -317,7 +312,7 @@ Il me reste maintenant à **renforcer la gestion des erreurs**, **finaliser les 
 
 ---
 
-## 🖥️ Samedi — Dockerisation front + tests (1h–1h30)
+## 🖥️ Jeudi — Dockerisation front + tests (1h–1h30)
 - Création du `Dockerfile` front
 - Ajout du front dans `docker-compose.yml`
 - Tests front + back + DB ensemble
@@ -325,11 +320,22 @@ Il me reste maintenant à **renforcer la gestion des erreurs**, **finaliser les 
 
 ---
 
-## 🚀 Dimanche — Déploiement (1h–2h)
+## 🚀 Vendredi — Déploiement (1h–2h)
 - Déploiement backend (Render ou VPS Docker)
 - Déploiement front (Vercel ou VPS)
 - Tests en production (CRUD, images, avis, erreurs)
 - Vérification du fonctionnement global
+
+---
+
+# 🧱 À faire APRÈS le Titre Pro (axes d’amélioration)
+- Gestion avancée des erreurs Multer
+- Messages d’erreur dans les formulaires EJS
+- Redirections propres en cas d’erreur d’upload
+- Modal de suppression utilisateur (UX premium)
+- Amélioration du design admin
+- Optimisation des performances
+- Tests unitaires / e2e
 
 ---
 
@@ -345,7 +351,7 @@ Il me reste maintenant à **renforcer la gestion des erreurs**, **finaliser les 
 - Captures d’écran
 - Conclusion
 
-## 🧑‍💼 Semaine 2 — Dossier Professionnel ( déjà fait mais à revoir tout de même )
+## 🧑‍💼 Semaine 2 — Dossier Professionnel
 - Parcours
 - Compétences
 - Expériences

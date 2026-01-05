@@ -1,9 +1,9 @@
-// admin/middlewares/authenticateAdmin.middleware.js
 import jwt from "jsonwebtoken";
 
 export function authenticateAdmin(req, res, next) {
-   const token = req.cookies.authToken; // lecture du cookie
+   const token = req.cookies.authToken;
 
+   // Pas de token → pas connecté → login
    if (!token) {
       return res.redirect("/admin/login");
    }
@@ -13,6 +13,9 @@ export function authenticateAdmin(req, res, next) {
       req.user = decoded;
       next();
    } catch (err) {
-      return res.redirect("/admin/login");
+      // Token invalide → accès refusé
+      return res.status(403).render("errors/403", {
+         title: "Accès refusé"
+      });
    }
 }
