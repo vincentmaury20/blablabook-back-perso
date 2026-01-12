@@ -1,31 +1,25 @@
 <%- include("../partials/header") %>
 
 <div class="container my-4">
-
-  <!-- HEADER DE PAGE -->
-  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+  <div
+    class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
     <h1 class="fw-bold text-secondary">
       <i class="bi bi-bookmark-fill text-success"></i> Détails du genre
     </h1>
   </div>
 
-  <!-- CONTENU -->
   <ul class="list-group mb-4">
-    <li class="list-group-item">
-      <strong>Nom :</strong> <%= genre.name %>
-    </li>
+    <li class="list-group-item"><strong>Nom :</strong> <%= genre.name %></li>
 
     <li class="list-group-item">
       <strong>Livres :</strong>
-      <% if (genre.books && genre.books.length > 0) { %>
-        <%= genre.books.map(b => b.title).join(", ") %>
-      <% } else { %>
-        <span class="text-muted">Aucun livre</span>
+      <% if (genre.books && genre.books.length > 0) { %> <%= genre.books.map(b
+      => b.title).join(", ") %> <% } else { %>
+      <span class="text-muted">Aucun livre</span>
       <% } %>
     </li>
   </ul>
 
-  <!-- BOUTONS -->
   <div class="d-flex flex-column flex-md-row gap-2">
     <a href="/admin/genres/<%= genre.id %>/edit" class="btn btn-warning">
       <i class="bi bi-pencil-square"></i> Modifier

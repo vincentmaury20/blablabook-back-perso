@@ -5,24 +5,58 @@ import { isAdmin } from "../middlewares/isAdmin.middleware.js";
 
 export const adminGenreRouter = Router();
 
-// LISTE + RECHERCHE
-adminGenreRouter.get("/admin/genres", authenticateAdmin, isAdmin, adminGenreController.getGenres);
+// Liste des genres
+adminGenreRouter.get(
+  "/admin/genres",
+  authenticateAdmin,
+  isAdmin,
+  adminGenreController.getGenres
+);
 
-// FORMULAIRE CRÉATION
-adminGenreRouter.get("/admin/genres/create", authenticateAdmin, isAdmin, adminGenreController.createGenreForm);
+// Formulaire de création d'un genre
+adminGenreRouter.get(
+  "/admin/genres/create",
+  authenticateAdmin,
+  isAdmin,
+  adminGenreController.createGenreForm
+);
 
-// CRÉATION
-adminGenreRouter.post("/admin/genres/create", authenticateAdmin, isAdmin, adminGenreController.createGenre);
+// Création d'un genre
+adminGenreRouter.post(
+  "/admin/genres/create",
+  authenticateAdmin,
+  isAdmin,
+  adminGenreController.createGenre
+);
 
-// DÉTAIL
-adminGenreRouter.get("/admin/genres/:id", authenticateAdmin, isAdmin, adminGenreController.getGenresById);
+// Détail d'un genre
+adminGenreRouter.get(
+  "/admin/genres/:id",
+  authenticateAdmin,
+  isAdmin,
+  adminGenreController.getGenresById
+);
 
+// Formulaire d'édition
+adminGenreRouter.get(
+  "/admin/genres/:id/edit",
+  authenticateAdmin,
+  isAdmin,
+  adminGenreController.editGenreForm
+);
 
-// FORMULAIRE ÉDITION
-adminGenreRouter.get("/admin/genres/:id/edit", authenticateAdmin, isAdmin, adminGenreController.editGenreForm);
+// Mise à jour d'un genre
+adminGenreRouter.put(
+  "/admin/genres/:id",
+  authenticateAdmin,
+  isAdmin,
+  adminGenreController.updateGenre
+);
 
-// MISE À JOUR
-adminGenreRouter.put("/admin/genres/:id", authenticateAdmin, isAdmin, adminGenreController.updateGenre);
-
-// SUPPRESSION
-adminGenreRouter.delete("/admin/genres/:id", authenticateAdmin, isAdmin, adminGenreController.deleteGenre);
+// La suppression
+adminGenreRouter.delete(
+  "/admin/genres/:id",
+  authenticateAdmin,
+  isAdmin,
+  adminGenreController.deleteGenre
+);

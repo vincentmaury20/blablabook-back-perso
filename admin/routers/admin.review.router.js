@@ -5,36 +5,60 @@ import { isAdmin } from "../middlewares/isAdmin.middleware.js";
 
 export const adminReviewRouter = Router();
 
-//tout d'abord la liste des reviews tout comme les autres entités
+// Liste des reviews
 
-adminReviewRouter.get('/admin/reviews', authenticateAdmin, isAdmin, adminReviewController.getReviews);
+adminReviewRouter.get(
+  "/admin/reviews",
+  authenticateAdmin,
+  isAdmin,
+  adminReviewController.getReviews
+);
 
-// ensuite le formulaire de création d'une review
-adminReviewRouter.get('/admin/review/create', authenticateAdmin, isAdmin, adminReviewController.createReviewForm);
+// Formulaire de création d'une review
+adminReviewRouter.get(
+  "/admin/review/create",
+  authenticateAdmin,
+  isAdmin,
+  adminReviewController.createReviewForm
+);
 
-// la création elle-même pour valider en base de données
-adminReviewRouter.post('/admin/review', authenticateAdmin, isAdmin, adminReviewController.createReview);
+// la création d'une review
+adminReviewRouter.post(
+  "/admin/review",
+  authenticateAdmin,
+  isAdmin,
+  adminReviewController.createReview
+);
 
-// pour l'édition ce sera seulement également une route pour l'admin , disons si il y a des fautes ou encore des abus donc il y a besoin d'un formulaire prévu à cet effet
-adminReviewRouter.get('/admin/review/:id/edit', authenticateAdmin, isAdmin, adminReviewController.editReviewForm);
+// Formulaire d'édition d'une review
+adminReviewRouter.get(
+  "/admin/review/:id/edit",
+  authenticateAdmin,
+  isAdmin,
+  adminReviewController.editReviewForm
+);
 
-// ensuite pour l'update et vu que j'utilise le method override dans les formulaires je peux faire un put ici
-adminReviewRouter.put('/admin/review/:id', authenticateAdmin, isAdmin, adminReviewController.updateReview);
+// L'update d'une review
+adminReviewRouter.put(
+  "/admin/review/:id",
+  authenticateAdmin,
+  isAdmin,
+  adminReviewController.updateReview
+);
 
-// finalement il faut gérer la suppression et normalement ce sera tout pour le CRUD
-adminReviewRouter.delete('/admin/review/:id', authenticateAdmin, isAdmin, adminReviewController.deleteReview);
+// La suppression
+adminReviewRouter.delete(
+  "/admin/review/:id",
+  authenticateAdmin,
+  isAdmin,
+  adminReviewController.deleteReview
+);
 
+//  Toggle de publish ou non d'une review
 
-//  une route pour le toggle de publish ou non d'une review....
-
-adminReviewRouter.post('/admin/review/:id/toggle', authenticateAdmin, isAdmin, adminReviewController.togglePublish);
-
-// Pour ce qui est de l'ordre des routes en gnéral on procède ainsi:
-// - La liste 
-// - le formulaire de création si besoin
-// - la création
-// - le formulaire d'édition
-// - la mise à jour
-// - la suppression
-
-// pour éviter les conflits lors des appels des routes dans le serveur principal
+adminReviewRouter.post(
+  "/admin/review/:id/toggle",
+  authenticateAdmin,
+  isAdmin,
+  adminReviewController.togglePublish
+);

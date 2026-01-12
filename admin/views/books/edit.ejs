@@ -2,7 +2,6 @@
 
 <div class="container my-4">
 
-  <!-- HEADER DE PAGE -->
   <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
     <h1 class="fw-bold text-secondary">
       <i class="bi bi-pencil-square text-success"></i> Modifier un livre
@@ -11,7 +10,6 @@
 
   <form action="/admin/book/<%= book.id %>?_method=PUT" method="POST" enctype="multipart/form-data">
 
-    <!-- Titre + Date -->
     <div class="row">
       <div class="col-12 col-md-6 mb-3">
         <label class="form-label fw-semibold">Titre</label>
@@ -24,7 +22,6 @@
       </div>
     </div>
 
-    <!-- Auteurs -->
     <div class="mb-3">
       <label class="form-label fw-semibold">Auteur(s)</label>
       <select name="authors[]" class="form-select" multiple>
@@ -37,13 +34,11 @@
       <small class="text-muted">Maintenir Ctrl (ou Cmd) pour sélectionner plusieurs auteurs</small>
     </div>
 
-    <!-- Synopsis -->
     <div class="mb-3">
       <label class="form-label fw-semibold">Synopsis</label>
       <textarea class="form-control" name="synopsis" rows="4"><%= book.synopsis %></textarea>
     </div>
 
-    <!-- Genres -->
     <div class="mb-3">
       <label class="form-label fw-semibold">Genre(s)</label>
       <select name="genres[]" class="form-select" multiple>
@@ -55,7 +50,6 @@
       </select>
     </div>
 
-    <!-- Couverture -->
     <div class="mb-3">
       <label class="form-label fw-semibold">Couverture</label>
       <input type="file" class="form-control" name="cover" accept="image/*">
@@ -74,7 +68,6 @@
     </div>
 
 
-    <!-- Boutons -->
     <div class="d-flex flex-column flex-md-row gap-2 mt-3">
       <button type="submit" class="btn btn-primary info-hover">
         <i class="bi bi-check-circle-fill"></i> Mettre à jour

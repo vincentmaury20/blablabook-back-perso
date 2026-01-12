@@ -1,75 +1,84 @@
 <%- include("../partials/header") %>
 
-    <div class="container my-4">
+<div class="container my-4">
+  <div
+    class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+    <h1 class="fw-bold text-secondary">
+      <i class="bi bi-person-badge-fill text-success"></i> Détails utilisateur
+    </h1>
+  </div>
 
-      <!-- HEADER DE PAGE -->
-      <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
-        <h1 class="fw-bold text-secondary">
-          <i class="bi bi-person-badge-fill text-success"></i> Détails utilisateur
-        </h1>
+  <ul class="list-group mb-4">
+    <li class="list-group-item"><strong>Nom :</strong> <%= user.name %></li>
+    <li class="list-group-item"><strong>Email :</strong> <%= user.email %></li>
+    <li class="list-group-item">
+      <strong>Rôle actuel :</strong> <%= user.role %>
+    </li>
+  </ul>
+
+  <h3>📚 Livres associés</h3>
+  <ul class="list-group mb-3">
+    <% if (user.books && user.books.length > 0) { %> <% user.books.forEach(book
+    => { %>
+    <li
+      class="list-group-item d-flex justify-content-between align-items-center">
+      <%= book.title %>
+      <div>
+        <form
+          action="/admin/user/<%= user.id %>/book/<%= book.id %>/remove"
+          method="POST"
+          style="display: inline">
+          <button type="submit" class="btn btn-danger btn-sm">Retirer</button>
+        </form>
+
+        <form
+          action="/admin/user/<%= user.id %>/book/<%= book.id %>/status"
+          method="POST"
+          style="display: inline">
+          <input
+            type="hidden"
+            name="toRead"
+            value="<%= book.UserBook.toRead ? 0 : 1 %>" />
+          <button type="submit" class="btn btn-secondary btn-sm">
+            <%= book.UserBook.toRead ? "Marquer comme lu" : "À lire" %>
+          </button>
+        </form>
       </div>
+    </li>
+    <% }) %> <% } else { %>
+    <li class="list-group-item">Aucun livre associé</li>
+    <% } %>
+  </ul>
 
-      <!-- CONTENU -->
-      <ul class="list-group mb-4">
-        <li class="list-group-item"><strong>Nom :</strong> <%= user.name %></li>
-        <li class="list-group-item"><strong>Email :</strong> <%= user.email %></li>
-        <li class="list-group-item"><strong>Rôle actuel :</strong> <%= user.role %></li>
-      </ul>
+  <h3>➕ Ajouter un livre</h3>
 
-      <!-- Livres associés -->
-      <h3>📚 Livres associés</h3>
-      <ul class="list-group mb-3">
-        <% if (user.books && user.books.length > 0) { %>
-          <% user.books.forEach(book => { %>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              <%= book.title %>
-              <div>
-                <!-- Retirer -->
-                <form action="/admin/user/<%= user.id %>/book/<%= book.id %>/remove" method="POST" style="display:inline;">
-                  <button type="submit" class="btn btn-danger btn-sm">Retirer</button>
-                </form>
-                <!-- Statut lecture -->
-                <form action="/admin/user/<%= user.id %>/book/<%= book.id %>/status" method="POST" style="display:inline;">
-                  <input type="hidden" name="toRead" value="<%= book.UserBook.toRead ? 0 : 1 %>">
-                  <button type="submit" class="btn btn-secondary btn-sm">
-                    <%= book.UserBook.toRead ? "Marquer comme lu" : "À lire" %>
-                  </button>
-                </form>
-              </div>
-            </li>
-          <% }) %>
-        <% } else { %>
-          <li class="list-group-item">Aucun livre associé</li>
-        <% } %>
-      </ul>
+  <form
+    action="/admin/user/<%= user.id %>/book/<%= books[0]?.id %>/add"
+    method="POST">
+    <select
+      name="bookId"
+      class="form-select"
+      onchange="this.form.action='/admin/user/<%= user.id %>/book/' + this.value + '/add'">
+      <% books.forEach(book => { %>
+      <option value="<%= book.id %>"><%= book.title %></option>
+      <% }) %>
+    </select>
+    <button type="submit" class="btn btn-primary">Associer</button>
+  </form>
 
-      <!-- Ajouter un livre -->
-      <h3>➕ Ajouter un livre</h3>
-      <!-- ⚠️ Ici il faut coller à ta route: /admin/user/:userId/book/:bookId -->
-      <!-- Donc on met bookId dans l'URL, pas dans le body -->
-      <form action="/admin/user/<%= user.id %>/book/<%= books[0]?.id %>/add" method="POST">
-        <select name="bookId" class="form-select" onchange="this.form.action='/admin/user/<%= user.id %>/book/' + this.value + '/add'">
-          <% books.forEach(book => { %>
-            <option value="<%= book.id %>"><%= book.title %></option>
-          <% }) %>
-        </select>
-        <button type="submit" class="btn btn-primary">Associer</button>
-      </form>
+  <div class="d-flex flex-column flex-md-row gap-2">
+    <a href="/admin/user/<%= user.id %>/edit" class="btn btn-warning">
+      <i class="bi bi-pencil-square"></i> Modifier infos
+    </a>
 
-      <!-- BOUTONS -->
-      <div class="d-flex flex-column flex-md-row gap-2">
-        <a href="/admin/user/<%= user.id %>/edit" class="btn btn-warning">
-          <i class="bi bi-pencil-square"></i> Modifier infos
-        </a>
+    <a href="/admin" class="btn btn-outline-info">
+      <i class="bi bi-clipboard2-data"></i> Tableau de bord
+    </a>
 
-        <a href="/admin" class="btn btn-outline-info">
-          <i class="bi bi-clipboard2-data"></i> Tableau de bord
-        </a>
-
-        <a href="/admin/users" class="btn btn-secondary">
-          <i class="bi bi-arrow-left-circle"></i> Retour à la liste
-        </a>
-      </div>
-    </div>
+    <a href="/admin/users" class="btn btn-secondary">
+      <i class="bi bi-arrow-left-circle"></i> Retour à la liste
+    </a>
+  </div>
+</div>
 
 <%- include("../partials/footer") %>

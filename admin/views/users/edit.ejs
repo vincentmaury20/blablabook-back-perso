@@ -2,14 +2,12 @@
 
 <div class="container my-4">
 
-  <!-- HEADER DE PAGE -->
   <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
     <h1 class="fw-bold text-secondary">
       <i class="bi bi-pencil-square text-success"></i> Modifier un utilisateur
     </h1>
   </div>
 
-  <!-- FORMULAIRE -->
   <form action="/admin/user/<%= user.id %>?_method=PUT" method="POST" class="mt-4">
 
     <div class="row">
@@ -63,7 +61,6 @@
     </div>
   </form>
 
-  <!-- ZONE DE DANGER -->
   <hr class="my-4">
 
   <div class="alert alert-danger">

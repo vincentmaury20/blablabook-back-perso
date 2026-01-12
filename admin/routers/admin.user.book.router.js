@@ -8,24 +8,24 @@ export const adminUserBookRouter = Router();
 //  Ajout d'un livre géré par l'admin à un user
 
 adminUserBookRouter.post(
-   "/admin/user/:userId/book/:bookId/add",
-   authenticateAdmin,
-   isAdmin,
-   adminUserBookController.addBookToUser
+  "/admin/user/:userId/book/:bookId/add",
+  authenticateAdmin,
+  isAdmin,
+  adminUserBookController.addBookToUser
 );
 
 //  Suppression d'un livre géré par l'admin à un user
 adminUserBookRouter.post(
-   "/admin/user/:userId/book/:bookId/remove",
-   authenticateAdmin,
-   isAdmin,
-   adminUserBookController.removeBookToUser
+  "/admin/user/:userId/book/:bookId/remove",
+  authenticateAdmin,
+  isAdmin,
+  adminUserBookController.removeBookToUser
 );
 
 //  Mise à jour du statut de lecture d'un livre géré par l'admin à un user
 adminUserBookRouter.post(
-   "/admin/user/:userId/book/:bookId/status",
-   authenticateAdmin,
-   isAdmin,
-   adminUserBookController.updateStatusToUser
+  "/admin/user/:userId/book/:bookId/status",
+  authenticateAdmin,
+  isAdmin,
+  adminUserBookController.updateStatusToUser
 );

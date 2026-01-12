@@ -1,19 +1,15 @@
 <%- include("../partials/header") %>
 
 <div class="container my-4">
-
-  <!-- HEADER DE PAGE -->
-  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+  <div
+    class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
     <h1 class="fw-bold text-secondary">
       <i class="bi bi-person-badge-fill text-success"></i> Détails auteur
     </h1>
   </div>
 
-  <!-- CONTENU -->
   <ul class="list-group mb-4">
-    <li class="list-group-item">
-      <strong>Nom :</strong> <%= author.name %>
-    </li>
+    <li class="list-group-item"><strong>Nom :</strong> <%= author.name %></li>
 
     <li class="list-group-item">
       <strong>Bio :</strong> <%= author.bio || "Aucune biographie disponible" %>
@@ -21,15 +17,12 @@
 
     <li class="list-group-item">
       <strong>Livres :</strong>
-      <% if (author.books && author.books.length > 0) { %>
-        <%= author.books.map(b => b.title).join(", ") %>
-      <% } else { %>
-        Aucun livre
-      <% } %>
+      <% if (author.books && author.books.length > 0) { %> <%=
+      author.books.map(b => b.title).join(", ") %> <% } else { %> Aucun livre <%
+      } %>
     </li>
   </ul>
 
-  <!-- BOUTONS -->
   <div class="d-flex flex-column flex-md-row gap-2">
     <a href="/admin/author/<%= author.id %>/edit" class="btn btn-warning">
       <i class="bi bi-pencil-square"></i> Modifier
@@ -38,13 +31,11 @@
     <a href="/admin" class="btn btn-outline-info">
       <i class="bi bi-clipboard2-data"></i> Tableau de bord
     </a>
-    
+
     <a href="/admin/authors" class="btn btn-secondary">
       <i class="bi bi-arrow-left-circle"></i> Retour à la liste
     </a>
-
   </div>
-
 </div>
 
 <%- include("../partials/footer") %>

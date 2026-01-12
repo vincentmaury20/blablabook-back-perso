@@ -5,12 +5,14 @@ import { isAdmin } from "../middlewares/isAdmin.middleware.js";
 
 export const adminRouter = Router();
 
+// Le dashboard
 adminRouter.get("/admin", authenticateAdmin, isAdmin, adminController.getDashboard);
 
-// Affichage du formulaire de login
+// Formulaire de login
 adminRouter.get("/admin/login", adminController.getLogin);
 
 // Soumission du formulaire de login
 adminRouter.post("/admin/login", adminController.postLogin);
 
+// Déconnexion de l'admin
 adminRouter.get("/admin/logout", adminController.logout);

@@ -1,75 +1,63 @@
 <%- include("../partials/header") %>
 
 <div class="container my-4">
-
-  <!-- HEADER DE PAGE -->
-  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+  <div
+    class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
     <h1 class="fw-bold text-secondary">
       <i class="bi bi-book-half text-success"></i> Détails du livre
     </h1>
   </div>
 
-  <!-- APERÇU DE LA COUVERTURE -->
   <% if (book.cover) { %>
-    <div class="mb-4 p-2 border rounded d-inline-block bg-light">
-      <p class="fw-semibold mb-2 text-center">Couverture</p>
-      <img 
-        src="<%= book.cover %>" 
-        alt="Couverture du livre" 
-        class="img-fluid rounded shadow-sm"
-        style="max-height: 180px; object-fit: cover;"
-      >
-    </div>
+  <div class="mb-4 p-2 border rounded d-inline-block bg-light">
+    <p class="fw-semibold mb-2 text-center">Couverture</p>
+    <img
+      src="<%= book.cover %>"
+      alt="Couverture du livre"
+      class="img-fluid rounded shadow-sm"
+      style="max-height: 180px; object-fit: cover" />
+  </div>
   <% } %>
 
-  <!-- LISTE DES INFORMATIONS -->
   <ul class="list-group mb-4">
-
-    <li class="list-group-item">
-      <strong>Titre :</strong> <%= book.title %>
-    </li>
+    <li class="list-group-item"><strong>Titre :</strong> <%= book.title %></li>
 
     <li class="list-group-item">
       <strong>Auteur(s) :</strong>
-      <% if (book.authors && book.authors.length > 0) { %>
-        <%= book.authors.map(a => a.name + " " + (a.firstname || "")).join(", ") %>
-      <% } else { %>
-        <span class="text-muted">Aucun auteur</span>
+      <% if (book.authors && book.authors.length > 0) { %> <%=
+      book.authors.map(a => a.name + " " + (a.firstname || "")).join(", ") %> <%
+      } else { %>
+      <span class="text-muted">Aucun auteur</span>
       <% } %>
     </li>
 
     <li class="list-group-item">
       <strong>Genre(s) :</strong>
-      <% if (book.genres && book.genres.length > 0) { %>
-        <% book.genres.forEach(g => { %>
-          <span class="badge bg-secondary me-1"><%= g.name %></span>
-        <% }) %>
-      <% } else { %>
-        <span class="text-muted">Aucun genre</span>
+      <% if (book.genres && book.genres.length > 0) { %> <%
+      book.genres.forEach(g => { %>
+      <span class="badge bg-secondary me-1"><%= g.name %></span>
+      <% }) %> <% } else { %>
+      <span class="text-muted">Aucun genre</span>
       <% } %>
     </li>
 
     <li class="list-group-item">
-      <strong>Synopsis :</strong><br>
-      <% if (book.synopsis && book.synopsis.length > 0) { %>
-        <%= book.synopsis %>
-      <% } else { %>
-        <span class="text-muted">Aucun synopsis</span>
+      <strong>Synopsis :</strong><br />
+      <% if (book.synopsis && book.synopsis.length > 0) { %> <%= book.synopsis
+      %> <% } else { %>
+      <span class="text-muted">Aucun synopsis</span>
       <% } %>
     </li>
 
     <li class="list-group-item">
       <strong>Date de sortie :</strong>
-      <% if (book.formattedDate && book.formattedDate.length > 0) { %>
-        <%= book.formattedDate %>
-      <% } else { %>
-        <span class="text-muted">Aucune date de sortie</span>
+      <% if (book.formattedDate && book.formattedDate.length > 0) { %> <%=
+      book.formattedDate %> <% } else { %>
+      <span class="text-muted">Aucune date de sortie</span>
       <% } %>
     </li>
-
   </ul>
 
-  <!-- BOUTONS -->
   <div class="d-flex flex-column flex-md-row gap-2">
     <a href="/admin/book/<%= book.id %>/edit" class="btn btn-warning">
       <i class="bi bi-pencil-square"></i> Modifier
@@ -79,7 +67,6 @@
       <i class="bi bi-arrow-left-circle"></i> Retour
     </a>
   </div>
-
 </div>
 
 <%- include("../partials/footer") %>

@@ -10,9 +10,9 @@ import { adminReviewRouter } from "./admin.review.router.js";
 
 export const adminRouters = Router();
 
-adminRouters.use((req, res, next) => {  //ajout de ce middleware pour éviter de répéter dans le code, l'adminName dans les controllers 
-   res.locals.adminName = req.user ? req.user.name : null;
-   next();
+adminRouters.use((req, res, next) => {
+  res.locals.adminName = req.user ? req.user.name : null;
+  next();
 });
 
 adminRouters.use(adminUserRouter);
@@ -22,6 +22,3 @@ adminRouters.use(adminAuthorRouter);
 adminRouters.use(adminGenreRouter);
 adminRouters.use(adminReviewRouter);
 adminRouters.use(adminRouter);
-
-// L'erreur à ne pas faire pour vérifier toutes les routes et voir si elles sont bonnes :
-//  ne pas hésiter à refaire tout le chemin de chaque route en fonction des endpoints définis

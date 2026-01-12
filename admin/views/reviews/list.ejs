@@ -1,9 +1,8 @@
 <%- include("../partials/header") %>
 
 <div class="my-4">
-
-  <!-- HEADER DE PAGE -->
-  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+  <div
+    class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
     <h1 class="fw-bold text-secondary">
       <i class="bi bi-chat-left-text text-success"></i> Liste des avis
     </h1>
@@ -13,19 +12,17 @@
     </a>
   </div>
 
-  <!-- BARRE D'OUTILS -->
   <div class="card shadow-sm mb-4">
-    <div class="card-body d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+    <div
+      class="card-body d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
       <a href="/admin" class="btn btn-outline-primary">
         <i class="bi bi-clipboard2-data"></i> Tableau de bord
       </a>
     </div>
   </div>
 
-  <!-- Tableau -->
   <div class="card shadow-sm">
     <div class="card-body p-0">
-
       <table class="table table-hover align-middle mb-0">
         <thead class="table-info">
           <tr>
@@ -40,116 +37,106 @@
 
         <tbody>
           <% reviews.forEach(review => { %>
-            <tr>
+          <tr>
+            <td class="fw-semibold">
+              <% if (review.User) { %> <%= review.User.firstname %> <%=
+              review.User.name %> <% } else { %>
+              <span class="text-muted">Supprimé</span>
+              <% } %>
+            </td>
 
-              <!-- Utilisateur -->
-              <td class="fw-semibold">
-                <% if (review.User) { %>
-                  <%= review.User.firstname %> <%= review.User.name %>
-                <% } else { %>
-                  <span class="text-muted">Supprimé</span>
+            <td>
+              <% if (review.Book) { %> <%= review.Book.title %> <% } else { %>
+              <span class="text-muted">Supprimé</span>
+              <% } %>
+            </td>
+
+            <td class="text-center">
+              <div class="d-flex align-items-center justify-content-center">
+                <% for (let i = 0; i < review.rating; i++) { %>
+                <i class="bi bi-star-fill text-warning"></i>
                 <% } %>
-              </td>
+                <span class="ms-2 badge bg-secondary"
+                  ><%= review.rating %>/10</span
+                >
+              </div>
+            </td>
 
-              <!-- Livre -->
-              <td>
-                <% if (review.Book) { %>
-                  <%= review.Book.title %>
-                <% } else { %>
-                  <span class="text-muted">Supprimé</span>
-                <% } %>
-              </td>
+            <td>
+              <% if (review.comment && review.comment.length > 0) { %>
+              <span title="<%= review.comment %>">
+                <%= review.comment.substring(0, 50) %>...
+              </span>
+              <% } else { %>
+              <span class="text-muted">Aucun</span>
+              <% } %>
+            </td>
 
-              <!-- Note -->
-              <td class="text-center">
-                <div class="d-flex align-items-center justify-content-center">
-                  <% for (let i = 0; i < review.rating; i++) { %>
-                    <i class="bi bi-star-fill text-warning"></i>
-                  <% } %>
-                  <span class="ms-2 badge bg-secondary"><%= review.rating %>/10</span>
-                </div>
-              </td>
+            <td class="text-center">
+              <% if (review.is_published) { %>
+              <span class="badge bg-success">Publié</span>
+              <% } else { %>
+              <span class="badge bg-warning text-dark">Brouillon</span>
+              <% } %>
+            </td>
 
-              <!-- Commentaire -->
-              <td>
-                <% if (review.comment && review.comment.length > 0) { %>
-                  <span title="<%= review.comment %>">
-                    <%= review.comment.substring(0, 50) %>...
-                  </span>
-                <% } else { %>
-                  <span class="text-muted">Aucun</span>
-                <% } %>
-              </td>
+            <td class="text-center">
+              <div class="btn-group" role="group">
+                <a
+                  href="/admin/review/<%= review.id %>"
+                  class="btn btn-sm btn-outline-primary"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                  title="Voir les détails">
+                  <i class="bi bi-eye-fill"></i>
+                </a>
 
-              <!-- Statut -->
-              <td class="text-center">
-                <% if (review.is_published) { %>
-                  <span class="badge bg-success">Publié</span>
-                <% } else { %>
-                  <span class="badge bg-warning text-dark">Brouillon</span>
-                <% } %>
-              </td>
+                <a
+                  href="/admin/review/<%= review.id %>/edit"
+                  class="btn btn-sm btn-outline-warning"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                  title="Modifier cet avis">
+                  <i class="bi bi-pencil-fill"></i>
+                </a>
 
-              <!-- Actions -->
-              <td class="text-center">
+                <form
+                  action="/admin/review/<%= review.id %>/toggle"
+                  method="POST"
+                  style="display: inline">
+                  <button
+                    type="submit"
+                    class="btn btn-sm btn-outline-<%= review.is_published ? 'info' : 'secondary' %>"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="<%= review.is_published ? 'Dépublier' : 'Publier' %>">
+                    <i
+                      class="bi <%= review.is_published ? 'bi-check-circle-fill' : 'bi-x-circle-fill' %>"></i>
+                  </button>
+                </form>
 
-                <div class="btn-group" role="group">
-
-                  <!-- Voir le détail -->
-                  <a href="/admin/review/<%= review.id %>"
-                     class="btn btn-sm btn-outline-primary"
-                     data-bs-toggle="tooltip"
-                     data-bs-placement="top"
-                     title="Voir les détails">
-                    <i class="bi bi-eye-fill"></i>
-                  </a>
-
-                  <!-- Modifier -->
-                  <a href="/admin/review/<%= review.id %>/edit"
-                     class="btn btn-sm btn-outline-warning"
-                     data-bs-toggle="tooltip"
-                     data-bs-placement="top"
-                     title="Modifier cet avis">
-                    <i class="bi bi-pencil-fill"></i>
-                  </a>
-
-                  <!-- Toggle Publish -->
-                  <form action="/admin/review/<%= review.id %>/toggle"
-                        method="POST"
-                        style="display: inline;">
-                    <button type="submit" 
-                            class="btn btn-sm btn-outline-<%= review.is_published ? 'info' : 'secondary' %>"
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="top"
-                            title="<%= review.is_published ? 'Dépublier' : 'Publier' %>">
-                      <i class="bi <%= review.is_published ? 'bi-check-circle-fill' : 'bi-x-circle-fill' %>"></i>
-                    </button>
-                  </form>
-
-                  <!-- Supprimer -->
-                  <form action="/admin/review/<%= review.id %>?_method=DELETE"
-                        method="POST"
-                        style="display: inline;"
-                        onsubmit="return confirm('Supprimer cet avis ? Cette action est irréversible.')">
-                    <button type="submit" class="btn btn-sm btn-outline-danger"
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="top"
-                            title="Supprimer cet avis">
-                      <i class="bi bi-trash3-fill"></i>
-                    </button>
-                  </form>
-
-                </div>
-              </td>
-
-            </tr>
+                <form
+                  action="/admin/review/<%= review.id %>?_method=DELETE"
+                  method="POST"
+                  style="display: inline"
+                  onsubmit="return confirm('Supprimer cet avis ? Cette action est irréversible.')">
+                  <button
+                    type="submit"
+                    class="btn btn-sm btn-outline-danger"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="Supprimer cet avis">
+                    <i class="bi bi-trash3-fill"></i>
+                  </button>
+                </form>
+              </div>
+            </td>
+          </tr>
           <% }) %>
         </tbody>
       </table>
-
     </div>
   </div>
-
 </div>
 
 <%- include("../partials/footer") %>
