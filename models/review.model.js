@@ -1,32 +1,31 @@
 import { DataTypes, Model } from "sequelize";
-import { sequelize } from './sequelize.client.js';
+import { sequelize } from "./sequelize.client.js";
 
+export class Review extends Model {}
 
-export class Review extends Model { }
-
-
-Review.init({
-   id: {
+Review.init(
+  {
+    id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
-      primaryKey: true
-   },
-   rating: {
+      primaryKey: true,
+    },
+    rating: {
       type: DataTypes.INTEGER,
-      allowNull: false
-   },
-   comment: {
+      allowNull: false,
+    },
+    comment: {
       type: DataTypes.TEXT,
-      allowNull: true
-   },
-   is_published: {
+      allowNull: true,
+    },
+    is_published: {
       type: DataTypes.BOOLEAN,
-      defaultValue: true
-   }
-
-}, {
-   sequelize,
-   tableName: 'reviews',
-   underscored: true
-});
-
+      defaultValue: true,
+    },
+  },
+  {
+    sequelize,
+    tableName: "reviews",
+    underscored: true,
+  }
+);

@@ -1,10 +1,10 @@
-#  Middlewares – BlaBlaBook Backend
+# Middlewares – BlaBlaBook Backend (API)
 
 Ce fichier décrit les middlewares personnalisés utilisés dans le projet, leur rôle, et les routes concernées.
 
 ---
 
-##  `authenticate.middleware.js`
+## `authenticate.middleware.js`
 
 - **Rôle** : Vérifie la présence et la validité du token JWT dans l’en-tête `Authorization`
 - **Utilisé dans** :
@@ -27,7 +27,7 @@ Ce fichier décrit les middlewares personnalisés utilisés dans le projet, leur
 
 ---
 
-## `uploadCover.middleware.js`   (V2)
+## `uploadCover.middleware.js` (V2)
 
 - **Rôle** : Gère l’upload de la couverture de livre via `multer`
 - **Utilisé dans** :
@@ -35,4 +35,3 @@ Ce fichier décrit les middlewares personnalisés utilisés dans le projet, leur
 - **Effet** :
   - Stocke le fichier image dans le dossier prévu
   - Ajoute les infos du fichier à `req.file`
-
