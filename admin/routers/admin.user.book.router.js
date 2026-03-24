@@ -5,27 +5,26 @@ import { isAdmin } from "../middlewares/isAdmin.middleware.js";
 
 export const adminUserBookRouter = Router();
 
-//  Ajout d'un livre géré par l'admin à un user
-
+// Add a book to a user's list (admin action)
 adminUserBookRouter.post(
   "/admin/user/:userId/book/:bookId/add",
   authenticateAdmin,
   isAdmin,
-  adminUserBookController.addBookToUser
+  adminUserBookController.addBookToUser,
 );
 
-//  Suppression d'un livre géré par l'admin à un user
+// Remove a book from a user's list (admin action)
 adminUserBookRouter.post(
   "/admin/user/:userId/book/:bookId/remove",
   authenticateAdmin,
   isAdmin,
-  adminUserBookController.removeBookToUser
+  adminUserBookController.removeBookToUser,
 );
 
-//  Mise à jour du statut de lecture d'un livre géré par l'admin à un user
+// Update reading status for a user's book (admin action)
 adminUserBookRouter.post(
   "/admin/user/:userId/book/:bookId/status",
   authenticateAdmin,
   isAdmin,
-  adminUserBookController.updateStatusToUser
+  adminUserBookController.updateStatusToUser,
 );

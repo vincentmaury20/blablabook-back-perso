@@ -2,6 +2,7 @@ import { Book, Author, Genre } from "../models/index.js";
 import { Sequelize, Op } from "sequelize";
 
 export const bookController = {
+  // Get 10 random books
   async getRandomBooks(req, res) {
     try {
       const books = await Book.findAll({
@@ -20,6 +21,7 @@ export const bookController = {
     }
   },
 
+  // Get paginated list of books
   async getAllBooks(req, res) {
     const page = parseInt(req.query.page, 10) || 1;
     const limit = parseInt(req.query.limit, 10) || 10;
@@ -52,6 +54,7 @@ export const bookController = {
     }
   },
 
+  // Get a single book by ID
   async getBookById(req, res) {
     try {
       const book = await Book.findByPk(req.params.id, {
@@ -60,20 +63,23 @@ export const bookController = {
           { model: Genre, as: "genres", through: { attributes: [] } },
         ],
       });
-      // Inclure les auteurs et genres associés include: [Author, Genre]
+
       if (!book) return res.status(404).json({ error: "Livre non trouvé" });
+
       res.json(book);
     } catch (error) {
       res.status(500).json({ error: "Erreur serveur" });
     }
   },
 
+  // Upload or replace a book cover
   async uploadCover(req, res) {
     try {
       const book = await Book.findByPk(req.params.id);
       if (!book) {
         return res.status(404).json({ error: "Book not found" });
       }
+
       book.cover = `${req.protocol}://${req.get("host")}/uploads/books/images/${
         req.file.filename
       }`;
@@ -89,80 +95,90 @@ export const bookController = {
     }
   },
 
+  // Search books by title, author, or genre
   async searchBooks(req, res) {
-  try {
-    const { q, type } = req.query;
+    try {
+      const { q, type } = req.query;
 
-    if (!q || q.trim().length < 2) {
-      return res.json([]);
-    }
+      if (!q || q.trim().length < 2) {
+        return res.json([]);
+      }
 
-    const searchTerm = q.trim();
-    const words = searchTerm.split(/\s+/);
+      const searchTerm = q.trim();
+      const words = searchTerm.split(/\s+/);
 
-    let results = [];
+      let results = [];
 
-    if (!type || type === "title") {
-      // Recherche dans les titres
-      results = [...results, ...(await Book.findAll({
-        where: {
-          [Op.or]: [
-            { title: { [Op.iLike]: `%${searchTerm}%` } }
-          ]
-        },
-        include: [{ model: Author, as: "authors" }, { model: Genre, as: "genres" }],
-        limit: 10
-      }))];
-    }
-
-    if (!type || type === "author") {
-      // Recherche par auteur
-      results = [...results, ...(await Book.findAll({
-        include: [
-          {
-            model: Author,
-            as: "authors",
+      // Search by title
+      if (!type || type === "title") {
+        results = [
+          ...results,
+          ...(await Book.findAll({
             where: {
-              [Op.and]: words.map(word => ({
-                [Op.or]: [
-                  { firstname: { [Op.iLike]: `%${word}%` } },
-                  { name: { [Op.iLike]: `%${word}%` } }
-                ]
-              }))
-            }
-          },
-          { model: Genre, as: "genres" }
-        ],
-        limit: 10
-      }))];
+              [Op.or]: [{ title: { [Op.iLike]: `%${searchTerm}%` } }],
+            },
+            include: [
+              { model: Author, as: "authors" },
+              { model: Genre, as: "genres" },
+            ],
+            limit: 10,
+          })),
+        ];
+      }
+
+      // Search by author
+      if (!type || type === "author") {
+        results = [
+          ...results,
+          ...(await Book.findAll({
+            include: [
+              {
+                model: Author,
+                as: "authors",
+                where: {
+                  [Op.and]: words.map((word) => ({
+                    [Op.or]: [
+                      { firstname: { [Op.iLike]: `%${word}%` } },
+                      { name: { [Op.iLike]: `%${word}%` } },
+                    ],
+                  })),
+                },
+              },
+              { model: Genre, as: "genres" },
+            ],
+            limit: 10,
+          })),
+        ];
+      }
+
+      // Search by genre
+      if (!type || type === "genre") {
+        results = [
+          ...results,
+          ...(await Book.findAll({
+            include: [
+              { model: Author, as: "authors" },
+              {
+                model: Genre,
+                as: "genres",
+                where: { name: { [Op.iLike]: `%${searchTerm}%` } },
+              },
+            ],
+            limit: 10,
+          })),
+        ];
+      }
+
+      // Deduplicate results
+      const uniqueBooks = results.reduce((acc, book) => {
+        if (!acc.find((b) => b.id === book.id)) acc.push(book);
+        return acc;
+      }, []);
+
+      res.json(uniqueBooks.slice(0, 10));
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Erreur recherche" });
     }
-
-    if (!type || type === "genre") {
-      // Recherche par genre
-      results = [...results, ...(await Book.findAll({
-        include: [
-          { model: Author, as: "authors" },
-          {
-            model: Genre,
-            as: "genres",
-            where: { name: { [Op.iLike]: `%${searchTerm}%` } }
-          }
-        ],
-        limit: 10
-      }))];
-    }
-
-    // Dédupliquer
-    const uniqueBooks = results.reduce((acc, book) => {
-      if (!acc.find(b => b.id === book.id)) acc.push(book);
-      return acc;
-    }, []);
-
-    res.json(uniqueBooks.slice(0, 10));
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Erreur recherche" });
-  }
-}
-
+  },
 };

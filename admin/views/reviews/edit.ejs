@@ -40,11 +40,27 @@
         </select>
       </div>
     </div>
+    <div class="mb-3">
+      <label for="comment" class="form-label fw-semibold">Commentaire</label>
+        <textarea 
+          name="comment" 
+          id="comment"
+          class="form-control" 
+          rows="4"
+          required
+        ><%= review.comment || "" %></textarea>
+    </div>
 
     <div class="mb-3">
       <label for="book_id" class="form-label fw-semibold">Livre concerné</label>
       <select name="book_id" id="book_id" class="form-select" required>
-        <option value="">-- Sélectionner un livre --</option>
+      
+        <% if (!review.Book) { %>
+          <option value="" selected disabled>⚠ Livre supprimé — choisissez un nouveau livre</option>
+        <% } else { %>
+          <option value="">-- Sélectionner un livre --</option>
+        <% } %>
+        
         <% books.forEach(book => { %>
           <option 
             value="<%= book.id %>" 
@@ -53,19 +69,10 @@
             <%= book.title %>
           </option>
         <% }) %>
+        
       </select>
-    </div>
+</div>
 
-    <div class="mb-3">
-      <label for="comment" class="form-label fw-semibold">Commentaire</label>
-      <textarea 
-        name="comment" 
-        id="comment"
-        class="form-control" 
-        rows="4"
-        required
-      ><%= review.comment %></textarea>
-    </div>
 
     <div class="form-check form-switch mb-4">
       <input 

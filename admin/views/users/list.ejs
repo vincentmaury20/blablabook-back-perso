@@ -40,73 +40,75 @@
 
   <div class="card shadow-sm">
     <div class="card-body p-0">
-      <table class="table table-hover align-middle mb-0">
-        <thead class="table-info">
-          <tr>
-            <th>Nom</th>
-            <th>Prénom</th>
-            <th>Email</th>
-            <th>Livres associés</th>
-            <th class="text-center">Actions</th>
-          </tr>
-        </thead>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-info">
+            <tr>
+              <th>Nom</th>
+              <th>Prénom</th>
+              <th>Email</th>
+              <th>Livres associés</th>
+              <th class="text-center">Actions</th>
+            </tr>
+          </thead>
 
-        <tbody>
-          <% users.forEach(user => { %>
-          <tr>
-            <td class="fw-semibold"><%= user.name %></td>
-            <td><%= user.firstname %></td>
-            <td class="text-muted"><%= user.email %></td>
+          <tbody>
+            <% users.forEach(user => { %>
+            <tr>
+              <td class="fw-semibold"><%= user.name %></td>
+              <td><%= user.firstname %></td>
+              <td class="text-muted"><%= user.email %></td>
 
-            <td>
-              <% if (user.books && user.books.length > 0) { %> <%=
-              user.books.map(b => b.title).join(", ") %> <% } else { %>
-              <span class="text-muted">Aucun</span>
-              <% } %>
-            </td>
+              <td>
+                <% if (user.books && user.books.length > 0) { %> <%=
+                user.books.map(b => b.title).join(", ") %> <% } else { %>
+                <span class="text-muted">Aucun</span>
+                <% } %>
+              </td>
 
-            <td class="text-center">
-              <div class="btn-group" role="group">
-                <!-- Voir -->
-                <a
-                  href="/admin/user/<%= user.id %>"
-                  class="btn btn-sm btn-outline-info"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="top"
-                  title="Voir le profil">
-                  <i class="bi bi-file-earmark-person-fill"></i>
-                </a>
-
-                <!-- Modifier -->
-                <a
-                  href="/admin/user/<%= user.id %>/edit"
-                  class="btn btn-sm btn-outline-warning"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="top"
-                  title="Modifier l'utilisateur">
-                  <i class="bi bi-vector-pen"></i>
-                </a>
-
-                <!-- Supprimer -->
-                <form
-                  action="/admin/user/<%= user.id %>?_method=DELETE"
-                  method="POST"
-                  onsubmit="return confirm('Supprimer cet utilisateur ? Cette action est irréversible.')">
-                  <button
-                    type="submit"
-                    class="btn btn-sm btn-outline-danger"
+              <td class="text-center">
+                <div class="btn-group" role="group">
+                  <!-- Voir -->
+                  <a
+                    href="/admin/user/<%= user.id %>"
+                    class="btn btn-sm btn-outline-info"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
-                    title="Supprimer l'utilisateur">
-                    <i class="bi bi-trash3-fill"></i>
-                  </button>
-                </form>
-              </div>
-            </td>
-          </tr>
-          <% }) %>
-        </tbody>
-      </table>
+                    title="Voir le profil">
+                    <i class="bi bi-file-earmark-person-fill"></i>
+                  </a>
+
+                  <!-- Modifier -->
+                  <a
+                    href="/admin/user/<%= user.id %>/edit"
+                    class="btn btn-sm btn-outline-warning"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="Modifier l'utilisateur">
+                    <i class="bi bi-vector-pen"></i>
+                  </a>
+
+                  <!-- Supprimer -->
+                  <form
+                    action="/admin/user/<%= user.id %>?_method=DELETE"
+                    method="POST"
+                    onsubmit="return confirm('Supprimer cet utilisateur ? Cette action est irréversible.')">
+                    <button
+                      type="submit"
+                      class="btn btn-sm btn-outline-danger"
+                      data-bs-toggle="tooltip"
+                      data-bs-placement="top"
+                      title="Supprimer l'utilisateur">
+                      <i class="bi bi-trash3-fill"></i>
+                    </button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>

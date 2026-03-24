@@ -6,6 +6,7 @@ import { userSchema } from "../../schemas/user.schema.js";
 import { updateUserSchema } from "../../schemas/updateUser.schema.js";
 
 export const adminUserController = {
+  // List all users (with optional search)
   async getUsers(req, res) {
     try {
       const search = req.query.search || "";
@@ -38,6 +39,7 @@ export const adminUserController = {
     }
   },
 
+  // Display user details
   async getUserById(req, res) {
     try {
       const user = await User.findByPk(req.params.id, {
@@ -68,6 +70,7 @@ export const adminUserController = {
     }
   },
 
+  // Render creation form
   async createUserForm(req, res) {
     res.render("users/create", {
       adminName: req.user.name,
@@ -75,6 +78,7 @@ export const adminUserController = {
     });
   },
 
+  // Create a new user
   async createUser(req, res) {
     try {
       const data = Joi.attempt(req.body, userSchema);
@@ -97,6 +101,7 @@ export const adminUserController = {
     }
   },
 
+  // Update user information
   async updateUser(req, res) {
     try {
       const { id } = req.params;
@@ -108,6 +113,7 @@ export const adminUserController = {
           .render("error", { error: "Utilisateur non trouvé" });
       }
 
+      // Normalize books field (ensure array)
       let books = req.body.books;
       if (books && !Array.isArray(books)) {
         books = [books];
@@ -116,6 +122,7 @@ export const adminUserController = {
 
       const data = Joi.attempt(req.body, updateUserSchema);
 
+      // Update associated books
       if (books) {
         const bookIds = books.map(Number);
         await user.setBooks(bookIds);
@@ -132,6 +139,7 @@ export const adminUserController = {
     }
   },
 
+  // Render edit form
   async getUserEditForm(req, res) {
     try {
       const user = await User.findByPk(req.params.id, {
@@ -158,6 +166,7 @@ export const adminUserController = {
     }
   },
 
+  // Delete a user
   async deleteUser(req, res) {
     try {
       const { id } = req.params;

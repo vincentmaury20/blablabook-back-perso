@@ -1,67 +1,65 @@
 import { Router } from "express";
 import { adminBookController } from "../controllers/admin.book.controller.js";
 import { authenticateAdmin } from "../middlewares/authenticateAdmin.middleware.js";
-// import multer from "multer";
-// const upload = multer({ dest: "uploads/books/images" });
-
 import { isAdmin } from "../middlewares/isAdmin.middleware.js";
 import upload from "../../middlewares/uploadCover.middleware.js";
+
 export const adminBookRouter = Router();
 
-// Liste des livres
+// List all books
 adminBookRouter.get(
   "/admin/books",
   authenticateAdmin,
   isAdmin,
-  adminBookController.getBooks
+  adminBookController.getBooks,
 );
 
-// Le formulaire de création d'un livre
+// Render book creation form
 adminBookRouter.get(
   "/admin/book/create",
   authenticateAdmin,
   isAdmin,
-  adminBookController.createBookForm
+  adminBookController.createBookForm,
 );
 
-// Création d'un livre
+// Create a new book
 adminBookRouter.post(
   "/admin/book",
   authenticateAdmin,
   isAdmin,
   upload.single("cover"),
-  adminBookController.createBook
+  adminBookController.createBook,
 );
 
-// Détail d'un livre
+// Display book details
 adminBookRouter.get(
   "/admin/book/:id",
   authenticateAdmin,
   isAdmin,
-  adminBookController.getBookById
+  adminBookController.getBookById,
 );
 
-// Le formulaire d'édition d'un livre
+// Render edit form
 adminBookRouter.get(
   "/admin/book/:id/edit",
   authenticateAdmin,
   isAdmin,
-  adminBookController.editBookForm
+  adminBookController.editBookForm,
 );
 
-// L'update du livre
+// Update book information
 adminBookRouter.put(
   "/admin/book/:id",
   authenticateAdmin,
   isAdmin,
   upload.single("cover"),
-  adminBookController.updateBook
+  adminBookController.updateBook,
 );
 
-// la suppression
+// Delete a book
 adminBookRouter.delete(
   "/admin/book/:id",
   authenticateAdmin,
   isAdmin,
-  adminBookController.deleteBook
+  adminBookController.deleteBook,
 );

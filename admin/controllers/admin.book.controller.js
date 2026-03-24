@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/fr.js";
 
 export const adminBookController = {
-  // Liste
+  // List all books (with optional search)
   async getBooks(req, res) {
     try {
       const search = req.query.search || "";
@@ -28,6 +28,7 @@ export const adminBookController = {
         ],
       });
 
+      // Format release date for display
       const formattedBooks = books.map((b) => ({
         ...b.toJSON(),
         formattedDate: b.release_date
@@ -47,6 +48,7 @@ export const adminBookController = {
     }
   },
 
+  // Display book details
   async getBookById(req, res) {
     try {
       const book = await Book.findByPk(req.params.id, {
@@ -60,6 +62,7 @@ export const adminBookController = {
         return res.status(404).render("error", { error: "Livre non trouvé" });
       }
 
+      // Format release date for display
       const formattedBook = {
         ...book.toJSON(),
         formattedDate: book.release_date
@@ -77,6 +80,7 @@ export const adminBookController = {
     }
   },
 
+  // Render creation form
   async createBookForm(req, res) {
     try {
       const authors = await Author.findAll();
@@ -94,6 +98,7 @@ export const adminBookController = {
     }
   },
 
+  // Create a new book
   async createBook(req, res) {
     try {
       const { title, release_date, synopsis, authorIds, genreIds } = req.body;
@@ -107,15 +112,15 @@ export const adminBookController = {
           : null,
       });
 
+      // Associate authors
       if (authorIds) {
         const ids = Array.isArray(authorIds) ? authorIds : [authorIds];
-        console.log("Association auteurs existants:", ids);
         await book.addAuthors(ids.map(Number));
       }
 
+      // Associate genres
       if (genreIds) {
         const ids = Array.isArray(genreIds) ? genreIds : [genreIds];
-        console.log("Association genres:", ids);
         await book.addGenres(ids.map(Number));
       }
 
@@ -126,12 +131,13 @@ export const adminBookController = {
     }
   },
 
-  // Formulaire édition (GET)
+  // Render edit form
   async editBookForm(req, res) {
     try {
       const book = await Book.findByPk(req.params.id, {
         include: ["authors", "genres"],
       });
+
       if (!book) return res.status(404).send("Livre non trouvé");
 
       const authors = await Author.findAll();
@@ -149,11 +155,12 @@ export const adminBookController = {
     }
   },
 
-  // Mise à jour (PUT)
+  // Update book information
   async updateBook(req, res) {
     try {
       const { id } = req.params;
       const book = await Book.findByPk(id);
+
       if (!book) {
         return res.status(404).send("Livre non trouvé");
       }
@@ -169,6 +176,7 @@ export const adminBookController = {
 
       await book.update(updateData);
 
+      // Update authors
       if (req.body.authors) {
         const authorIds = Array.isArray(req.body.authors)
           ? req.body.authors
@@ -176,6 +184,7 @@ export const adminBookController = {
         await book.setAuthors(authorIds.map(Number));
       }
 
+      // Update genres
       if (req.body.genres) {
         const genreIds = Array.isArray(req.body.genres)
           ? req.body.genres
@@ -189,12 +198,13 @@ export const adminBookController = {
       res.status(500).send("Erreur serveur");
     }
   },
-  //  Sur l'update on récupère les données qui ont été modifiées dans le formulaire d'édition
-  // Suppression
+
+  // Delete a book
   async deleteBook(req, res) {
     try {
       const { id } = req.params;
       const book = await Book.findByPk(id);
+
       if (!book) return res.status(404).send("Livre non trouvé");
 
       await book.destroy();
@@ -204,47 +214,3 @@ export const adminBookController = {
     }
   },
 };
-
-// // Méthode du contrôleur pour afficher le détail d'un livre
-// async getBookById(req, res) {
-//   try {
-//     // On récupère le livre par son id (req.params.id = l'id passé dans l'URL)
-//     // findByPk = "find by primary key" → cherche directement par clé primaire
-//     const book = await Book.findByPk(req.params.id, {
-//       // include = permet de charger les relations définies dans Sequelize
-//       include: [
-//         { model: Author, as: "authors" }, // on inclut les auteurs liés au livre
-//         { model: Genre, as: "genres" }    // on inclut les genres liés au livre
-//       ]
-//     });
-
-//     // Si aucun livre n'est trouvé avec cet id → on renvoie une page d'erreur
-//     if (!book) {
-//       return res.status(404).render("error", { error: "Livre non trouvé" });
-//     }
-
-//     // On prépare un objet "propre" pour la vue
-//     // book.toJSON() → convertit l'instance Sequelize en objet JS classique
-//     // On ajoute une propriété formattedDate pour afficher la date de sortie formatée
-//     const formattedBook = {
-//       ...book.toJSON(), // on copie toutes les propriétés du livre
-//       formattedDate: book.release_date // si release_date existe
-//         ? dayjs(book.release_date)     // on utilise dayjs pour formater
-//             .locale("fr")              // on met la locale française
-//             .format("DD MMMM YYYY")    // format : jour mois année (ex: 05 janvier 2023)
-//         : null                         // sinon, on met null
-//     };
-
-//     // Enfin, on rend la vue "books/detail.ejs"
-//     // On lui passe l'objet formattedBook, le nom de l'admin et un titre
-//     res.render("books/detail", {
-//       book: formattedBook,
-//       adminName: req.user.name,
-//       title: "Détail du livre"
-//     });
-
-//   } catch (error) {
-//     // Si une erreur survient (ex: problème de base de données), on renvoie une erreur serveur
-//     res.status(500).send("Erreur serveur");
-//   }
-// }

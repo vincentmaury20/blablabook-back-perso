@@ -4,6 +4,7 @@ import { authorSchema } from "../../schemas/author.schema.js";
 import { Op } from "sequelize";
 
 export const adminAuthorController = {
+  // List all authors (with optional search)
   async getAuthors(req, res) {
     try {
       const search = req.query.search || "";
@@ -41,6 +42,7 @@ export const adminAuthorController = {
     }
   },
 
+  // Display author details
   async getAuthorById(req, res) {
     try {
       const author = await Author.findByPk(req.params.id, {
@@ -68,6 +70,7 @@ export const adminAuthorController = {
     }
   },
 
+  // Render creation form
   async createAuthorForm(req, res) {
     try {
       res.render("authors/create", {
@@ -80,6 +83,7 @@ export const adminAuthorController = {
     }
   },
 
+  // Create a new author
   async createAuthor(req, res) {
     try {
       const data = Joi.attempt(req.body, authorSchema);
@@ -92,6 +96,7 @@ export const adminAuthorController = {
     }
   },
 
+  // Delete an author
   async deleteAuthor(req, res) {
     try {
       const author = await Author.findByPk(req.params.id);
@@ -110,6 +115,7 @@ export const adminAuthorController = {
     }
   },
 
+  // Render edit form
   async editAuthorForm(req, res) {
     try {
       const author = await Author.findByPk(req.params.id);
@@ -129,6 +135,7 @@ export const adminAuthorController = {
     }
   },
 
+  // Update author information
   async updateAuthor(req, res) {
     try {
       const data = Joi.attempt(req.body, authorSchema);

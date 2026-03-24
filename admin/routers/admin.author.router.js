@@ -5,56 +5,58 @@ import { isAdmin } from "../middlewares/isAdmin.middleware.js";
 
 export const adminAuthorRouter = Router();
 
-// Liste des auteurs
+// List all authors
 adminAuthorRouter.get(
   "/admin/authors",
   authenticateAdmin,
   isAdmin,
-  adminAuthorController.getAuthors
+  adminAuthorController.getAuthors,
 );
 
-// Formulaire de création d'un auteur
+// Render author creation form
 adminAuthorRouter.get(
   "/admin/author/create",
   authenticateAdmin,
   isAdmin,
-  adminAuthorController.createAuthorForm
+  adminAuthorController.createAuthorForm,
 );
-// Création d'un auteur
+
+// Create a new author
 adminAuthorRouter.post(
   "/admin/author",
   authenticateAdmin,
   isAdmin,
-  adminAuthorController.createAuthor
+  adminAuthorController.createAuthor,
 );
-// Détail
+
+// Display author details
 adminAuthorRouter.get(
   "/admin/author/:id",
   authenticateAdmin,
   isAdmin,
-  adminAuthorController.getAuthorById
+  adminAuthorController.getAuthorById,
 );
 
-// Formulaire édition
+// Render edit form
 adminAuthorRouter.get(
   "/admin/author/:id/edit",
   authenticateAdmin,
   isAdmin,
-  adminAuthorController.editAuthorForm
+  adminAuthorController.editAuthorForm,
 );
 
-// Mise à jour
+// Update author information
 adminAuthorRouter.put(
   "/admin/author/:id",
   authenticateAdmin,
   isAdmin,
-  adminAuthorController.updateAuthor
+  adminAuthorController.updateAuthor,
 );
 
-// Suppression d'un auteur
+// Delete an author
 adminAuthorRouter.delete(
   "/admin/author/:id",
   authenticateAdmin,
   isAdmin,
-  adminAuthorController.deleteAuthor
+  adminAuthorController.deleteAuthor,
 );

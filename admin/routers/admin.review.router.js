@@ -5,60 +5,66 @@ import { isAdmin } from "../middlewares/isAdmin.middleware.js";
 
 export const adminReviewRouter = Router();
 
-// Liste des reviews
-
+// List all reviews
 adminReviewRouter.get(
   "/admin/reviews",
   authenticateAdmin,
   isAdmin,
-  adminReviewController.getReviews
+  adminReviewController.getReviews,
 );
 
-// Formulaire de création d'une review
+// Render review creation form
 adminReviewRouter.get(
   "/admin/review/create",
   authenticateAdmin,
   isAdmin,
-  adminReviewController.createReviewForm
+  adminReviewController.createReviewForm,
 );
 
-// la création d'une review
+// Create a new review
 adminReviewRouter.post(
   "/admin/review",
   authenticateAdmin,
   isAdmin,
-  adminReviewController.createReview
+  adminReviewController.createReview,
 );
 
-// Formulaire d'édition d'une review
+// Display review details
+adminReviewRouter.get(
+  "/admin/review/:id",
+  authenticateAdmin,
+  isAdmin,
+  adminReviewController.getReviewById,
+);
+
+// Render edit form
 adminReviewRouter.get(
   "/admin/review/:id/edit",
   authenticateAdmin,
   isAdmin,
-  adminReviewController.editReviewForm
+  adminReviewController.editReviewForm,
 );
 
-// L'update d'une review
+// Update review information
 adminReviewRouter.put(
   "/admin/review/:id",
   authenticateAdmin,
   isAdmin,
-  adminReviewController.updateReview
+  adminReviewController.updateReview,
 );
 
-// La suppression
+// Delete a review
 adminReviewRouter.delete(
   "/admin/review/:id",
   authenticateAdmin,
   isAdmin,
-  adminReviewController.deleteReview
+  adminReviewController.deleteReview,
 );
 
-//  Toggle de publish ou non d'une review
-
+// Toggle review publication status
 adminReviewRouter.post(
   "/admin/review/:id/toggle",
   authenticateAdmin,
   isAdmin,
-  adminReviewController.togglePublish
+  adminReviewController.togglePublish,
 );

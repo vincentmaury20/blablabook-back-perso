@@ -1,6 +1,7 @@
 import { User, Book, UserBook } from "../../models/index.js";
 
 export const adminUserBookController = {
+  // Add a book to a user's list
   async addBookToUser(req, res) {
     try {
       const { userId, bookId } = req.params;
@@ -13,6 +14,7 @@ export const adminUserBookController = {
       const book = await Book.findByPk(bookId);
       if (!book) return res.status(404).json({ error: "Livre non trouvé" });
 
+      // Prevent duplicate association
       const existing = await UserBook.findOne({
         where: { user_id: userId, book_id: bookId },
       });
@@ -27,6 +29,7 @@ export const adminUserBookController = {
     }
   },
 
+  // Remove a book from a user's list
   async removeBookToUser(req, res) {
     try {
       const { userId, bookId } = req.params;
@@ -34,6 +37,7 @@ export const adminUserBookController = {
       const deleted = await UserBook.destroy({
         where: { user_id: userId, book_id: bookId },
       });
+
       if (!deleted)
         return res
           .status(404)
@@ -46,6 +50,7 @@ export const adminUserBookController = {
     }
   },
 
+  // Update reading status for a user's book
   async updateStatusToUser(req, res) {
     try {
       const { userId, bookId } = req.params;
@@ -53,7 +58,7 @@ export const adminUserBookController = {
 
       await UserBook.update(
         { toRead },
-        { where: { user_id: userId, book_id: bookId } }
+        { where: { user_id: userId, book_id: bookId } },
       );
 
       res.redirect(`/admin/user/${userId}`);

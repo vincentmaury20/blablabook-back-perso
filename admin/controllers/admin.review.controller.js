@@ -2,6 +2,7 @@ import { reviewSchema } from "../../schemas/index.js";
 import { User, Review, Book } from "../../models/index.js";
 
 export const adminReviewController = {
+  // List all reviews
   async getReviews(req, res) {
     try {
       const reviews = await Review.findAll({
@@ -19,6 +20,28 @@ export const adminReviewController = {
     }
   },
 
+  // Display review details
+  async getReviewById(req, res) {
+    try {
+      const review = await Review.findByPk(req.params.id, {
+        include: [{ model: User }, { model: Book }],
+      });
+
+      if (!review) {
+        return res.status(404).send("Avis introuvable");
+      }
+
+      res.render("reviews/detail", {
+        review,
+        title: "Détail d'un avis",
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Erreur serveur");
+    }
+  },
+
+  // Render creation form
   async createReviewForm(req, res) {
     try {
       const users = await User.findAll();
@@ -35,10 +58,10 @@ export const adminReviewController = {
     }
   },
 
+  // Create a new review
   async createReview(req, res) {
     try {
       const data = reviewSchema.validate(req.body, { convert: true }).value;
-
       const { user_id, book_id } = req.body;
 
       await Review.create({
@@ -55,12 +78,12 @@ export const adminReviewController = {
     }
   },
 
+  // Update review information
   async updateReview(req, res) {
     try {
       const { id } = req.params;
 
       const review = await Review.findByPk(id);
-
       if (!review) {
         return res.status(404).send("Review introuvable");
       }
@@ -72,10 +95,13 @@ export const adminReviewController = {
 
       const { user_id, book_id } = req.body;
 
+      // Ensure book_id is valid or null
+      const safeBookId = book_id && book_id !== "" ? book_id : null;
+
       await review.update({
         ...data,
         user_id,
-        book_id,
+        book_id: safeBookId,
         is_published: req.body.is_published === "true",
       });
 
@@ -86,6 +112,7 @@ export const adminReviewController = {
     }
   },
 
+  // Render edit form
   async editReviewForm(req, res) {
     try {
       const { id } = req.params;
@@ -106,6 +133,7 @@ export const adminReviewController = {
         review,
         users,
         books,
+        bookMissing: !review.Book,
       });
     } catch (error) {
       console.error("Erreur editReviewForm:", error);
@@ -113,18 +141,17 @@ export const adminReviewController = {
     }
   },
 
+  // Delete a review
   async deleteReview(req, res) {
     try {
       const { id } = req.params;
 
       const review = await Review.findByPk(id);
-
       if (!review) {
         return res.status(404).send("Review introuvable");
       }
 
       await review.destroy();
-
       res.redirect("/admin/reviews");
     } catch (error) {
       console.error("Erreur deleteReview:", error);
@@ -132,12 +159,12 @@ export const adminReviewController = {
     }
   },
 
+  // Toggle review publication status
   async togglePublish(req, res) {
     try {
       const { id } = req.params;
 
       const review = await Review.findByPk(id);
-
       if (!review) {
         return res.status(404).send("Review introuvable");
       }

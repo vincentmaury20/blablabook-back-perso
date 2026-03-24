@@ -5,58 +5,58 @@ import { isAdmin } from "../middlewares/isAdmin.middleware.js";
 
 export const adminGenreRouter = Router();
 
-// Liste des genres
+// List all genres
 adminGenreRouter.get(
   "/admin/genres",
   authenticateAdmin,
   isAdmin,
-  adminGenreController.getGenres
+  adminGenreController.getGenres,
 );
 
-// Formulaire de création d'un genre
+// Render genre creation form
 adminGenreRouter.get(
   "/admin/genres/create",
   authenticateAdmin,
   isAdmin,
-  adminGenreController.createGenreForm
+  adminGenreController.createGenreForm,
 );
 
-// Création d'un genre
+// Create a new genre
 adminGenreRouter.post(
   "/admin/genres/create",
   authenticateAdmin,
   isAdmin,
-  adminGenreController.createGenre
+  adminGenreController.createGenre,
 );
 
-// Détail d'un genre
+// Display genre details
 adminGenreRouter.get(
   "/admin/genres/:id",
   authenticateAdmin,
   isAdmin,
-  adminGenreController.getGenresById
+  adminGenreController.getGenresById,
 );
 
-// Formulaire d'édition
+// Render edit form
 adminGenreRouter.get(
   "/admin/genres/:id/edit",
   authenticateAdmin,
   isAdmin,
-  adminGenreController.editGenreForm
+  adminGenreController.editGenreForm,
 );
 
-// Mise à jour d'un genre
+// Update genre information
 adminGenreRouter.put(
   "/admin/genres/:id",
   authenticateAdmin,
   isAdmin,
-  adminGenreController.updateGenre
+  adminGenreController.updateGenre,
 );
 
-// La suppression
+// Delete a genre
 adminGenreRouter.delete(
   "/admin/genres/:id",
   authenticateAdmin,
   isAdmin,
-  adminGenreController.deleteGenre
+  adminGenreController.deleteGenre,
 );

@@ -10,6 +10,7 @@ import { adminReviewRouter } from "./admin.review.router.js";
 
 export const adminRouters = Router();
 
+// Expose admin name to all admin views
 adminRouters.use((req, res, next) => {
   res.locals.adminName = req.user ? req.user.name : null;
   next();

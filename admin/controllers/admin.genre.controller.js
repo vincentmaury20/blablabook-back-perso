@@ -2,6 +2,7 @@ import { Op } from "sequelize";
 import { Genre, Book } from "../../models/index.js";
 
 export const adminGenreController = {
+  // List all genres (with optional search)
   async getGenres(req, res) {
     try {
       const search = req.query.search || "";
@@ -36,6 +37,7 @@ export const adminGenreController = {
     }
   },
 
+  // Display genre details
   async getGenresById(req, res) {
     try {
       const genre = await Genre.findByPk(req.params.id, {
@@ -61,6 +63,7 @@ export const adminGenreController = {
     }
   },
 
+  // Render creation form
   async createGenreForm(req, res) {
     try {
       res.render("genres/create", {
@@ -73,6 +76,7 @@ export const adminGenreController = {
     }
   },
 
+  // Create a new genre
   async createGenre(req, res) {
     try {
       const { name } = req.body;
@@ -92,6 +96,7 @@ export const adminGenreController = {
     }
   },
 
+  // Delete a genre
   async deleteGenre(req, res) {
     try {
       const genre = await Genre.findByPk(req.params.id);
@@ -113,6 +118,7 @@ export const adminGenreController = {
     }
   },
 
+  // Render edit form
   async editGenreForm(req, res) {
     try {
       const genre = await Genre.findByPk(req.params.id);
@@ -132,6 +138,7 @@ export const adminGenreController = {
     }
   },
 
+  // Update genre information
   async updateGenre(req, res) {
     try {
       const { name } = req.body;

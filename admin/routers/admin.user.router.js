@@ -5,58 +5,58 @@ import { isAdmin } from "../middlewares/isAdmin.middleware.js";
 
 export const adminUserRouter = Router();
 
-// Liste des utilisateurs
+// List all users
 adminUserRouter.get(
   "/admin/users",
   authenticateAdmin,
   isAdmin,
-  adminUserController.getUsers
+  adminUserController.getUsers,
 );
 
-// Formulaire création
+// Render user creation form
 adminUserRouter.get(
   "/admin/user/create",
   authenticateAdmin,
   isAdmin,
-  adminUserController.createUserForm
+  adminUserController.createUserForm,
 );
 
-// Création
+// Create a new user
 adminUserRouter.post(
   "/admin/user",
   authenticateAdmin,
   isAdmin,
-  adminUserController.createUser
+  adminUserController.createUser,
 );
 
-// Détail
+// Display user details
 adminUserRouter.get(
   "/admin/user/:id",
   authenticateAdmin,
   isAdmin,
-  adminUserController.getUserById
+  adminUserController.getUserById,
 );
 
-// Formulaire édition
+// Render edit form
 adminUserRouter.get(
   "/admin/user/:id/edit",
   authenticateAdmin,
   isAdmin,
-  adminUserController.getUserEditForm
+  adminUserController.getUserEditForm,
 );
 
-// Mise à jour
+// Update user information
 adminUserRouter.put(
   "/admin/user/:id",
   authenticateAdmin,
   isAdmin,
-  adminUserController.updateUser
+  adminUserController.updateUser,
 );
 
-// Suppression
+// Delete a user
 adminUserRouter.delete(
   "/admin/user/:id",
   authenticateAdmin,
   isAdmin,
-  adminUserController.deleteUser
+  adminUserController.deleteUser,
 );

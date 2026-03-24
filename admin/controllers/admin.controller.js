@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import argon2 from "argon2";
 
 export const adminController = {
+  // Display admin dashboard with basic statistics
   async getDashboard(req, res) {
     try {
       const userCount = await User.count();
@@ -31,10 +32,12 @@ export const adminController = {
     }
   },
 
+  // Render login page
   getLogin: (req, res) => {
     res.render("login", { error: null });
   },
 
+  // Handle login submission
   postLogin: async (req, res) => {
     const { email, password } = req.body;
 
@@ -49,12 +52,14 @@ export const adminController = {
         return res.render("login", { error: "Mot de passe incorrect" });
       }
 
+      // Generate authentication token
       const token = jwt.sign(
         { role: user.role, email: user.email, name: user.firstname },
         process.env.JWT_SECRET,
-        { expiresIn: "1h" }
+        { expiresIn: "1h" },
       );
 
+      // Store token in cookie
       res.cookie("authToken", token, {
         httpOnly: true,
         sameSite: "strict",
@@ -67,6 +72,8 @@ export const adminController = {
       res.render("login", { error: "Erreur serveur" });
     }
   },
+
+  // Logout admin user
   logout: (req, res) => {
     res.clearCookie("authToken");
     res.redirect("/admin/login");

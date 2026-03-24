@@ -6,19 +6,19 @@ export const userbookRouter = Router();
 
 userbookRouter.delete(
   "/user/:userId/book/:bookId",
-  userbookController.removeBookFromUserList
+  userbookController.removeBookFromUserList,
 );
 userbookRouter.put(
   "/user/:userId/book/:bookId",
-  userbookController.updateReadStatus
+  userbookController.updateReadStatus,
 );
 userbookRouter.get(
   "/user/:userId/book/:bookId/status",
-  userbookController.checkBookStatus
+  userbookController.checkBookStatus,
 );
 
 userbookRouter.get("/userbooks", authenticate, userbookController.getBooks);
 userbookRouter.post(
   "/user/:userId/book/:bookId",
-  userbookController.addBookToUserList
+  userbookController.addBookToUserList,
 );
