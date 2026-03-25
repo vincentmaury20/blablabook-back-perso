@@ -35,5 +35,5 @@ app.use(publicRouter);
 app.use(adminRouters);
 
 app.listen(PORT, () => {
-  console.log(`BlaBlaBook 📘📗📕 is "reading" 👍 on http://localhost:${PORT}`);
+  console.log(`📘 BlaBlaBook API running on port ${PORT}`);
 });
