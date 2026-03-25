@@ -87,8 +87,6 @@ export const adminGenreController = {
 
       const genre = await Genre.create({ name });
 
-      console.log("Genre créé:", genre.toJSON());
-
       res.redirect("/admin/genres");
     } catch (error) {
       console.error("Erreur createGenre:", error);
@@ -106,8 +104,6 @@ export const adminGenreController = {
       }
 
       await genre.destroy();
-
-      console.log("Genre supprimé avec ID:", genre.id);
 
       res.redirect("/admin/genres");
     } catch (error) {
@@ -150,8 +146,6 @@ export const adminGenreController = {
       }
 
       await genre.update({ name });
-
-      console.log("Genre mis à jour avec ID:", genre.id);
 
       res.redirect(`/admin/genres/${genre.id}`);
     } catch (error) {
