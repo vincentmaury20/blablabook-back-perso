@@ -1,5 +1,6 @@
 import "dotenv/config";
 import express from "express";
+import { sequelize } from "./models/sequelize.client.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import { xss } from "express-xss-sanitizer";
