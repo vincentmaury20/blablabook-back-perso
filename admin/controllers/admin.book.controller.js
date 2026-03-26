@@ -2,6 +2,7 @@ import { Op } from "sequelize";
 import { Book, Author, Genre } from "../../models/index.js";
 import dayjs from "dayjs";
 import "dayjs/locale/fr.js";
+const BASE_URL = process.env.PUBLIC_BACKEND_URL;
 
 export const adminBookController = {
   // List all books (with optional search)
@@ -108,7 +109,7 @@ export const adminBookController = {
         release_date,
         synopsis,
         cover: req.file
-          ? `http://localhost:3000/uploads/books/images/${req.file.filename}`
+          ? `${BASE_URL}/uploads/books/images/${req.file.filename}`
           : null,
       });
 
@@ -170,7 +171,7 @@ export const adminBookController = {
         release_date: req.body.release_date,
         synopsis: req.body.synopsis,
         cover: req.file
-          ? `/uploads/books/images/${req.file.filename}`
+          ? `${BASE_URL}/uploads/books/images/${req.file.filename}`
           : book.cover,
       };
 
