@@ -6,10 +6,10 @@ export const sequelize = new Sequelize(process.env.DATABASE_URL, {
   protocol: "postgres",
   logging: false,
   dialectOptions: {
-    ssl: {
-      require: true,
-      rejectUnauthorized: false,
-    },
+    ssl:
+      process.env.NODE_ENV === "production"
+        ? { require: true, rejectUnauthorized: false }
+        : false,
   },
   define: {
     createdAt: "created_at",
