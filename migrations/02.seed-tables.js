@@ -77,9 +77,8 @@ const adminUser = await User.create({
   age: 30,
   role: "admin",
   email: "admin@example.com",
-  password:
-    "$argon2id$v=19$m=65536,t=3,p=4$8+mY5LDpg+Gx8ti+j64o8Q$RAUAUE5OEzTuUfGv4AC6cGdmIUzDu04PspKUmPW5RiA",
-  avatar: "👑",
+  password: await argon2.hash("Admin@123"),
+  avatar: null,
 });
 
 // Creating initial book
