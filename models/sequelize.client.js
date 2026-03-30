@@ -18,13 +18,15 @@ export const sequelize = new Sequelize(process.env.DATABASE_URL, {
   },
 });
 
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log(
-      "✅ Connection to PostgreSQL has been established successfully.",
-    );
-  })
-  .catch((err) => {
-    console.error("❌ Unable to connect to the database:", err);
-  });
+if (process.env.NODE_ENV !== "test") {
+  sequelize
+    .authenticate()
+    .then(() => {
+      console.log(
+        "✅ Connection to PostgreSQL has been established successfully.",
+      );
+    })
+    .catch((err) => {
+      console.error("❌ Unable to connect to the database:", err);
+    });
+}
