@@ -1,63 +1,71 @@
--- First, drop all tables by default to ensure they don't exist:
+-- Drop all tables if they already exist
+DROP TABLE IF EXISTS written_by CASCADE;
+DROP TABLE IF EXISTS belongs_to CASCADE;
+DROP TABLE IF EXISTS user_books CASCADE;
+DROP TABLE IF EXISTS genre CASCADE;
+DROP TABLE IF EXISTS authors CASCADE;
+DROP TABLE IF EXISTS books CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
 
-DROP TABLE IF EXISTS Written_By CASCADE;
-DROP TABLE IF EXISTS Belongs_To CASCADE;
-DROP TABLE IF EXISTS UserBooks CASCADE;
-DROP TABLE IF EXISTS Genre CASCADE;
-DROP TABLE IF EXISTS Authors CASCADE;
-DROP TABLE IF EXISTS Books CASCADE;
-DROP TABLE IF EXISTS User CASCADE;
-
-CREATE TABLE User (
-    CodeUser INT PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
+-- Users table
+CREATE TABLE users (
+    id INT PRIMARY KEY,
     firstname VARCHAR(50) NOT NULL,
+    lastname VARCHAR(50) NOT NULL,
     age INT NOT NULL,
     role VARCHAR(50),
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(100) NOT NULL,
     avatar VARCHAR(100)
 );
-CREATE TABLE Books (
-    CodeBook INT PRIMARY KEY,
+
+-- Books table
+CREATE TABLE books (
+    id INT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     release_date DATE,
     cover VARCHAR(255) NOT NULL,
     synopsis VARCHAR(800) NOT NULL
 );
-CREATE TABLE Authors (
-    CodeAuthor INT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
+
+-- Authors table
+CREATE TABLE authors (
+    id INT PRIMARY KEY,
     firstname VARCHAR(100) NOT NULL,
+    lastname VARCHAR(100) NOT NULL,
     bio VARCHAR(500) NOT NULL
 );
 
-CREATE TABLE Genre (
-    CodeGenre INT PRIMARY KEY,
+-- Genres table
+CREATE TABLE genre (
+    id INT PRIMARY KEY,
     name VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE UserBooks (
-    CodeUserBook INT PRIMARY KEY,
-    toRead BOOLEAN NOT NULL,
-    CodeBook INT,
-    CodeUser INT,
-    FOREIGN KEY (CodeBook) REFERENCES Books(CodeBook),
-    FOREIGN KEY (CodeUser) REFERENCES Users(CodeUser)
+-- UserBooks table (user ↔ book relationship)
+CREATE TABLE user_books (
+    id INT PRIMARY KEY,
+    to_read BOOLEAN NOT NULL,
+    user_id INT,
+    book_id INT,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (book_id) REFERENCES books(id)
 );
 
-CREATE TABLE Belongs_To (
-    CodeBook INT,
-    CodeGenre INT,
-    PRIMARY KEY (CodeBook, CodeGenre),
-    FOREIGN KEY (CodeBook) REFERENCES Books(CodeBook),
-    FOREIGN KEY (CodeGenre) REFERENCES Genre(CodeGenre)
+-- Belongs_To table (book ↔ genre relationship)
+CREATE TABLE belongs_to (
+    book_id INT,
+    genre_id INT,
+    PRIMARY KEY (book_id, genre_id),
+    FOREIGN KEY (book_id) REFERENCES books(id),
+    FOREIGN KEY (genre_id) REFERENCES genre(id)
 );
 
-CREATE TABLE Written_By (
-    CodeBook INT,
-    CodeAuthor INT,
-    PRIMARY KEY (CodeBook, CodeAuthor),
-    FOREIGN KEY (CodeBook) REFERENCES Books(CodeBook),
-    FOREIGN KEY (CodeAuthor) REFERENCES Authors(CodeAuthor)
+-- Written_By table (book ↔ author relationship)
+CREATE TABLE written_by (
+    book_id INT,
+    author_id INT,
+    PRIMARY KEY (book_id, author_id),
+    FOREIGN KEY (book_id) REFERENCES books(id),
+    FOREIGN KEY (author_id) REFERENCES authors(id)
 );
