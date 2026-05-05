@@ -415,7 +415,7 @@ await book18.addAuthor(author17); // Endymion → Dan Simmons
 await book19.addAuthor(author18); // Seigneur des Anneaux → J.R.R. Tolkien
 await book20.addAuthor(author19); // Conan → Robert E. Howard
 
-// Voici notre table de liaison concernant book → genre
+// book → genre
 
 await book2.addGenre(genre2); // Orgueil et Préjugés → Romance
 await book3.addGenre(genre3); // Wild → Autobiographie
@@ -436,8 +436,6 @@ await book17.addGenre(genre16); // Druss la légende → Fantasy
 await book18.addGenre(genre17); // Endymion → Science-fiction
 await book19.addGenre(genre18); // Seigneur des Anneaux → High Fantasy
 await book20.addGenre(genre19); // Conan → Sword & Sorcery
-
-// ça faisait un moment que je n'avais pas touché à ce fichier mais il est temps maintenant de faire une nouvelle migration comprenant les reviews des user sur les livres présents en BDD
 
 // REVIEW 2 — Sébastien Martin → Book 7 (NANA)
 const review2 = await Review.create({
