@@ -152,25 +152,14 @@ export const userAuthentificationController = {
       if (!user)
         return res.status(404).json({ error: "Utilisateur non trouvé" });
 
-      // Remove old avatar if it exists
-      if (user.avatar) {
-        try {
-          await fs
-            .unlink(path.join(process.cwd(), user.avatar))
-            .catch(() => null);
-        } catch (e) {
-          console.warn("Suppression ancien avatar échouée", e);
-        }
-      }
+      // ⚠️ Ne pas supprimer l'ancien avatar Cloudinary ici
+      // (Cloudinary gère la rotation et le nettoyage si besoin)
 
-      const avatarPath = path
-        .join("uploads", "avatars", req.file.filename)
-        .replace(/\\/g, "/");
-
-      user.avatar = avatarPath;
+      // ⚠️ req.file.path = URL Cloudinary
+      user.avatar = req.file.path;
       await user.save();
 
-      return res.status(200).json({ avatar: avatarPath });
+      return res.status(200).json({ avatar: user.avatar });
     } catch (error) {
       console.error("updateUserAvatar error:", error);
       return res.status(500).json({ error: "Internal server error" });

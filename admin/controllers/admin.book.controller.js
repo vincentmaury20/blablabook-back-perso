@@ -108,9 +108,7 @@ export const adminBookController = {
         title,
         release_date,
         synopsis,
-        cover: req.file
-          ? `${BASE_URL}/uploads/books/images/${req.file.filename}`
-          : null,
+        cover: req.file ? req.file.path : null, // URL Cloudinary
       });
 
       // Associate authors
@@ -131,7 +129,6 @@ export const adminBookController = {
       res.status(500).send("Erreur lors de la création du livre");
     }
   },
-
   // Render edit form
   async editBookForm(req, res) {
     try {
@@ -170,9 +167,7 @@ export const adminBookController = {
         title: req.body.title,
         release_date: req.body.release_date,
         synopsis: req.body.synopsis,
-        cover: req.file
-          ? `${BASE_URL}/uploads/books/images/${req.file.filename}`
-          : book.cover,
+        cover: req.file ? req.file.path : book.cover, // URL Cloudinary
       };
 
       await book.update(updateData);
@@ -199,7 +194,6 @@ export const adminBookController = {
       res.status(500).send("Erreur serveur");
     }
   },
-
   // Delete a book
   async deleteBook(req, res) {
     try {
