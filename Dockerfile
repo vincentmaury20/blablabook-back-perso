@@ -8,6 +8,6 @@ COPY . .
 
 RUN npm ci --omit=dev
 
-EXPOSE 3000
+EXPOSE 10000
 
 CMD ["sh", "-c", "npx sequelize db:migrate && npx sequelize db:seed:all && node index.js"]
